@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. dbschema数据表定义</a></li><li><a href="#2">1.1. 简介</a></li><li><a href="#3">1.2. DBAL类型</a></li><li><a href="#4">1.3. 内置预定义类型</a></li><li><a href="#5">1.4. 表结构字段定义</a></li><li><a href="#6">1. DBAL类型需要根据具体类型, 定义对应的选项. 例如, <code>decimal</code>类型对应着precision和scale选项. 如果不填,默认分别为10和0.</a></li><li><a href="#7">2. 内置预定义类型, 对应着<strong>DBAL类型</strong>. 但与<strong>DBAL类型</strong>的设置不同, 不需要填写额外的选项, 因为<strong>内置预定义类型</strong>已经预设了选项. 例如: <code>money</code>类型对应着<strong>DBAL类型</strong>的<code>decimal</code>, <code>precision</code>为20, <code>scale</code>为3, 如果对应着mysql的类型为<code>numeric(10,0)</code></a></li><li><a href="#8">3. 表关联类型, 按照关联表对应字段的类型建立本字段. 例如, <code>商品表(sysitem_item)</code>存在<code>类目ID(cat_id)</code>, 那么在设置这个字段类型时最好的方式是指定跟<code>syscategory</code>表的<code>cat_id</code>一样就行了</a></li><li><a href="#9">1.5. 表结构索引定义</a></li><li><a href="#10">1.6. finder定义</a></li><li><a href="#11">4. label定义</a></li><li><a href="#12">5. width定义</a></li><li><a href="#13">6. in_list定义</a></li><li><a href="#14">7. default_in_list定义</a></li><li><a href="#15">8. filterdefault定义</a></li><li><a href="#16">9. filtertype, filtercustom定义</a></li><li><a href="#17">10. searchtype</a></li><li><a href="#18">11. is_title定义</a></li><li><a href="#19">12. order定义</a></li><li><a href="#20">1.7. 其他定义</a></li><li><a href="#21">13. unbackup</a></li><li><a href="#22">14. comment</a></li></ul></div><div class="span9"><h1 id="1">1. dbschema数据表定义</h1>
+
+<ul>
+<li><a href="#introduction">简介</a></li>
+<li><a href="#dabl-types">DBAL类型</a></li>
+<li><a href="#buildin-types">内置预定义类型</a></li>
+<li><a href="#table-column-define">表结构字段定义</a></li>
+<li><a href="#table-index-define">表结构索引定义</a></li>
+<li><a href="#finder-define">finder定义</a></li>
+<li><a href="#others-define">其他定义</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+
+<h2 id="2">1.1. 简介</h2>
+
+<p>通过dbschema配置文件, 定义数据库</p>
+
+<ul>
+<li>描述表结构, 生成对应的实体表</li>
+<li>定义<strong>desktop finder</strong>的属性</li>
+</ul>
+
+<p>dbschema文件存放在各自app下的<code>dbschema</code>目录, 例如: <code>app/{$appId}/dbschema/{$name}.php</code>, 表名: <code>{$appId}_($name}</code></p>
+
+<p>以下是<code>base_kvstore</code>表的定义(由以上规则可知dbschema文件所在位置, <code>app/base/dbschema/kvsore.php</code>)
+<code>php
+return array (
+    'columns' =&gt; 
+    array (
+        'id' =&gt; array(
+            'type' =&gt; 'number',
+            'pkey' =&gt; true,
+            'extra' =&gt; 'auto_increment',
+            'comment' =&gt; app::get('base')-&gt;_('序号'),
+        ),
+        'prefix' =&gt; array(
+            'type' =&gt; 'string',
+            'required' =&gt; true,
+            'comment' =&gt; app::get('base')-&gt;_('kvstore类型'),
+        ),
+        'key' =&gt; array(
+            'type' =&gt; 'string',
+            'required' =&gt; true,
+            'comment' =&gt; app::get('base')-&gt;_('kvstore存储的键值'),
+        ),
+        'value' =&gt; array(
+            'type'=&gt;'serialize',
+            'comment' =&gt; app::get('base')-&gt;_('kvstore存储值'),
+        ),
+        'dateline' =&gt; array(
+            'type'=&gt;'time',
+            'comment' =&gt; app::get('base')-&gt;_('存储修改时间'),
+        ),
+        'ttl' =&gt; array(
+            'type'=&gt;'time',
+            'default' =&gt; 0,
+            'comment' =&gt; app::get('base')-&gt;_('过期时间,0代表不过期'),
+        ),
+    ),
+    'index' =&gt; 
+    array (
+        'ind_prefix' =&gt; 
+        array (
+            'columns' =&gt; ['prefix'],
+        ),
+        'ind_key' =&gt; 
+        array (
+            'columns' =&gt; ['key'],
+        ),
+    ),
+    'engine' =&gt; 'innodb',
+    'comment' =&gt; app::get('base')-&gt;_('kvstore存储表'),
+);
+</code></p>
+
+<p><a name="dbal-types"></a></p>
+
+<h2 id="3">1.2. DBAL类型</h2>
+
+<p>下表是dbal类型与mysqll类型的对应表, 其中<code>required</code>和<code>comment</code>属性是所有dbal类型天生具备的.</p>
+
+<table width="100%">
+    <tr>
+        <th>doctrine类型</th>
+        <th>默认mysql类型</td>
+        <th>length</th>
+        <th>precision</th>
+        <th>scale</th>
+        <th>autoincrement</th>
+        <th>unsigned</th>
+        <th>fixed</th>
+    </tr>
+    <tr>
+        <td>array</td>
+        <td>text</td>
+        <td>√</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>array_simple</td>
+        <td>text</td>
+        <td>×</td>
+        <td>×</td>        
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>json_array</td>
+        <td>text</td>
+        <td>×</td>
+        <td>×</td>        
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>bigint</td>
+        <td>bigint</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>√</td>
+        <td>√</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>tinyint(1)</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>datetime</td>
+        <td>datetime</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>datetimez</td>
+        <td>datetime</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>date</td>
+        <td>date</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>time</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>decimal</td>
+        <td>numeric(10,0)</td>
+        <td>×</td>
+        <td>√</td>
+        <td>√</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>    
+    <tr>
+        <td>integer</td>
+        <td>int</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>√</td>
+        <td>√</td>
+        <td>×</td>        
+    </tr>
+    <tr>
+        <td>object</td>
+        <td>text</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>smallint</td>
+        <td>smallint</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>√</td>
+        <td>√</td>
+        <td>×</td>        
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>varchar(255)</td>
+        <td>√</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>√</td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>longtext</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>binary</td>
+        <td>varbinary(255)</td>
+        <td>√</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>√</td>
+    </tr>
+    <tr>
+        <td>blob</td>
+        <td>longblob</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>float</td>
+        <td>double precision</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>guid</td>
+        <td>char(36)</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>longtext</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>    
+</table>
+
+<p><a href="http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html">doctrine dbal types文档</a>有详细说明</p>
+
+<p><a name="buildin-types"></a></p>
+
+<h2 id="4">1.3. 内置预定义类型</h2>
+
+<table width="100%">
+    <tr>
+        <th>buildin type</th>
+        <th>DBAL type</td>
+        <th>options</th>
+    </tr>
+    <tr>
+        <td>bool</td>
+        <td>boolean</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>money</td>
+        <td>decimal</td>
+        <td>['precision' => 20, 'scale' = 3]</td>
+    </tr>
+    <tr>
+        <td>email</td>
+        <td>string</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>integer</td>
+        <td>['unsigned' => 'true']</td>
+    </tr>
+    <tr>
+        <td>region</td>
+        <td>string</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>password</td>
+        <td>string</td>
+        <td>['length' => 32]</td>
+    </tr>
+    <tr>
+        <td>number</td>
+        <td>integer</td>
+        <td>['unsigned'  => true]</td>
+    </tr>
+    <tr>
+        <td>float</td>
+        <td>float</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>gender</td>
+        <td>string</td>
+        <td>['length' => 6]</td>
+    </tr>
+    <tr>
+        <td>ipaddr</td>
+        <td>string</td>
+        <td>['length' => 20]</td>
+    </tr>
+    <tr>
+        <td>serialize</td>
+        <td>text</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>last_modify</td>
+        <td>integer</td>
+        <td>['unsigned' => true]</td>
+    </tr>
+</table>
+
+<p><a name="table-column-define"></a></p>
+
+<h2 id="5">1.4. 表结构字段定义</h2>
+
+<p>每个字段需要指定<code>type</code>(类型), 类型支持四种方式<strong>DBAL类型</strong>/*<em>内置预定义类型<strong>/</strong>表关联类型<strong>/</em>*enum类型</strong></p>
+
+<p><strong>DBAL类型</strong>/*<em>内置预定义类型</em>*可参照上文的两张对应表.</p>
+
+<h4 id="6">1. DBAL类型需要根据具体类型, 定义对应的选项. 例如, <code>decimal</code>类型对应着precision和scale选项. 如果不填,默认分别为10和0.</h4>
+
+<p>以下是<strong>DBAL类型</strong>:decimal的例子 
+<code>php
+return array(
+    'weight =&gt; array(
+        'type' =&gt; 'decimal',
+        'precision' =&gt; 20,
+        'scale =&gt; 2,
+        'required =&gt; true,
+        'default' =&gt; 0,
+    ),
+); <br>
+</code></p>
+
+<p>以下是<strong>DBAL类型</strong>:integer的例子 
+<code>php
+return array(
+    'id =&gt; array(
+        'type' =&gt; 'integer',
+    ),
+); <br>
+</code></p>
+
+<p>以下是<strong>DBAL类型</strong>:bigint的例子 
+<code>php
+return array(
+    'id =&gt; array(
+        'type' =&gt; 'bigint',
+        'autoincrement =&gt; true,
+    ),
+</code></p>
+
+<p>以下是<strong>DBAL类型</strong>:bigint的例子 
+<code>php
+return array(
+    'id =&gt; array(
+        'type' =&gt; 'bigint',
+        'autoincrement =&gt; true,
+    ),
+);
+</code></p>
+
+<h4 id="7">2. 内置预定义类型, 对应着<strong>DBAL类型</strong>. 但与<strong>DBAL类型</strong>的设置不同, 不需要填写额外的选项, 因为<strong>内置预定义类型</strong>已经预设了选项. 例如: <code>money</code>类型对应着<strong>DBAL类型</strong>的<code>decimal</code>, <code>precision</code>为20, <code>scale</code>为3, 如果对应着mysql的类型为<code>numeric(10,0)</code></h4>
+
+<p>以下是<strong>内置预定义类型</strong>:money
+<code>php
+return array(
+    'price' =&gt; array(
+        'type' =&gt; 'money'
+    ),
+); <br>
+</code></p>
+
+<h4 id="8">3. 表关联类型, 按照关联表对应字段的类型建立本字段. 例如, <code>商品表(sysitem_item)</code>存在<code>类目ID(cat_id)</code>, 那么在设置这个字段类型时最好的方式是指定跟<code>syscategory</code>表的<code>cat_id</code>一样就行了</h4>
+
+<p>以下是<strong>表关联类型</strong>的例子, <code>sysitem_item</code>的<code>cat_id</code>关联<code>syscategory_cat的</code>cat_id`
+<code>php
+return array(
+    'cat_id =&gt; array(
+        'type' =&gt; 'table:cat@syscategory'
+    ),
+); <br>
+</code></p>
+
+<blockquote>
+  <p><strong>注意:</strong> <code>表关联类型</code>, 只是作为生成字段时的参照, 没有其他用途</p>
+</blockquote>
+
+<ul>
+<li><strong>enum类型</strong>, type里直接写数组就可以了, 其中<code>key</code>为<code>enum</code>里的值, <code>value</code>为<code>comment</code></li>
+</ul>
+
+<p>以下是<strong>enum类型</strong>的例子</p>
+
+<p><code>php
+return array(
+    'status' =&gt; array(
+        'type' =&gt; array(
+            'WAIT_BUYER_PAY' =&gt; '等待买家付款',
+            'WAIT_SELLER_SEND_GOODS' =&gt; '等待卖家发货,即:买家已付款',
+            'WAIT_BUYER_CONFIRM_GOODS' =&gt; '等待买家确认收货,即:卖家已发货',
+            'TRADE_BUYER_SIGNED' =&gt; '买家已签收,货到付款专用',
+            'TRADE_FINISHED' =&gt; '交易成功',
+            'TRADE_CLOSED_AFTER_PAY' =&gt; '付款以后,用户退款成功，交易自动关闭',
+            'TRADE_CLOSED_BEFORE_PAY' =&gt; '付款以前,卖家或买家主动关闭交易',
+        ),
+        'default' =&gt; 'WAIT_BUYER_PAY',
+        'required' =&gt; true,
+        'comment' =&gt; app::get('systrade')-&gt;_('子订单状态'),
+    ),
+); <br>
+</code></p>
+
+<p><a name="table-index-define"></a></p>
+
+<h2 id="9">1.5. 表结构索引定义</h2>
+
+<ul>
+<li>主键定义</li>
+</ul>
+
+<p>当只有一个主键的时候
+<code>php
+return  array(
+    'columns' =&gt; array(
+        'cart_id' =&gt; array(
+            'type' =&gt; 'number',
+            //'pkey' =&gt; true,
+            'autoincrement' =&gt; true,
+            'required' =&gt; true,
+        ),
+    ),
+    'prmary' =&gt; 'cart_id'
+);
+</code>
+当有多主键的时候
+<code>php
+return array (
+    'columns' =&gt;
+    array (
+        'id' =&gt;
+        array (
+            'type' =&gt; 'number',
+            'required' =&gt; true,
+        ),
+        'index_name' =&gt;
+        array (
+            'type' =&gt; 'string',
+            'length' =&gt; 50,
+            'required' =&gt; true,
+        ),
+        //...
+    ),
+    'primary' =&gt; ['id', 'index_name'],
+    'index' =&gt; array(
+        'ind_last_modify' =&gt; ['columns' =&gt; ['last_modify']],
+    ),
+    'version' =&gt; '$Rev: 40918 $',
+);
+</code></p>
+
+<blockquote>
+  <p><strong>注意:</strong> 建议使用一个自增主键. 如果当有多主键的时候, 可以设置一个自增主键, 同时将多键作为<code>unique key</code>. 如果使用多主键在使用finder时会出现诡异问题.</p>
+</blockquote>
+
+<ul>
+<li>索引定义</li>
+</ul>
+
+<p><a name="finder-define"></a>
+```php
+return array (
+    'columns' => array (
+        //...
+        'last_modify' =>
+        array (
+            'type' => 'last_modify',
+        ),
+        //...
+    ),</p>
+
+<pre class="prettyprint"><code>'index' =&gt; array(   //索引名称
+    'ind_last_modify' =&gt; [
+        'columns' =&gt; ['last_modify'], // 需要建立索引的字段名
+        'prefix' =&gt; 'unique' // 目前只支持unqiue, 或者不填写
+     ],
+),
+</code></pre>
+
+<p>);
+```</p>
+
+<h2 id="10">1.6. finder定义</h2>
+
+<p>用dbschema来定义desktop列表</p>
+
+<h4 id="11">4. label定义</h4>
+
+<p>定义在<code>desktop finder</code>中列的名称</p>
+
+<p><code>php
+return array (
+    'columns' =&gt; array (
+        'app_id' =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('程序目录'),
+        ),
+    ),
+);
+?&gt;
+</code></p>
+
+<h4 id="12">5. width定义</h4>
+
+<p>定义在<code>desktop finder</code>中列的初始宽度
+<code>php
+return array (
+    'columns' =&gt; array (
+        'app_id' =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('程序目录'),
+            'width =&gt; 150,
+        ),
+    ),
+);
+</code></p>
+
+<h4 id="13">6. in_list定义</h4>
+
+<p>定义在<code>desktop finder</code>配置列表项中是否可以勾选显示, 默认值为false.
+<code>php
+return array (
+    'columns' =&gt; array (
+        'app_id' =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('程序目录'),
+            'width =&gt; 150,
+            'in_list' =&gt; true,
+        ),
+    ),
+);
+</code></p>
+
+<h4 id="14">7. default_in_list定义</h4>
+
+<p>定义在<code>desktop finder</code>列表中初始安装的情况下, 对应列是否默认显示在列表中, 默认值为false.
+<code>php
+return array (
+    'columns' =&gt; array (
+        'app_id' =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('程序目录'),
+            'width =&gt; 150,
+            'default_in_list' =&gt; true,
+        ),
+    ),
+);
+</code></p>
+
+<h4 id="15">8. filterdefault定义</h4>
+
+<p>默认在desktop高级筛选(搜素), 中是否默认显示, 默认为false. 如果有相关搜索项配置(filtertype), 按配置显示</p>
+
+<p><code>php
+return array (
+    'columns' =&gt; array (
+        'app_id' =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('程序目录'),
+            'width' =&gt; 150,
+            'in_list' =&gt; true,
+            'filterdefault' =&gt; true,
+        ),
+    ),
+);
+</code></p>
+
+<h4 id="16">9. filtertype, filtercustom定义</h4>
+
+<p>```php
+return array (
+    'columns' => array (
+        'name' => array (
+            'type' => 'string',
+            'required' => true,
+            'label' => app::get('b2c')->_('商品名称'),
+            'is_title' => true,
+            'filtertype' => 'custom',  // normal按type类型生成过滤 , custom按dbschema中设定的filtercustom 设置过滤
+            'filterdefault' => true,
+            'filtercustom' =>
+            array (
+                'has' => app::get('b2c')-><em>('包含'),
+                'tequal' => app::get('b2c')-></em>('等于'),
+                'head' => app::get('b2c')-><em>('开头等于'),
+                'foot' => app::get('b2c')-></em>('结尾等于'),
+            ),
+            'in_list' => true,
+            'default_in_list' => true,
+        ),
+    ),
+);</p>
+
+<p>```</p>
+
+<blockquote>
+  <p><strong>注意:</strong> <code>filtertype</code>属性, normal按type类型生成过滤 , custom按dbschema中设定的filtercustom 设置过滤</p>
+</blockquote>
+
+<h4 id="17">10. searchtype</h4>
+
+<p>finder列表页中简单搜索的处理方式,如果dbschema中存在searchtype则会在desktop列表上显示相关的简单搜索</p>
+
+<p>默认值为<code>nequal</code></p>
+
+<p>```php
+return array (
+    'columns' => array (
+        'title' => array(
+            'type' => 'string',
+            'length' => 90,
+            'required' => true,
+            'default' => '',
+            'label' => app::get('sysitem')-><em>('商品标题'),
+            'comment' => app::get('sysitem')-></em>('商品标题'),
+            'is_title' => true,
+            'searchtype' => 'has',
+            'filtertype' => 'custom',
+            'filterdefault' => true,
+            'order' => 12,
+        ),
+    ),
+);    </p>
+
+<p>```</p>
+
+<p>目前支持类型</p>
+
+<table width="100%">
+    <tr>
+        <th>类型</th>
+        <th>描述</td>
+    </tr>
+    <tr>
+        <td>than</td>
+        <td>大于</td>
+    </tr>
+    <tr>
+        <td>小于</td>
+        <td><</td>
+    </tr>
+    <tr>
+        <td>nequal</td>
+        <td>等于</td>
+    </tr>
+    <tr>
+        <td>tequal</td>
+        <td>等于</td>
+    </tr>
+    <tr>
+        <td>sthan</td>
+        <td>小于等于</td>
+    </tr>
+    <tr>
+        <td>bthan</td>
+        <td>大于等于</td>
+    </tr>
+    <tr>
+        <td>has</td>
+        <td>包含</td>
+    </tr>
+    <tr>
+        <td>head</td>
+        <td>头部</td>
+    </tr>
+    <tr>
+        <td>foot</td>
+        <td>尾部</td>
+    </tr>
+    <tr>
+        <td>nohas</td>
+        <td>不包含</td>
+    </tr>
+    <tr>
+        <td>between</td>
+        <td>介于之间</td>
+    </tr>
+    <tr>
+        <td>in</td>
+        <td>在之中</td>
+    </tr>
+</table>
+
+<blockquote>
+  <p><strong>注意:</strong> 请尽量不要用foot类型, 因为会用到左like, 会影响性能.</p>
+</blockquote>
+
+<h4 id="18">11. is_title定义</h4>
+
+<p>例如, 商品表有cat_id(类目表ID)字段, 那么在finder上cat_id字段会显示类目表中设置为is_title的字段(cat_name)的值.</p>
+
+<blockquote>
+  <p><strong>注意:</strong> 同时一张表只能有一个字段能设置为is_title属性.</p>
+</blockquote>
+
+<p>商品表
+<code>php
+return array (
+    'columns' =&gt; array (
+        'cat_id' =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('商品类目ID),
+            'width =&gt; 150,
+            'in_list' =&gt; true,
+            'filterdefault' =&gt; true,
+        ),
+    ),
+);
+</code></p>
+
+<p>类目表
+<code>php
+return array (
+    'columns' =&gt; array (
+        'cat_name =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('分类名称'),
+            'is_title' =&gt; true,
+            'width =&gt; 150,
+            'in_list' =&gt; true,
+            'filterdefault' =&gt; true,
+        ),
+    ),
+);
+</code></p>
+
+<h4 id="19">12. order定义</h4>
+
+<p>order属性定义了在<code>desktop finder</code>上列的默认排列顺序.</p>
+
+<p><code>php
+return array (
+    'columns' =&gt; array (
+        'cat_name =&gt; array (
+            'label' =&gt; app::get('base')-&gt;_('程序目录'),
+            'order' =&gt;10,
+        ),
+    ),
+);
+</code></p>
+
+<p><a name="others-define"></a></p>
+
+<h2 id="20">1.7. 其他定义</h2>
+
+<h4 id="21">13. unbackup</h4>
+
+<p>当设置为<code>unbackup</code>时, 备份数据时将不会备份此表数据</p>
+
+<blockquote>
+  <p><strong>注意:</strong> 备份数据功能只供备份初始化数据, 不再提供生成环境备份用途. </p>
+</blockquote>
+
+<p><code>php
+return array (
+    'columns' =&gt; array (
+        //...
+    ),
+    'unbackup' =&gt; true,
+);
+</code></p>
+
+<h4 id="22">14. comment</h4>
+
+<p>表名注释
+<code>php
+return array (
+    'columns' =&gt; array (
+        //...
+    ),
+    'comment =&gt; '商品表',
+);
+</code></p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

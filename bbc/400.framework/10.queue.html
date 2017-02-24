@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. bbc队列消耗配置和使用</a></li><li><a href="#2">1.1. swoole安装</a></li><li><a href="#3">1.2. 基本原则</a></li><li><a href="#4">1.3. 设置</a></li><li><a href="#5">1.4. 配置参数</a></li><li><a href="#6">1.4.1. default</a></li><li><a href="#7">1.4.2. default_publish_queue</a></li><li><a href="#8">1.4.3. bindings</a></li><li><a href="#9">1.4.4. worker</a></li><li><a href="#10">1.4.5. queue</a></li><li><a href="#11">1.4.6. action</a></li><li><a href="#12">1.5. 推送</a></li><li><a href="#13">1.6. 消费队列</a></li></ul></div><div class="span9"><h1 id="1">1. bbc队列消耗配置和使用</h1>
+
+<ul>
+<li>[swoole安装] (# install)</li>
+<li>[bbc swoole 执行 queue 的使用] (# install)</li>
+<li>[基本原则] (#base_rule)</li>
+<li>[配置参数] (#setup_params)</li>
+<li>[设置] (#setup_queue)</li>
+<li>[推送] (#push_queue)</li>
+<li>[消费队列] (#consume_queue)</li>
+</ul>
+
+<h2 id="2">1.1. swoole安装</h2>
+
+<p><a href="http://wiki.swoole.com/wiki/page/6.html">参照swoole官方文档</a></p>
+
+<p><a name='base_rule'></a></p>
+
+<h2 id="3">1.2. 基本原则</h2>
+
+<ul>
+<li>推送消息$params要做到尽量减小体积，在使用某些mq时，不容易发生硬盘数据交换</li>
+<li>adapter中，逻辑要做到“谁干活谁推送”，即数据推送(生产者)和消费者为同一app</li>
+<li>一个队列中，只能放同一个app的worker，当数据量较大时，应该一个队列中只放一个类型的worker，且这个worker应该与queu属于同一个app</li>
+</ul>
+
+<p><a name='setup_queue'></a></p>
+
+<h2 id="4">1.3. 设置</h2>
+
+<p>配置文件位于：</p>
+
+<pre class="prettyprint"><code>config/queue.php
+</code></pre>
+
+<p><a name='setup_params'></a></p>
+
+<h2 id="5">1.4. 配置参数</h2>
+
+<h3 id="6">1.4.1. default</h3>
+
+<p>这里配置队列将采用哪种方式，选项如下：</p>
+
+<pre class="prettyprint"><code>//mysql方式的模拟队列
+'default'=&gt;'system_queue_adapter_mysql',
+//由prism接管队列，目前兼容rabbitmq和kafka
+'default'=&gt;'system_queue_prism_queue_prism',
+</code></pre>
+
+<h3 id="7">1.4.2. default_publish_queue</h3>
+
+<blockquote>
+  <p>这个配置将会被废弃</p>
+  
+  <p>新的推送方式不会再兼容这个配置，如果没有配置worker属于哪个队列，将不会推送到默认队列中</p>
+</blockquote>
+
+<p>这里配置的是默认推送的队列（当且仅当在使用旧的推送方式时，worker不支持时，会推送到这个队列中）</p>
+
+<pre class="prettyprint"><code>'default_publish_queue' =&gt; 'normal',
+</code></pre>
+
+<h3 id="8">1.4.3. bindings</h3>
+
+<blockquote>
+  <p>这个配置将会被废弃</p>
+  
+  <p>新的消息推送方式，将不会使用这个配置</p>
+</blockquote>
+
+<p>这个配置是使用publish()方法推送消息时，判断worker和队列的绑定、分发关系的，publish方法会根据这个绑定关系，自动推送到相应队列中.</p>
+
+<pre class="prettyprint"><code>'bindings' =&gt; array(
+    'worker_class'                 =&gt; array('queue1', 'queue2'),
+    'importexport_tasks_runexport' =&gt; array('slow'),
+    'importexport_tasks_runimport' =&gt; array('slow'),
+    ),
+</code></pre>
+
+<h3 id="9">1.4.4. worker</h3>
+
+<p>这个配置是注册worker的，所有需要使用的worker需要在这里注册</p>
+
+<p>'title'简要说明队列；
+'queue'这个worker对应的队列，理想状态是与队列一对一的，但是为了兼容当数据量小时，启用多个队列无意义，所以兼容多对一的模式;
+'class'这个worker对应的类名；</p>
+
+<pre class="prettyprint"><code>'worker' =&gt; array(
+    'importexport.runexport' =&gt; array(
+        'title' =&gt; '执行数据导出任务',
+        'queue' =&gt; 'importexport.normal',
+        'class' =&gt; 'importexport_tasks_runexport'
+        ),
+    ),
+</code></pre>
+
+<h3 id="10">1.4.5. queue</h3>
+
+<p>这个配置是注册队列的，所有队列需要在这里注册，</p>
+
+<pre class="prettyprint"><code>'queue' =&gt; array(
+    'importexport.normal' =&gt; array(
+        'title' =&gt; '导入导出app的普通队列',
+        'thread' =&gt; 3,//启动多少进程处理该队列的工作
+        ),
+    ),
+</code></pre>
+
+<h3 id="11">1.4.6. action</h3>
+
+<p>这里定义了一个事件与多个worker的绑定关系，如果想使用事件推送，需要在这里做设置</p>
+
+<pre class="prettyprint"><code>'action' =&gt; array(
+    'winning' =&gt; array('sendSMS', 'sendEmail');
+    ),
+</code></pre>
+
+<p><a name='push_queue'></a></p>
+
+<h2 id="12">1.5. 推送</h2>
+
+<p>以后采用新的推送方式：</p>
+
+<pre class="prettyprint"><code>queue::push($worker, $params);
+
+//example
+queue::push('sendSMS', array('tel'=&gt;'18888888888', 'content'=&gt;'幸运用户您好，你中奖了！'));
+</code></pre>
+
+<p>批量推送的方法：</p>
+
+<pre class="prettyprint"><code>queue::bulk($workers, $params);
+
+//example
+queue::bulk(array('sendSMS', 'sendEmail'), array('tel'=&gt;'18888888888', 'email'=&gt;'888888@qq.com', 'content'=&gt;'幸运用户您好，你中奖了！'));
+</code></pre>
+
+<p>目前支持事件方式推送</p>
+
+<pre class="prettyprint"><code>queue::action($action, $params);
+
+//example
+queue::action('winning', array('tel'=&gt;'18888888888', 'email'=&gt;'888888@qq.com', 'content'=&gt;'幸运用户您好，你中奖了！'));
+</code></pre>
+
+<p><a name='consume_queue'></a></p>
+
+<h2 id="13">1.6. 消费队列</h2>
+
+<p>在服务器上执行一下命令</p>
+
+<pre class="prettyprint"><code>cd b2b2c &amp;&amp; ./script/queueserver/queue.sh
+</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

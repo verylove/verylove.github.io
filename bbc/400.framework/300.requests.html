@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 请求</a></li><li><a href="#2">1.1. 基本输入</a></li><li><a href="#3">1.2. 文件上传</a></li><li><a href="#4">1.3. 用户请求的详细信息</a></li></ul></div><div class="span9"><h1 id="1">1. 请求</h1>
+
+<ul>
+<li><a href="#basic-input">基本输入</a></li>
+<li><a href="#request-information">用户请求的详细信息</a></li>
+<li><a href="#files">文件上传</a></li>
+</ul>
+
+<p><a name="basic-input"></a></p>
+
+<h2 id="2">1.1. 基本输入</h2>
+
+<p>使用一种简单的方式来访问用户提交的信息。 你可以用统一的方式来访问用户提交的信息，而不用为用户提交信息的方式操心。</p>
+
+<p><strong>获取一个用户提交的值</strong></p>
+
+<p>$name = input::get('name');</p>
+
+<p><strong>为用户提交信息指定一个的默认返回值(如果用户未提交)</strong></p>
+
+<pre class="prettyprint"><code>$name = input::get('name', 'Sally');
+</code></pre>
+
+<p><strong>判断指定的提交信息是否存在</strong></p>
+
+<pre class="prettyprint"><code>if (input::has('name'))
+{
+    //
+}
+</code></pre>
+
+<p><strong>获取所有用户提交的信息</strong></p>
+
+<pre class="prettyprint"><code>$input = input::all();
+</code></pre>
+
+<p><strong>获取指定的信息，或者获取排除指定几个提交项之外的所有提交信息</strong></p>
+
+<pre class="prettyprint"><code>$input = input::only('username', 'password');
+
+$input = input::except('credit_card');
+</code></pre>
+
+<p>如果提交的表单含有 "数组" 形式的输入，可以使用点符号访问数组：</p>
+
+<pre class="prettyprint"><code>$input = input::get('products.0.name');
+</code></pre>
+
+<blockquote>
+  <p><strong>注意：</strong> 有一些javascript库，比如 Backbone 会以json格式提交信息。 通过 <code>input::get</code> 来获取信息，使用上无差别。</p>
+</blockquote>
+
+<p><a name="files"></a></p>
+
+<h2 id="3">1.2. 文件上传</h2>
+
+<p><strong>获取用户上传的文件</strong></p>
+
+<pre class="prettyprint"><code>$file = input::file('photo');
+</code></pre>
+
+<p><strong>判断指定文件是否已经被上传</strong></p>
+
+<pre class="prettyprint"><code>if (input::hasFile('photo'))
+{
+    //
+}
+</code></pre>
+
+<p><code>file</code> 方法返回了一个 <code>Symfony\Component\HttpFoundation\File\UploadedFile</code> 类的实例, 该类继承自PHP的 <code>SplFileInfo</code> 类，并提供了大量操作该用户上传的文件的方法。</p>
+
+<p><strong>移动一个已上传的文件</strong></p>
+
+<pre class="prettyprint"><code>input::file('photo')-&gt;move($destinationPath);
+
+input::file('photo')-&gt;move($destinationPath, $fileName);
+</code></pre>
+
+<p><strong>获取一个已上传的文件在服务器的真实路径</strong></p>
+
+<pre class="prettyprint"><code>$path = input::file('photo')-&gt;getRealPath();
+</code></pre>
+
+<p><strong>获取一个已上传的文件的大小</strong></p>
+
+<pre class="prettyprint"><code>$size = input::file('photo')-&gt;getSize();
+</code></pre>
+
+<p><strong>获取一个已上传的文件的 MIME 类型</strong></p>
+
+<pre class="prettyprint"><code>$mime = input::file('photo')-&gt;getMimeType();
+</code></pre>
+
+<p><a name="request-information"></a></p>
+
+<h2 id="4">1.3. 用户请求的详细信息</h2>
+
+<p><code>Request</code> 类提供了许多 方法 用于获取关于请求的详细信息</p>
+
+<blockquote>
+  <p><strong>注意</strong>
+  request 类所返回的uri/url不排除index.php
+  因此如果想要去掉index.php 的场景需要</p>
+
+<pre class="prettyprint"><code>$url = kernel::removeIndex(request::url());
+</code></pre>
+</blockquote>
+
+<p><strong>获取站点完整路径</strong></p>
+
+<pre class="prettyprint"><code>kernel::base_url(1);
+</code></pre>
+
+<blockquote>
+  <p><strong>示例</strong>
+  <a href="http://localhost/mysite/index.php/about?a=1&amp;b=2">http://localhost/mysite/index.php/about?a=1&amp;b=2</a>     returns 'http://localhost/mysite';</p>
+</blockquote>
+
+<p><strong>获取站点相对路径</strong></p>
+
+<pre class="prettyprint"><code>kernel::base_url();
+</code></pre>
+
+<blockquote>
+  <p><strong>示例</strong>
+  <a href="http://localhost/mysite/index.php/about?a=1&amp;b=2">http://localhost/mysite/index.php/about?a=1&amp;b=2</a>     returns '/mysite';</p>
+</blockquote>
+
+<p><strong>获取请求URI</strong></p>
+
+<pre class="prettyprint"><code>$uri = request::path();
+</code></pre>
+
+<blockquote>
+  <p><strong>示例</strong>
+  <a href="http://localhost/mysite">http://localhost/mysite</a>                        returns '/';
+  <a href="http://localhost/mysite/about">http://localhost/mysite/about</a>                  returns '/about'
+  <a href="http://localhost/mysite/enco%20ded">http://localhost/mysite/enco%20ded</a>             returns '/enco%20ded'
+  <a href="http://localhost/mysite/about?var=1">http://localhost/mysite/about?var=1</a>            returns '/about'
+  <a href="http://localhost/mysite/index.php/about?var=1">http://localhost/mysite/index.php/about?var=1</a>  returns '/about'</p>
+</blockquote>
+
+<p><strong>判断请求路径是否符合指定模式</strong></p>
+
+<pre class="prettyprint"><code>if (request::is('admin/*'))
+{
+    //
+}
+</code></pre>
+
+<p><strong>获取请求URL</strong></p>
+
+<pre class="prettyprint"><code>$url = request::url();
+</code></pre>
+
+<blockquote>
+  <p><strong>示例</strong>
+  <a href="http://localhost/mysite/index.php/about?a=1&amp;b=2">http://localhost/mysite/index.php/about?a=1&amp;b=2</a>     returns 'http://localhost/mysite/index.php/about';</p>
+</blockquote>
+
+<p><strong>获取请求头里的Content-Type信息</strong></p>
+
+<pre class="prettyprint"><code>$value = request::header('Content-Type');
+</code></pre>
+
+<p><strong>获取 $_SERVER 数组里指定的值</strong></p>
+
+<pre class="prettyprint"><code>$value = request::server('PATH_INFO');
+</code></pre>
+
+<p><strong>判断是否是使用ajax请求</strong></p>
+
+<pre class="prettyprint"><code>if (request::ajax())
+{
+    //
+}    
+</code></pre>
+
+<p><strong>判断请求是否使用https连接</strong></p>
+
+<pre class="prettyprint"><code>if (request::secure())
+{
+    //
+}
+</code></pre>
+
+<p><strong>检测请求的响应格式</strong></p>
+
+<p><code>request::format</code> 方法基于 HTTP 请求头的 Accept 信息返回客户端希望获取的响应格式:</p>
+
+<pre class="prettyprint"><code>if (request::format() == 'json')
+{
+    //
+}
+</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

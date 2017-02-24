@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"></ul></div><div class="span9"><p>数据库表,数据库表定义文件及模型命名规则</p>
+
+<p>通常情况下数据库的一个表会对应一个dbschema定义文件(数据库表定义文件)和一个model.</p>
+
+<p>数据库表名采用下划线命名法, 并且只允许小写字母.</p>
+
+<ul>
+<li>表名: <code>{$app_name}_{$filename}</code></li>
+<li>数据库表名前缀: 目前无前缀</li>
+<li>文件名: <code>$filename.php</code></li>
+<li>存放目录名: <code>app/{$app_name}/dbschema</code></li>
+<li>完整文件名: <code>app/{$app_name}/dbschema/{$filename}.php</code></li>
+<li>对应的model类名: <code>{$app_name}_mdl_{$filename}</code></li>
+<li>所属app: `{$app_name}</li>
+</ul>
+
+<p>例1:</p>
+
+<p>表名: <code>syscontent_article</code></p>
+
+<p>数据库表名前缀: (无)</p>
+
+<p>文件名: <code>syscontent_article.php</code></p>
+
+<p>存放目录名: <code>app/syscontent/dbschema</code></p>
+
+<p>完整文件名: <code>app/syscontent/dbschema/syscontent_article.php</code></p>
+
+<p>对应的model类名: <code>syscontent_mdl_article</code></p>
+
+<p>所属app: <code>syscontent</code></p>
+
+<p>例2:</p>
+
+<p>表名: <code>syscontent_article_nodes</code></p>
+
+<p>数据库表名前缀: (无)</p>
+
+<p>文件名: <code>article_nodes.php</code></p>
+
+<p>存放目录名: <code>app/syscontent/dbschema</code></p>
+
+<p>完整文件名: <code>app/syscontent/dbschema/article_nodes.php</code></p>
+
+<p>对应的model类名: <code>syscontent_mdl_article_nodes</code></p>
+
+<p>所属app: <code>syscontent</code></p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

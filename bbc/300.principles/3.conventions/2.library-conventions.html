@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"></ul></div><div class="span9"><p>业务逻辑库(library)</p>
+
+<p>业务逻辑库的类名采用下划线命名法, 并且只允许小写字母</p>
+
+<p>library有两种命名规则, 一个是系统内置的核心libary库的命名规则(数量有限), 一个是通用的library的命名规则</p>
+
+<p>= 核心library命名规则 =
+这一类是系统内置的核心的library, 都放置在base app的lib/static目录下</p>
+
+<ul>
+<li>业务逻辑库类名: <code>{$filename}</code></li>
+<li>业务逻辑库存放目录: <code>app/base/lib/static</code></li>
+<li>业务逻辑库文件名: <code>{$filename}.php</code></li>
+<li>业务逻辑库完整文件名: <code>app/base/lib/static/{$filename}.php</code></li>
+<li>控制器所在app: <code>base</code></li>
+</ul>
+
+<p>内置的核心library并不多, 罗列一下:</p>
+
+<ul>
+<li>app</li>
+<li>cachemgr</li>
+<li>lang</li>
+<li>modifiers</li>
+<li>service</li>
+<li>utils</li>
+</ul>
+
+<p>因此可以看到如下用法:
+<code>
+&lt;?php
+$app = app::get($app);
+</code></p>
+
+<p><code>
+&lt;?php
+$md5 = utils::array_md5($arr);
+</code></p>
+
+<p>= 通用library命名规则 =</p>
+
+<ul>
+<li>业务逻辑库类名: {$app_name}_{$dir_1}/{$dir_n}_{$filename}</li>
+<li>业务逻辑库存放目录: app/{$app_name}/lib/{$dir_1}/{$dir_2}</li>
+<li>业务逻辑库文件名: {$filename}.php</li>
+<li>业务逻辑库完整文件名: app/{$app_name}/lib/{$dir_1}/{$dir_2}/{$filename}.php</li>
+<li>控制器所在app: {$app_name}</li>
+</ul>
+
+<p>看起来很晕吧, 来几个例子解脱一下</p>
+
+<p>例1:</p>
+
+<ul>
+<li>业务逻辑库类名: base_application_dbtable</li>
+<li>业务逻辑库存放目录: app/base/lib/application</li>
+<li>业务逻辑库文件名: dbtable.php</li>
+<li>业务逻辑库完整文件名: app/base/lib/application/dbtable.php</li>
+<li>控制器所在app: base</li>
+</ul>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

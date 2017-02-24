@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. ttserver图片分离方案</a></li><li><a href="#2">1.1. 简介</a></li><li><a href="#3">1.2. 配置</a></li><li><a href="#4">1.2.1. 图片存储服务器, Tokyo Tyrant的安装配置</a></li><li><a href="#5">2. 资源地址</a></li><li><a href="#6">1. 安装Tokyo Cabinet</a></li><li><a href="#7">2. 安装Tokyo Tyrant</a></li><li><a href="#8">3. 安装完成之后启动文件 默认在 /usr/local/sbin/ttservctl</a></li><li><a href="#9">1. 图片调用服务配置，安装nginx，并且在加入memc-nginx-module模块</a></li><li><a href="#10">2. web服务器配置</a></li><li><a href="#11">3.1. 数据迁移 将本地的图片存储到Tokyo Tyrait中</a></li><li><a href="#12">4. storage存储服务器地址，修改为Tokyo Tyrant 部署的地址和端口</a></li><li><a href="#13">5. ttserver端口</a></li><li><a href="#14">6. !/bin/bash</a></li><li><a href="#15">7. 默认将public/images/下的图片都存储到Tokyo Tyrant 中,也可以根据需求自定义目录存储</a></li></ul></div><div class="span9"><h1 id="1">1. ttserver图片分离方案</h1>
+
+<ul>
+<li><a href="#introduction">简介</a></li>
+<li><a href="#install">配置</a></li>
+<li><a href="#move">数据迁移</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+
+<h2 id="2">1.1. 简介</h2>
+
+<pre class="prettyprint"><code>使用nginx + Tokyo Tyrant进行存储的方案
+nginx的NginxHttpMemcachedModule有个很牛X的特性，可以使用url作为memcache的key进行资源访问。
+
+使用内存做存储有两个缺点，一是有容量限制，二是不能永久存储。因此我们使用 Tokyo Tyrant 做存储方案。
+只要在进行图片存储时，将url作为key，将图片存储到Tokyo Tyrant
+Tokyo Tyrant是Tokyo Cabinet的网络接口，可以使用memcached一样的协议。同memcache相比，Tokyo Cabinet可以将资源存放在硬盘中
+</code></pre>
+
+<blockquote>
+  <p><strong>注意</strong>：ttserver方案的缺点为，Tokyo Tyrant在存储超过20G的时候会出现不稳定现象，因此不推荐</p>
+</blockquote>
+
+<p><a name="install"></a></p>
+
+<h2 id="3">1.2. 配置</h2>
+
+<h3 id="4">1.2.1. 图片存储服务器, Tokyo Tyrant的安装配置</h3>
+
+<ol>
+<li><p>安装Tokyo Tyrant
+```shell</p>
+
+<h1 id="5">2. 资源地址</h1>
+
+<p>wget <a href="http://fallabs.com/tokyocabinet/tokyocabinet-1.4.47.tar.gz">http://fallabs.com/tokyocabinet/tokyocabinet-1.4.47.tar.gz</a>
+wget <a href="http://fallabs.com/tokyotyrant/tokyotyrant-1.1.41.tar.gz">http://fallabs.com/tokyotyrant/tokyotyrant-1.1.41.tar.gz</a>
+```</p>
+
+<h5 id="6">1. 安装Tokyo Cabinet</h5>
+
+<p><code>shell
+tar zxvf tokyocabinet-1.4.47.tar.gz
+cd tokyocabinet-1.4.47
+sudo ./configure
+sudo make
+sudo make install
+</code></p>
+
+<h5 id="7">2. 安装Tokyo Tyrant</h5>
+
+<p><code>shell
+tar zxvf tokyotyrant-1.1.41.tar.gz
+cd tokyotyrant-1.1.41
+sudo ./configure
+sudo make
+sudo make install
+</code>
+参考文档：http://www.ttlsa.com/ttserver/install-ttserver-on-linux/</p>
+
+<blockquote>
+  <p><strong>注意</strong>
+  因为tt可以无密码进行操作，并且在tt中存储了挂件的php文件，
+  因此需要在防火墙配置，保证tt服务器的安全性</p>
+</blockquote></li>
+<li><p>启动ttservctl</p>
+
+<p>```shell</p>
+
+<h1 id="8">3. 安装完成之后启动文件 默认在 /usr/local/sbin/ttservctl</h1>
+
+<p>ttservctl start
+```</p></li>
+</ol>
+
+<h3 id="9">1. 图片调用服务配置，安装nginx，并且在加入memc-nginx-module模块</h3>
+
+<ol>
+<li><p>memc-nginx-module模块下载
+<code>
+下载地址：https://github.com/agentzh/memc-nginx-module
+已安装git可以执行：git clone https://github.com/agentzh/memc-nginx-module.git
+</code></p></li>
+<li><p>nginx编译加载memc-nginx-module
+因为Nginx并不支持模块动态加载，所以要安装新的模块，必须重新编译Nginx</p>
+
+<p>```shell
+wget <a href="http://nginx.org/download/nginx-1.4.7.tar.gz">http://nginx.org/download/nginx-1.4.7.tar.gz</a>
+tar zxvf nginx-1.4.7.tar.gz
+cd nginx-1.4.7</p>
+
+<p>./configure --prefix=/usr/local/nginx --add-module=/path_to_memc-nginx-module(memc-nginx-modul模块下载的文件地址)</p>
+
+<p>make &amp;&amp; make install
+```</p></li>
+<li><p>nginx安装成功后,nginx.conf 配置中加入以下部分配置
+```
+upstream tt_server1{  #配置一个tt服务器组
+  server localhost:1978; #ttserver的地址和启动端口
+}</p>
+
+<p>server {
+  listen       80;
+  server_name  localhost;</p>
+
+<p>location / {
+    set $memcached_key $uri;
+    memcached_pass tt_server1;
+  }
+}
+```</p></li>
+</ol>
+
+<h3 id="10">2. web服务器配置</h3>
+
+<ol>
+<li><p>php安装memcached扩展</p>
+
+<blockquote>
+  <p>phpinfo检查php是否安装了memcache扩展，如果没有安装这安装扩展,则进行安装</p>
+</blockquote>
+
+<p>```
+命令仅供参考:</p>
+
+<p>/usr/local/php/bin/pecl install memcache</p>
+
+<p>vim /usr/local/php/php.ini</p>
+
+<p>extension=memcache.so
+```</p></li>
+<li><p>修改B2B2C中的conifig/storager.php配置
+```php
+  <?php
+  /**</p>
+
+<ul><li>ShopEx licence
+*</li>
+<li>@copyright  Copyright (c) 2005-2012 ShopEx Technologies Inc. (http://www.shopex.cn)</li>
+<li><p>@license  <a href="http://ecos.shopex.cn/">http://ecos.shopex.cn/</a> ShopEx License
+*/</p>
+
+<p>return array(
+/*
+|--------------------------------------------------------------------------
+| 默认storage处理类
+|--------------------------------------------------------------------------
+|
+| 默认storage处理方式
+| 目前支持 ttprosystem | base_storage_filesystem
+| 对应原系统:  KVSTORE_STORAGE
+|
+*/
+'default' => 'ttprosystem',
+//'default' => 'filesystem',</p>
+
+<p>/*
+|--------------------------------------------------------------------------
+| mongodb配置
+|--------------------------------------------------------------------------
+|
+| hosts 支持多实例. 目前只支持 192.168.0.230:11211 风格的写法
+| "mongodb:///tmp/mongo-27017.sock" 两种风格
+| options MongoClient::__construct 第二个参数 An array of options for the
+| connection
+*/
+'ttprosystem' => array(
+    'hosts' => array(
+      '192.168.51.96:1978',
+    //'192.168.0.231:11211',
+    ),
+),</p>
+
+<p>/*
+|--------------------------------------------------------------------------
+| 图片映象站地址
+|--------------------------------------------------------------------------
+|
+| 图片资源映像站地址，可以配置多个图片服务器，上传图片的时候随机分配
+|
+*/
+'host_mirrors_img' => array(
+    'http://img2.example.com',//图片调用服务器的域名或者IP
+    //'http://img1.example.com',//图片调用服务器的域名或者IP
+ )
+);
+```</p></li></ul></li>
+</ol>
+
+<p><a name="move"></a></p>
+
+<h2 id="11">3.1. 数据迁移 将本地的图片存储到Tokyo Tyrait中</h2>
+
+<ol>
+<li><p>修改b2b2c/script/storage/ttserver.sh中的图片存储服务地址
+```shell</p>
+
+<h1 id="12">4. storage存储服务器地址，修改为Tokyo Tyrant 部署的地址和端口</h1>
+
+<p>host=127.0.0.1</p>
+
+<h1 id="13">5. ttserver端口</h1>
+
+<p>port=1978
+```</p></li>
+<li><p>执行b2b2c/script/storage/init.sh
+```shell</p>
+
+<h1 id="14">6. !/bin/bash</h1>
+
+<p>source $(cd <code>dirname $0</code>; pwd)/ttserver.sh</p>
+
+<h1 id="15">7. 默认将public/images/下的图片都存储到Tokyo Tyrant 中,也可以根据需求自定义目录存储</h1>
+
+<p>if [ x$1 = x ]
+then
+    src=$root/public/images
+else
+    src=$1
+fi</p>
+
+<p>```</p></li>
+</ol>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

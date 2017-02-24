@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 视图(view)与响应(response)</a></li><li><a href="#2">1.1. 基本Response</a></li><li><a href="#3">1.2. 重定向跳转</a></li><li><a href="#4">1.3. 特殊Response</a></li><li><a href="#5">1.4. 响应宏</a></li></ul></div><div class="span9"><h1 id="1">1. 视图(view)与响应(response)</h1>
+
+<ul>
+<li><a href="#basic-responses">基本响应</a></li>
+<li><a href="#redirects">重定向</a></li>
+<li><a href="#special-responses">特殊响应</a></li>
+<li><a href="#response-macros">响应宏</a></li>
+</ul>
+
+<p><a name="basic-responses"></a></p>
+
+<h2 id="2">1.1. 基本Response</h2>
+
+<p><strong>从路由中返回字符串</strong></p>
+
+<pre class="prettyprint"><code>route::get('/', function()
+{
+    return 'Hello World';
+});
+</code></pre>
+
+<p><strong>创建自定义Response</strong></p>
+
+<p><code>Response</code>类继承自<code>Symfony\Component\HttpFoundation\Response</code>类，提供了多种方法用于构建HTTP Response。</p>
+
+<pre class="prettyprint"><code>$response = response::make($contents, $statusCode);
+
+$response-&gt;header('Content-Type', $value);
+
+return $response;
+</code></pre>
+
+<p><a name="redirects"></a></p>
+
+<h2 id="3">1.2. 重定向跳转</h2>
+
+<p><strong>返回一个重定向</strong></p>
+
+<pre class="prettyprint"><code>return redirect::to('user/login');
+</code></pre>
+
+<p><strong>返回一个重定向至命名路由</strong></p>
+
+<pre class="prettyprint"><code>return redirect::route('login');
+</code></pre>
+
+<p><strong>返回一个重定向至带有参数的命名路由</strong></p>
+
+<pre class="prettyprint"><code>return redirect::route('profile', array(1));
+</code></pre>
+
+<p><strong>返回一个重定向至带有命名参数的命名路由</strong></p>
+
+<pre class="prettyprint"><code>return redirect::route('profile', array('user' =&gt; 1));
+</code></pre>
+
+<p><strong>返回一个重定向至控制器Action</strong></p>
+
+<pre class="prettyprint"><code>return redirect::action('HomeController@index');
+</code></pre>
+
+<p><strong>返回一个重定向至控制器Action并带有参数</strong></p>
+
+<pre class="prettyprint"><code>return redirect::action('UserController@profile', array(1));
+</code></pre>
+
+<p><strong>返回一个重定向至控制器Action并带有命名参数</strong></p>
+
+<pre class="prettyprint"><code>return redirect::action('UserController@profile', array('user' =&gt; 1));
+</code></pre>
+
+<p><strong>返回上一个访问页面</strong></p>
+
+<pre class="prettyprint"><code>return redirect::back();
+</code></pre>
+
+<p><strong>返回一个重定向至站外URL</strong></p>
+
+<pre class="prettyprint"><code>return redirect::away('http://www.shopex.cn');
+</code></pre>
+
+<p><a name="special-responses"></a></p>
+
+<h2 id="4">1.3. 特殊Response</h2>
+
+<p><strong>创建一个JSON Response</strong></p>
+
+<pre class="prettyprint"><code>return response::json(array('name' =&gt; 'Steve', 'state' =&gt; 'CA'));
+</code></pre>
+
+<p><strong>创建一个JSONP Response</strong></p>
+
+<pre class="prettyprint"><code>return response::json(array('name' =&gt; 'Steve', 'state' =&gt; 'CA'))-&gt;setCallback(Input::get('callback'));
+</code></pre>
+
+<p><strong>创建一个文件下载Response</strong></p>
+
+<pre class="prettyprint"><code>return response::download($pathToFile);
+
+return response::download($pathToFile, $status, $headers);
+</code></pre>
+
+<blockquote>
+  <p><strong>注意：</strong> Symfony HttpFoundation 用于处理文件下载，要求下载的文件的文件名只包含 ASCII 字符。    </p>
+</blockquote>
+
+<h2 id="5">1.4. 响应宏</h2>
+
+<p>如果您想要自定义可以在很多路由和控制器重复使用的响应，可以使用<code>response::macro</code>方法：</p>
+
+<pre class="prettyprint"><code>response::macro('caps', function($value)
+{
+    return response::make(strtoupper($value));
+});
+</code></pre>
+
+<p><code>macro</code>方法第一个参数为宏名称，第二个参数为闭合函数。闭合函数会在 Response 调用宏名称的时候被执行：</p>
+
+<pre class="prettyprint"><code>return response::caps('foo');
+</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

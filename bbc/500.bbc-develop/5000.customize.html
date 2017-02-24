@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 二次开发</a></li><li><a href="#2">1.1. 介绍</a></li><li><a href="#3">1.2. 配置二次开发目录</a></li><li><a href="#4">1.3. 自定义路由</a></li><li><a href="#5">1.4. 自定义控制器</a></li><li><a href="#6">1.5. 自定义视图</a></li><li><a href="#7">1.6. 模板开发注意事项</a></li></ul></div><div class="span9"><h1 id="1">1. 二次开发</h1>
+
+<ul>
+<li><a href="#introduction">介绍</a></li>
+<li><a href="#custom-develop">配置二次开发目录</a></li>
+<li><a href="#custom-route">自定义路由</a></li>
+<li><a href="#custom-controller">定义控制器</a></li>
+<li><a href="#custom-view">定义视图</a></li>
+<li><a href="#template-develop">模板开发注意事项</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+
+<h2 id="2">1.1. 介绍</h2>
+
+<p>在实际做项目中拿B2B2C进行二次开发的时候, 通常不希望在标准的产品上进行修改. 因为这样会导致标准产品的补丁包无法升级.</p>
+
+<p>目前系统提供了<a href="#custom-develop">配置二开目录</a>的方式, 可以在二次开发目录进行开发.虽然此方法仍然无法保证一定可以无缝升级.</p>
+
+<blockquote>
+  <p><strong>notic</strong> 此步骤是以下所有二次开发方式的前置条件</p>
+</blockquote>
+
+<p><a name="custom-develop"></a></p>
+
+<h2 id="3">1.2. 配置二次开发目录</h2>
+
+<p>将<strong>config/compatible.php</strong>复制到<strong>config/production/compatible.php</strong>并且修改配置
+<code>php
+&lt;?php
+  //二次开发目录设置,`custom`可以替换为自己的二次开发目录
+  //如果该配置已开启，并且有对应的目录，则表示已经开启二次开发目录
+  define('CUSTOM_CORE_DIR', ROOT_DIR.'/custom');
+</code></p>
+
+<p>新建目录custom，需要和app目录同级</p>
+
+<p><code>shell
+drwxr-xr-x  38 www  www   1292  8  5 22:21 app
+drwxr-xr-x   7 www  www    238  8 24 19:38 bootstrap
+drwxrwxrwx  33 www  www   1122  8 24 12:00 config
+drwxr-xr-x   3 www  www    102  8 25 13:57 custom //和app目录同级
+</code></p>
+
+<p><a name="custom-route"></a></p>
+
+<h2 id="4">1.3. 自定义路由</h2>
+
+<blockquote>
+  <p><strong>注意</strong> 首先必须设置二次开发目录</p>
+</blockquote>
+
+<p>路由的使用可以参见:<a href="/400.framework/400.routing.html">路由使用说明文档</a> </p>
+
+<p>默认的路由文件为<strong>bootstrap/routes.php</strong>. 在二次开发时可以创建<strong>bootstrap/custom_routes.php</strong>, 这时系统将不再加载<strong>bootstrap/routes.php</strong>文件.</p>
+
+<p>因此可以用两种方式进行二次开发</p>
+
+<ul>
+<li>当对路由修改较少的情况
+在<strong>bootstrp/custom_routes.php</strong>中include*<em>bootstrap/routes.php</em>*, 然后遵循路由的规则进行增量添加就可以了</li>
+<li>当对路由进行很大规模的调整 
+完整的copy <strong>bootstrp/routes.php</strong>内容到<strong>bootstrp/custom_routes.php</strong>, 然后在此基础上进行修改</li>
+</ul>
+
+<p>```php
+<?php</p>
+
+<p>//...</p>
+
+<p>//自定义页面路由
+route::group(array(), function(){
+    route::get('custom-act.html', [ 'uses' => 'topc_ctl_act@index' ]);
+});</p>
+
+<p>/*
+|--------------------------------------------------------------------------
+| 文章相关
+|--------------------------------------------------------------------------
+*/
+route::group(array(), function() {
+    route::get('content-index.html', [ 'uses' => 'topc_ctl_content@index' ]);
+    route::get('content-info.html', [ 'uses' => 'topc_ctl_content@getContentInfo' ]);
+});</p>
+
+<p>//...</p>
+
+<p>```</p>
+
+<p><a name="custom-controller"></a></p>
+
+<h2 id="5">1.4. 自定义控制器</h2>
+
+<p>新增控制器文件<strong>coutom/controller/act.php</strong>
+控制器名称根据路由的配置
+```php
+<?php
+/**
+ * ShopEx licence
+ *
+ * @copyright  Copyright (c) 2005-2010 ShopEx Technologies Inc. (http://www.shopex.cn)
+ * @license  <a href="http://ecos.shopex.cn/">http://ecos.shopex.cn/</a> ShopEx License
+ */
+class topc_ctl_act extends topc_controller {</p>
+
+<pre class="prettyprint"><code>public function __construct(&amp;$app)
+{
+    parent::__construct();
+}
+
+public function index()
+{
+    return $this-&gt;page('topc/act/index.html', $pagedata);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p><a name="custom-view"></a></p>
+
+<h2 id="6">1.5. 自定义视图</h2>
+
+<p>新增自定义页面文件<strong>custom/topc/view/act/index.html</strong></p>
+
+<p>```html</p>
+
+<div class="content" >
+  自定义页面内容
+</div>
+
+<p>```</p>
+
+<p><a name="template-develop"></a></p>
+
+<h2 id="7">1.6. 模板开发注意事项</h2>
+
+<blockquote>
+  <p><strong>注意</strong> 当对模板进行二次开发时, 禁止在默认模板<code>themes/default</code>上进行开发. 需要新建模板, 因为补丁包中会有默认模板的升级内容. 如果在默认模板上进行升级, 当更新补丁的时候会覆盖开发内容.</p>
+</blockquote>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

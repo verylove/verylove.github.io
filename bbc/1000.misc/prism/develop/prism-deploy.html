@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. prism 部署</a></li><li><a href="#2">1.1. prism依赖</a></li><li><a href="#3">1.2. mongodb安装</a></li><li><a href="#4">1.3. rabbitmq安装</a></li><li><a href="#5">1.4. prism安装</a></li></ul></div><div class="span9"><h1 id="1">1. prism 部署</h1>
+
+<ul>
+<li><a href="#prism-depend">prism依赖</a></li>
+<li><a href="#mongodb-install">mongodb安装</a></li>
+<li><a href="#rabbitmq-install">rabbitmq安装</a></li>
+<li><a href="#prism-install">prism安装</a></li>
+</ul>
+
+<p><a name="prism-depend"></a></p>
+
+<h2 id="2">1.1. prism依赖</h2>
+
+<p>prism分为两部分，api管理和消息队列管理，如果仅仅需要启用api管理功能，需要安装mongodb，如果需要用到消息队列管理，则需要安装rabbitmq。</p>
+
+<p><a name="mongodb-install"></a></p>
+
+<h2 id="3">1.2. mongodb安装</h2>
+
+<p>mongodb需要2.4以及以下版本，新版本目前不支持。</p>
+
+<p>mac下通过brew安装(2.4.12)：</p>
+
+<p><code>
+brew install mongodb24
+</code></p>
+
+<p>mongodb启动方法:</p>
+
+<p><code>
+mongod --config /usr/local/etc/mongod.conf
+</code></p>
+
+<p><a name="rabbit-install"></a></p>
+
+<h2 id="4">1.3. rabbitmq安装</h2>
+
+<p>mac下通过brew安装(2.4.12)：</p>
+
+<p><code>
+brew install rabbitmq
+</code></p>
+
+<p>启动rabbitmq</p>
+
+<p><code>
+sudo /usr/local/Cellar/rabbitmq/3.4.4/sbin/rabbitmq-server
+</code></p>
+
+<p>打开http://localhost:15672/ 进入rabbitmq后台，输入用户名:guest，密码:guest登陆后台。
+在admin页面下右侧栏选择“virtual host”，新建名为prism的vhost。</p>
+
+<p><a name="prism-install"></a></p>
+
+<h2 id="5">1.4. prism安装</h2>
+
+<p>解压prism的tar包</p>
+
+<p><code>
+tar xvf prism.tar.gz
+</code></p>
+
+<p>配置config</p>
+
+<p><code>
+vim config/app.conf
+</code></p>
+
+<p>```
+[default]
+appname = prism
+runmode = dev
+debug = prod
+mongodb = 127.0.0.1
+webapp_listen = :8080
+super_listen = :8081
+masterdomain = .local:8080
+db_base = prism
+db_stat = prism_stat
+db_token = prism_token</p>
+
+<p>oauth_backend = OAuthMysql</p>
+
+<p>[notify]
+notify_support = false
+rabbitmq_server = amqp://127.0.0.1:5672
+rabbitmq_user = guest
+rabbitmq_password = guest
+rabbitmq_vhost = prism
+rabbitmq_web = <a href="http://127.0.0.1:15672/">http://127.0.0.1:15672/</a>
+```</p>
+
+<p>不需要消息队列的话，notify_support要关掉。</p>
+
+<p>运行prism.single就可以启动了。</p>
+
+<p><code>
+./prism.single
+</code></p>
+
+<p>前后台访问地址：
+<code>
+localhost:8080/
+localhost:8080/admin/
+</code>
+后台默认用户名密码均为admin</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

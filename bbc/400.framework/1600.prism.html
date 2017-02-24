@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. API开发</a></li><li><a href="#2">1.1. 文件位置</a></li><li><a href="#3">1.2. API注册</a></li><li><a href="#4">1.3. API实现</a></li></ul></div><div class="span9"><h1 id="1">1. API开发</h1>
+
+<h2 id="2">1.1. 文件位置</h2>
+
+<ul>
+<li>文件统一放在如下位置：
+<code>
+app/{$app_name}/api/
+</code></li>
+</ul>
+
+<h2 id="3">1.2. API注册</h2>
+
+<ul>
+<li><p>注册文件
+<code>
+config/apis.php
+</code></p></li>
+<li><p>注册格式
+<code>
+'api的method' =&gt; ['uses' =&gt; '调用哪个类@哪个方法', 'version'=&gt;['支持的版本号']],
+</code>
+<code>
+'item.search' =&gt; ['uses' =&gt; 'sysitem_api_item_search@getList', 'version'=&gt;['v1']],
+</code></p></li>
+<li><p>API请求权限注册
+API请求权限是注册给app的，比如topc应用可以请求systrade应用提供的api，需要注册如下信息：
+<code>
+//表示topc可以调用systrade的api，并且每60秒可以调用1000次
+'depends'=&gt;array (
+     'topc' =&gt; array (
+         'systrade' =&gt; array ( 'appName' =&gt; 'systrade', 'path' =&gt; '*', 'limit_count' =&gt; 1000, 'limit_seconds' =&gt; 60,),
+     ),
+),
+</code>
+dev应用提供了一个命令：cmd dev:rpc depends_info命令可以获取当前代码的调用情况。直接将显示出来的数组复制到config/apis.php的depends项即可</p></li>
+</ul>
+
+<h2 id="4">1.3. API实现</h2>
+
+<ul>
+<li>CLASS格式</li>
+</ul>
+
+<p>```
+class sysitem_api_item_get{</p>
+
+<pre class="prettyprint"><code>/**
+ * 接口作用说明
+ */
+public $apiDescription = '获取单个商品的详细信息';
+
+/**
+ * 定义应用级参数，参数的数据类型，参数是否必填，参数的描述
+ * 用于在调用接口前，根据定义的参数，过滤必填参数是否已经参入
+ */
+public function getParams()
+{
+    $return['params'] = array(
+        'item_id' =&gt; ['type'=&gt;'int','required'=&gt;true,'description'=&gt;'商品编号','example'=&gt;'2','default'=&gt;''],
+        'shop_id' =&gt; ['type'=&gt;'int','required'=&gt;false,'description'=&gt;'店铺id','example'=&gt;'2','default'=&gt;''],
+        'fields' =&gt; ['type'=&gt;'field_list','required'=&gt;false,'description'=&gt;'要获取的商品字段集','example'=&gt;'title,item_store.store,item_status.approve_status','default'=&gt;''],
+    );
+
+    $return['extendsFields'] = ['item_desc','item_count','item_store','item_status','sku','item_nature','spec_index'];
+    return $return;
+}
+
+public function get($params)
+{
+    return $result;
+}
+</code></pre>
+
+<p>```</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

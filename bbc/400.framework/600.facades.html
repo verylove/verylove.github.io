@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. Facades</a></li><li><a href="#2">1.1. 简介</a></li><li><a href="#3">1.2. 说明</a></li><li><a href="#4">1.3. 实际用例</a></li></ul></div><div class="span9"><h1 id="1">1. Facades</h1>
+
+<ul>
+<li><a href="#introduction">简介</a></li>
+<li><a href="#explanation">说明</a></li>
+<li><a href="#practical-usage">实际用例</a></li>
+<li><a href="#creating-facades">创建 Facades</a></li>
+<li><a href="#mocking-facades">模拟 Facades</a></li>
+<li><a href="#facade-class-reference">Facade Class Reference</a></li>
+</ul>
+
+<p><a name="practical-usage"></a></p>
+
+<h2 id="2">1.1. 简介</h2>
+
+<p>Facades 提供了一个“静态”接口到 工作类 。系统 含有很多 facades，你可能不知道你在某些地方已经使用过它们了。</p>
+
+<p>有时候， 你可能想为你的应用程序或包创建自己的 facades， 所以，让我们来讨论一下如何开发和使用这些类。</p>
+
+<p><a name="explanation"></a></p>
+
+<h2 id="3">1.2. 说明</h2>
+
+<p>在 应用程序中， facade 是提供从访问对象方法的类。<code>Facade</code> 类实现了该机制。 </p>
+
+<p>你的 facade 类只需要实现一个方法： <code>getFacadeAccesor</code> 。 <code>getFacadeAccessor</code> 方法的工作是定义如何创建对象。 <code>Facades</code> 基类构建了 <code>__callStatic()</code> 魔术方法来从 facade 延迟访问取得对象。</p>
+
+<p><a name="practical-usage"></a></p>
+
+<h2 id="4">1.3. 实际用例</h2>
+
+<p>在以下示例中，执行 缓存系统， 查看该代码，我们可能会假定 <code>get</code> 静态方法是执行在 <code>cache</code> 类。</p>
+
+<p>In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method <code>get</code> is being called on the <code>Cache</code> class.</p>
+
+<pre class="prettyprint"><code>$value = Cache::get('key');
+</code></pre>
+
+<p>然后，如果我们查看 <code>Illuminate\Support\Facades\Cache</code> 类， 你会发现该类没有任何 <code>get</code> 静态方法：</p>
+
+<pre class="prettyprint"><code>class Cache extends Facade {
+
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor() { return 'cache'; }
+
+}
+</code></pre>
+
+<p>Cache 类继承基本 <code>Facade</code> 类，并且定义了个 <code>getFacadeAccessor()</code> 方法。注意，该方法的工作是返回 IoC 绑定的名字。</p>
+
+<p>当用户引用任何在 <code>Cache</code> facade 静态方法， Laravel 从 IoC 容器绑定中取得 <code>cache</code>，并且执行请求该对象方法（在该例子中为<code>get</code>）。</p>
+
+<p>所以，我们 <code>Cache::get</code> 执行可以重写为：</p>
+
+<pre class="prettyprint"><code>$value = $app-&gt;make('cache')-&gt;get('key');
+</code></pre>
+
+<p><a name="creating-facades"></a></p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

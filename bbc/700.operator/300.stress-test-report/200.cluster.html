@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. bbc多机打压部署</a></li><li><a href="#2">1. 数据量</a></li><li><a href="#3">2. 打机时间</a></li><li><a href="#4">3. 模拟负载</a></li><li><a href="#5">4. 服务器配置</a></li><li><a href="#6">5. 打压步骤</a></li><li><a href="#7">6. 打压结果</a></li></ul></div><div class="span9"><h1 id="1">1. bbc多机打压部署</h1>
+
+<h3 id="2">1. 数据量</h3>
+
+<p>goods 10000 member 4000 order 120000 </p>
+
+<h3 id="3">2. 打机时间</h3>
+
+<p>600s</p>
+
+<h3 id="4">3. 模拟负载</h3>
+
+<p>order 1% ,index 59% ,item 20% ,shopeindex 10% ,search 10% </p>
+
+<h3 id="5">4. 服务器配置</h3>
+
+<p>3台web机  2台mysql 一台redis 一台打压机</p>
+
+<h3 id="6">5. 打压步骤</h3>
+
+<p>```
+1：web机 ：51 52 58 都是8核  16g 每台都添加php加速器APC3.1.13 memcached2.2.6缓存
+2：redis memcached：56
+3：打压机：57
+4：mysql5.6主：54
+5：mysql5.6从：55
+6：负载均衡器在51 上面。
+7：代码修改处：
+    （1）修改bbc的源码使其跳过验证码 
+    /data/www/b2b2c/app/base/lib/vcode.php
+    查找app/base/lib/下vcode.php 修改59行，return false修改为true
+    （2）:修改bbc源码 /data/www/b2b2c/app/topc/controller/trade.php 注视43到48行。即以下代码
+$md5CartInfo = md5(serialize(utils::array_ksort_recursive($cartInfo, SORT_STRING)));
+        if( $postData['md5_cart_info'] != $md5CartInfo )
+        {
+            $msg = app::get('topc')->_("购物车数据发生变化，请刷新后确认提交");
+            return $this->splash('false', '', $msg, true);
+        }</p>
+
+<pre class="prettyprint"><code>（3）：修改bbc源码 /data/www/b2b2c/app/systrade/lib/data/trade/create.php 注释 57行 。即以下代码
+</code></pre>
+
+<p>$delCartResult = app::get('systrade')->rpcCall('trade.cart.delete', array('cart_id'=>$cartIds,'mode'=>$sdf['mode'],'user_id'=>$sdf['user_id']), 'buyer');</p>
+
+<p>添加：$delCartResult = true;</p>
+
+<pre class="prettyprint"><code>（4）:把config下面的catch.php，log.php  app.php kvstore.php  都cope到config下面的production目录下面。
+    修改catch.php  把enabled 的值改成true。默认缓存处理 修改成 'default' =&gt; 'base_cache_memcached', 最低下memcached配置修改成： 
+    'base_cache_memcached' =&gt; array(
+        'hosts' =&gt; array(
+            '192.168.10.56:11211',
+        )
+        ),//memcached配置
+
+    修改app.php 把debug 的值改成false 。
+    修改log.php把record_level 的值改成info
+    修改kvstore.php 默认缓存处理类修改成：'default' =&gt; 'base_kvstore_redis',最下面一行redis配置：'base_kvstore_redis' =&gt; '192.168.10.56:6379',
+    修改database.php 将default修改成
+    'default' =&gt; array(
+       /* 'driver'    =&gt; 'mysqli',
+        'host'      =&gt; '192.168.10.55:3307',
+        'dbname'  =&gt; 'b2b2c',
+        'user'  =&gt; 'bbc',
+        'password'  =&gt; 'test',
+        'charset'   =&gt; 'utf8',*/
+        //'collation' =&gt; 'utf8_general_ci',
+        'master' =&gt; array('user' =&gt; 'bbc', 'password' =&gt; 'test', 'host' =&gt; '192.168.10.54:3307', 'dbname' =&gt; 'b2b2c','charset'   =&gt; 'utf8'),
+        'slaves' =&gt; array(
+            array('user' =&gt; 'bbc', 'password'=&gt;'test', 'host' =&gt; '192.168.10.55:3307', 'dbname' =&gt; 'b2b2c','charset'   =&gt; 'utf8'),
+         ),
+        'driver'    =&gt; 'mysqli',
+    ),//mysql主从配置
+
+
+
+（5）:修改：/b2b2c/app/systrade/lib/data/trade/create.php  
+94行： $tid = date('ymdHim').rand(0,9999);
+157行：$oid = date('ymdHim').rand(0,9999);
+（6）：
+</code></pre>
+
+<p>8：分4个阶段压测  找到基准点
+       阶段    持续时间     每秒增加用户数
+    一：     600s          100/s <br>
+        二：     600s          150/s
+        三：     600s          180/s
+        四：     600s          200/s
+9：找到基准点为 600s  150/s  进行基准压力测试  完成。
+```</p>
+
+<h3 id="7">6. 打压结果</h3>
+
+<p><img src='images/cluster/Main-Statistics.png'>
+<img src='images/cluster/Transactions.png'>
+<img src='images/cluster/Network-Throughput.png'>
+<img src='images/cluster/Counters-Statistics.png'>
+<img src='images/cluster/Server-monitoring.png'>
+<img src='images/cluster/HTTP-return-code.png'></p>
+
+<ul>
+<li>Transactions and Pages</li>
+</ul>
+
+<p><img src='images/cluster/graphes-Transactions-mean_tn.png'></p>
+
+<ul>
+<li>Requests and connection establishment</li>
+</ul>
+
+<p><img src='images/cluster/graphes-Perfs-mean_tn.png'></p>
+
+<ul>
+<li>Transactions</li>
+</ul>
+
+<p><img src='images/cluster/graphes-Transactions-rate_tn.png'></p>
+
+<ul>
+<li>Requests</li>
+</ul>
+
+<p><img src='images/cluster/graphes-Perfs-rate_tn.png'></p>
+
+<ul>
+<li>Network traffic</li>
+</ul>
+
+<p><img src='images/cluster/graphes-Size-rate_tn.png'></p>
+
+<ul>
+<li>New Users</li>
+</ul>
+
+<p><img src='images/cluster/graphes-Users_Arrival-rate_tn.png'></p>
+
+<ul>
+<li>Simultaneous Users</li>
+</ul>
+
+<p><img src='images/cluster/graphes-Users-simultaneous_tn.png'></p>
+
+<ul>
+<li>CPU%</li>
+</ul>
+
+<p><img src='images/cluster/graphes-cpu-mean_tn.png'></p>
+
+<ul>
+<li>Free Memory</li>
+</ul>
+
+<p><img src='images/cluster/graphes-freemem-mean_tn.png'></p>
+
+<ul>
+<li>CPU Load</li>
+</ul>
+
+<p><img src='images/cluster/graphes-load-mean_tn.png'></p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

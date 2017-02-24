@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 异常处理机制</a></li></ul></div><div class="span9"><h1 id="1">1. 异常处理机制</h1>
+
+<blockquote>
+  <p><strong>注意</strong> </p>
+</blockquote>
+
+<p><strong>前台错误处理流程</strong> 
+1. <code>app/base/start.php</code> kernel::startExceptionHandling();
+2. <code>app/base/lib/exception/handler</code> register(), 注册各种异常处理回调函数
+   - registerErrorHandler(), 注册错误处理回调函数. 当遇到错误时, 抛出ErrorException. 
+   - registerExceptionHandler(), 注册异常处理回调函数.
+     - 如果<code>app.debug</code>设置为true,
+     则调用whoops显示漂亮的调试界面
+   - registerShutdownHandler(), 注册异常shutdown处理回调函数.
+3. <code>app/site/lib/router.php</code>, default_dispatchh(). 通过try catch. 捕获异常. 如果是<code>app.debug</code>为true.</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

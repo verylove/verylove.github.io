@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. B2B2C 前台样式及SCSS文件用例说明</a></li><li><a href="#2">1.1. 前言</a></li><li><a href="#3">1.2. 使用</a></li><li><a href="#4">1.3. 包含的内容</a></li><li><a href="#5">1.3.1. 资源文件</a></li><li><a href="#6">1.3.2. SCSS 源码</a></li><li><a href="#7">1.4. 编译 CSS 文件</a></li><li><a href="#8">1.4.1. 安装 Ruby</a></li><li><a href="#9">1.4.2. 安装 SASS</a></li><li><a href="#10">1.4.3. 安装 Compass</a></li><li><a href="#11">1.5. 工具</a></li><li><a href="#12">1.6. 基本模板</a></li><li><a href="#13">2. 你好，世界！</a></li><li><a href="#14">2.1. 全局 CSS 样式</a></li><li><a href="#15">2.1.1. 排版与链接</a></li><li><a href="#16">2.1.2. 布局容器</a></li><li><a href="#17">2.2. 栅格系统</a></li><li><a href="#18">2.2.1. 栅格参数</a></li><li><a href="#19">2.2.2. 实例：从堆叠到水平排列</a></li><li><a href="#20">2.2.3. 列偏移</a></li><li><a href="#21">2.2.4. 嵌套列</a></li><li><a href="#22">2.2.5. SASS 变量</a></li><li><a href="#23">2.2.6. SASS 扩展</a></li><li><a href="#24">2.3. 排版</a></li><li><a href="#25">2.3.1. 标题</a></li><li><a href="#26">3. h1. 一级标题</a></li><li><a href="#27">3.1. h2. 二级标题</a></li><li><a href="#28">3.1.1. h3. 三级标题</a></li><li><a href="#29">3.1.1.1. h4. 四级标题</a></li><li><a href="#30">3.1.1.1.1. h5. 五级标题</a></li><li><a href="#31">3.1.1.1.1.1. h6. 六级标题</a></li><li><a href="#32">3.1.2. 页面主体</a></li><li><a href="#33">3.1.3. 中心内容</a></li><li><a href="#34">3.1.4. 内联文本元素</a></li><li><a href="#35">3.1.4.1. 被标记的文本</a></li><li><a href="#36">3.1.4.2. 被删除的文本</a></li><li><a href="#37">3.1.4.3. 无用文本</a></li><li><a href="#38">3.1.4.4. 插入文本</a></li><li><a href="#39">3.1.4.5. 带下划线的文本</a></li><li><a href="#40">3.1.4.5.1. 小号文本</a></li><li><a href="#41">3.1.4.5.2. 着重</a></li><li><a href="#42">3.1.4.5.3. 斜体</a></li><li><a href="#43">3.1.5. 对齐</a></li><li><a href="#44">3.1.6. 引用</a></li><li><a href="#45">3.1.6.1. 默认样式的引用</a></li><li><a href="#46">3.1.7. 列表</a></li><li><a href="#47">3.1.7.1. 无序列表</a></li><li><a href="#48">3.1.7.2. 有序列表</a></li><li><a href="#49">3.1.7.3. 内联列表</a></li><li><a href="#50">3.1.7.4. 描述</a></li><li><a href="#51">3.1.7.5. 水平排列的描述</a></li><li><a href="#52">3.1.8. 代码</a></li><li><a href="#53">3.1.8.1. 内联代码</a></li><li><a href="#54">3.1.8.2. 用户输入</a></li><li><a href="#55">3.1.8.3. 代码块</a></li><li><a href="#56">3.1.8.4. 变量</a></li><li><a href="#57">3.1.8.5. 程序输出</a></li><li><a href="#58">3.2. 表格</a></li><li><a href="#59">3.2.1. 基本实例</a></li><li><a href="#60">3.2.2. 条纹状表格</a></li><li><a href="#61">1. 跨浏览器兼容性</a></li><li><a href="#62">3.2.3. 带边框的表格</a></li><li><a href="#63">3.2.4. 鼠标悬停</a></li><li><a href="#64">3.2.5. 状态类</a></li><li><a href="#65">3.3. 表单</a></li><li><a href="#66">3.3.1. 基本实例</a></li><li><a href="#67">3.3.2. 纵向表单</a></li><li><a href="#68">2. 一定要添加 label 标签</a></li><li><a href="#69">3.3.3. 栅格化表单</a></li><li><a href="#70">3.3.4. 被支持的控件</a></li><li><a href="#71">3.3.4.1. 输入框</a></li><li><a href="#72">3.3.4.1.1. 必须添加类型声明</a></li><li><a href="#73">3.3.4.2. 文本域</a></li><li><a href="#74">3.3.4.3. 多选和单选框</a></li><li><a href="#75">3.3.4.4. 下拉列表（select）</a></li><li><a href="#76">3.3.4.5. 输入框焦点</a></li><li><a href="#77">3.3.4.6. 被禁用的输入框</a></li><li><a href="#78">3.3.4.7. 只读输入框</a></li><li><a href="#79">3.3.4.8. 校验状态</a></li><li><a href="#80">3.3.4.9. 输入框图标</a></li><li><a href="#81">3.3.4.10. 控件尺寸</a></li><li><a href="#82">3.3.4.10.1. 高度尺寸</a></li><li><a href="#83">3.3.4.10.2. 调整列（column）尺寸</a></li><li><a href="#84">3.3.4.10.3. 调整输入框的长度</a></li><li><a href="#85">3.3.5. 辅助文本</a></li><li><a href="#86">3.3.6. 输入框组</a></li><li><a href="#87">3.4. 按钮</a></li><li><a href="#88">3.4.1. 预定义样式</a></li><li><a href="#89">1. 跨浏览器展现</a></li><li><a href="#90">3.4.2. 尺寸</a></li><li><a href="#91">3.5. 圆角按钮</a></li><li><a href="#92">3.5.1. 禁用状态</a></li><li><a href="#93">2. 跨浏览器兼容性</a></li><li><a href="#94">3. 链接的原始功能不受影响</a></li><li><a href="#95">3.6. 辅助类</a></li><li><a href="#96">3.6.1. 文本颜色</a></li><li><a href="#97">3.6.2. 背景颜色</a></li><li><a href="#98">3.6.3. 关闭按钮</a></li><li><a href="#99">3.6.4. 三角符号</a></li><li><a href="#100">3.6.5. 快速浮动</a></li><li><a href="#101">3.7. 路径导航</a></li><li><a href="#102">3.8. 分页</a></li><li><a href="#103">3.8.1. 默认分页</a></li><li><a href="#104">3.8.2. 更小的分页</a></li><li><a href="#105">3.9. 标签</a></li><li><a href="#106">3.10. 指示</a></li><li><a href="#107">3.11. 警告框</a></li><li><a href="#108">3.11.1. 实例</a></li></ul></div><div class="span9"><h1 id="1">1. B2B2C 前台样式及SCSS文件用例说明</h1>
+
+<h2 id="2">1.1. 前言</h2>
+
+<p>前台样式框架首先为所有开发 B2B2C 的开发者而设计，让 B2B2C 的前端开发更快速、简单，所有开发者都能快速上手，并致力于推广到所有应用场景。</p>
+
+<p><strong>预处理脚本</strong>
+你可以采用预编译的 SCSS 文件快速开发，也可以从源码定制自己需要的样式。</p>
+
+<p><strong>特性齐全</strong>
+你能在这里找到关于 HTML 结构、HTML 和 CSS 组件、SCSS 结构方面的所有详细文档。</p>
+
+<p><strong>参考文档</strong>
+为使此样式框架更标准更通用，在样式命名和用例上参考了著名的 Bootstrap V3 框架，亦能让大家更快速的上手。但请注意，由于 Bootstrap V3 不兼容 IE9 以下版本，并且 B2B2C 有其自身的使用场景，所以在样式表现上可能会有调整，请知悉。</p>
+
+<h2 id="3">1.2. 使用</h2>
+
+<p>此框架直接包含在 B2B2C 的项目的 head 里，使用时直接调用相关类和方法即可。</p>
+
+<p><code>
+&lt;{css src="stylesheets/layout.css" app="topc"}&gt;
+&lt;{css src="stylesheets/theme.css" app="topc"}&gt;
+</code></p>
+
+<h2 id="4">1.3. 包含的内容</h2>
+
+<h3 id="5">1.3.1. 资源文件</h3>
+
+<p>编译后的文件的目录结构及释义如下：</p>
+
+<pre class="prettyprint"><code>app/
+└── topc/
+    └── statics/
+        ├── stylesheets/                -包含所有的开发环境中的样式文件
+        │   ├── layout.css              -包含所有的系统级样式及组件的样式
+        │   ├── theme.css               -包含所有修饰性的样式，如颜色，边框，背景，字体大小等
+        │   ├── iconfonts.css           -包含所有字体图标的样式
+        │   └── datepicker.css          -包含一个时间选择组件的样式
+        └── fonts/                      -包含所有的字体图标
+            ├── iconfonts.eot
+            ├── iconfonts.svg
+            ├── iconfonts.ttf
+            └── iconfonts.woff
+</code></pre>
+
+<p>这是最基本的 B2B2C 样式文件组织形式。并且在生产环境中会加入压缩版　*.min.css。 fonts 文件夹里的部分字体图标来自网络中现有的免费的图标字体，另一部分是由我们的设计师设计后加入的。</p>
+
+<h3 id="6">1.3.2. SCSS 源码</h3>
+
+<pre class="prettyprint"><code>sass/
+├── base/                               -所有系统基本样式
+│   ├── iconfonts/                      -字体图标样式
+│   │   ├── _iconfonts-font.scss
+│   │   ├── _iconfonts-icons.scss
+│   │   ├── _iconfonts-variables.scss
+│   │   ├── _iconfonts.scss
+│   ├── _alert.scss                     -警告提示框
+│   ├── _auxiliary.scss                 -辅助性样式
+│   ├── _base.scss                      -所有系统基本样式的汇总
+│   ├── _breadcrumb.scss                -面包屑导航
+│   ├── _button.scss                    -系统按钮样式
+│   ├── _config.scss                    -系统配置文件
+│   ├── _datepicker.scss                -时间选择器组件
+│   ├── _form.scss                      -系统表单样式
+│   ├── _global.scss                    -全局定义
+│   ├── _grid.scss                      -栅格化定义
+│   ├── _labels.scss                    -文字标签样式
+│   ├── _icons.scss                     -字体图标样式汇总
+│   ├── _message.scss                   -系统提示信息
+│   ├── _mixin.scss                     -SCSS 预定义方法调用
+│   ├── _pager.scss                     -翻页组件样式
+│   ├── _points.scss                    -新信息提醒圆点
+│   ├── _popup.scss                     -弹层组件样式
+│   ├── _system.scss                    -非可视化编辑区域
+│   ├── _tables.scss                    -系统表格样式
+│   ├── _tips.scss                      -系统工具提示样式
+│   ├── _typography.scss                -字形排版
+│   └── _uploader.scss                  -文件上传组件样式
+├── layout/                             -所有系统布局样式
+│   ├── _alumbs.scss                    -商品相册布局
+│   ├── _brand.scss                     -品牌页布局
+│   ├── _cart.scss                      -购物车页布局
+│   ├── _gallery.scss                   -商品列表布局
+│   ├── _items.scss                     -商品详情页组件
+│   ├── _member.scss                    -会员中心布局
+│   ├── _mod.scss                       -模块化样式布局
+│   ├── _order.scss                     -下单页布局
+│   ├── _passport.scss                  -通行证/注册登录布局
+│   ├── _password.scss                  -密码强度检测组件
+│   └── _stars.scss                     -对商品评分组件
+├── theme/                              -所有主题修饰性样式
+│   ├── _brands.scss                    -品牌页修饰
+│   ├── _cart.scss                      -购物车页修饰
+│   ├── _common.scss                    -主题整体修饰性样式
+│   ├── _config.scss                    -主题样式配置
+│   ├── _gallery.scss                   -商品列表修饰
+│   ├── _graphic.scss                   -图形化图片修饰
+│   ├── _history.scss                   -浏览历史记录修饰
+│   ├── _order.scss                     -下单页修饰
+│   └── _passport.scss                  -通行证/注册登录修饰
+├── layout.scss                         -所有系统基本布局及组件样式
+└── theme.scss                          -所有主题相关修饰性样式
+</code></pre>
+
+<h2 id="7">1.4. 编译 CSS 文件</h2>
+
+<p>B2B2C 使用 SASS 做为 CSS 预处理器，在生成最终文件之前，需要用到的环境如下：</p>
+
+<h3 id="8">1.4.1. 安装 Ruby</h3>
+
+<p>我们在安装 Ruby 之前，需要到 (http://rubyinstaller.org/downloads/) 根据自己的系统下载安装包(2.x以上)，如果是 Linux 或 Mac OS 系统，请到 <a href="https://www.ruby-lang.org/zh_cn/downloads/">https://www.ruby-lang.org/zh_cn/downloads/</a> 查看更多安装方式。</p>
+
+<p>安装完成后请到命令行下运行</p>
+
+<p><code>shell
+ruby -v
+</code></p>
+
+<p>如果出现 Ruby 的版本信息就说明安装成功。</p>
+
+<h3 id="9">1.4.2. 安装 SASS</h3>
+
+<p>继续在命令行中运行：</p>
+
+<p><code>shell
+gem install sass
+</code></p>
+
+<p>等待安装完成。或者安装 GUI 工具，具体信息请查看 <a href="http://sass-lang.com/install/">http://sass-lang.com/install/</a></p>
+
+<h3 id="10">1.4.3. 安装 Compass</h3>
+
+<p>继续在命令行中运行：</p>
+
+<p><code>shell
+gem install compass
+</code></p>
+
+<p>等待安装完成，或者安装GUI工具，具体信息请查看 <a href="http://compass-style.org/install/">http://compass-style.org/install/</a></p>
+
+<h2 id="11">1.5. 工具</h2>
+
+<p>在书写 css 或 scss 时，有一些工具可以帮你更好的完成：</p>
+
+<p>比如IDE推荐 Sublime Text, Vim, WebStorm 等，尤其前两者谓之“神器”。有很多文档中都有介绍，如 <a href="http://zh.lucida.me/blog/sublime-text-complete-guide/">Sublime Text 全程指南</a>，<a href="http://docs.sublimetext.tw/">Sublime Text 手冊</a>，<a href="http://lucifr.com/2011/08/31/sublime-text-2-tricks-and-tips/">Sublime Text 2 入门及技巧</a>，<a href="http://www.daqianduan.com/4820.html">Sublime Text 使用介绍、全套快捷键及插件推荐</a>。<a href="http://coolshell.cn/articles/5426.html">简明 Vim 练级攻略</a>，<a href="http://mturing.com/wiki/wikihtml/Vim%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html">Vim学习笔记</a>，以及 <a href="https://github.com/cz848/portable-vimrc">我的Vim配置文件</a> 等等，以及相关插件Emmet(zencoding)，Tag，各种snippets等。查错工具 <a href="http://csslint.net/">http://csslint.net/</a> 等。Mac下还有另一个“神器” codekit，它可以实时编译各种 SASS/LESS/Stylus/HAML/CoffeeScript/Typescript 等文件，并且监视文件改动实时刷新。</p>
+
+<h2 id="12">1.6. 基本模板</h2>
+
+<p>使用以下给出的这份超级简单的 HTML 模版，并且按照自己的需求进行增加或修改内容。</p>
+
+<p>```html
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <title>B2B2C Template</title></p>
+
+<p><link rel="stylesheet" href="statics/stylesheets/layout.css">
+  <link rel="stylesheet" href="statics/stylesheets/theme.css"></p>
+
+<p><script src="statics/scripts/lib/jquery.js"></script>
+  <script src="statics/scripts/tools.js"></script>
+</head>
+<body>
+  <h1 id="13">2. 你好，世界！</h1></p>
+
+<p></body>
+</html>
+```</p>
+
+<h2 id="14">2.1. 全局 CSS 样式</h2>
+
+<h3 id="15">2.1.1. 排版与链接</h3>
+
+<ul>
+<li>为了增强跨浏览器表现的一致性，设置了 <code>css reset</code>;</li>
+<li>设置 <code>html</code> 的背景为 <code>background: #FFFFFF</code>;</li>
+<li><code>body</code> 有默认的 <code>font-family</code>，<code>font-size</code>，<code>line-height</code>;</li>
+<li><code>a</code> 有默认的 <code>color</code> 并且不显示下划线;</li>
+</ul>
+
+<h3 id="16">2.1.2. 布局容器</h3>
+
+<p><code>.wrap</code> 类用于固定宽度的容器。</p>
+
+<p>```html</p>
+
+<div class="wrap">
+  ...
+</div>
+
+<p>```</p>
+
+<p><code>.wrap-fluid</code> 类用于 100% 宽度，占据全部视口的容器。</p>
+
+<p>```html</p>
+
+<div class="wrap-fluid">
+  ...
+</div>
+
+<p>```</p>
+
+<h2 id="17">2.2. 栅格系统</h2>
+
+<p>栅格系统是一套标准化的设计框架，用于通过一系列的行与列的组合来创建页面布局，能让页面中的元素相对规范化。综合各方面设计考虑，我们的栅格分为最多16列。B2B2C 前台的栅格系统如下：</p>
+
+<ul>
+<li>暂定两种宽度的容器 <code>.wrap</code> 和 <code>.wrap-lg</code>。</li>
+<li>“行（row）”必须包含在 <code>.wrap</code> （固定宽度）或 <code>.wrap-fluid</code> （100% 宽度）中，以便为其赋予合适的排列（aligment）和内补（padding）。</li>
+<li>通过“行（row）”在水平方向创建一组“列（column）”。</li>
+<li>你的内容应当放置于“列（column）”内，并且，只有“列（column）”可以作为“行（row）”的直接子元素。</li>
+<li>类似 <code>.row</code> 和 <code>.col-4</code> 这种预定义的类，可以用来快速创建栅格布局。</li>
+<li>通过为“列（column）”设置 <code>padding</code> 属性，从而创建列与列之间的间隔（gutter）。通过为 <code>.row</code> 元素设置负值 <code>margin</code> 从而抵消掉为 <code>.wrap</code> 元素设置的 <code>padding</code>，也就间接为“行（row）”所包含的“列（column）”抵消掉了 <code>padding</code>。</li>
+<li>如果一“行（row）”中包含了的“列（column）”大于 16，多余的“列（column）”所在的元素将被作为一个整体另起一行排列。</li>
+<li><strong>注意：</strong>如果一个元素中使用了多个类，预定义类 <code>.col-*</code> 必须放在首位，否则一部分样式应用不上。</li>
+</ul>
+
+<h3 id="18">2.2.1. 栅格参数</h3>
+
+<p>通过下表可以详细查看 B2B2C 的栅格系统是如何在多种屏幕设备上工作的。</p>
+
+<p>　| 中等屏幕 桌面显示器 | 大屏幕 大桌面显示器
+--:|:-------:|:--------:
+.wrap 最大宽度 | 950px | 1190px
+类前缀 | .col- | .col-lg
+列数 | 16  | 16
+列宽 | 50 | 75
+间距 | 10px | 10px</p>
+
+<h3 id="19">2.2.2. 实例：从堆叠到水平排列</h3>
+
+<p>使用单一的一组 <code>.col-*</code> 栅格类，就可以创建一个基本的栅格系统，所有列（column）必须放在 <code>.row</code> 内。</p>
+
+<p>```html</p>
+
+<div class="row">
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+  <div class="col-1">.col-1</div>
+</div>
+
+<div class="row">
+  <div class="col-4">.col-4</div>
+  <div class="col-4">.col-4</div>
+  <div class="col-4">.col-4</div>
+  <div class="col-4">.col-4</div>
+</div>
+
+<div class="row">
+  <div class="col-4">.col-4</div>
+  <div class="col-8">.col-8</div>
+  <div class="col-4">.col-4</div>
+</div>
+
+<div class="row">
+  <div class="col-8">.col-8</div>
+  <div class="col-8">.col-8</div>
+</div>
+
+<p>```</p>
+
+<h3 id="20">2.2.3. 列偏移</h3>
+
+<p>使用 <code>.offset-*</code> 类可以将列向右侧偏移。这些类实际是通过使用 * 选择器为当前元素增加了左侧的边距（margin）。例如，<code>.offset-4</code> 类将 <code>.col-4</code> 元素向右侧偏移了4个列（column）的宽度。</p>
+
+<p>```html</p>
+
+<div class="row">
+  <div class="col-5">.col-5</div>
+  <div class="col-5 offset-6">.col-5 .offset-6</div>
+</div>
+
+<div class="row">
+  <div class="col-4 offset-4">.col-4 .offset-4</div>
+  <div class="col-4 offset-4">.col-4 .offset-4</div>
+</div>
+
+<div class="row">
+  <div class="col-8 offset-4">.col-8 .offset-4</div>
+</div>
+
+<p>```</p>
+
+<h3 id="21">2.2.4. 嵌套列</h3>
+
+<p>为了使用内置的栅格系统将内容再次嵌套，可以通过添加一个新的 <code>.row</code> 元素和一系列 <code>.col-*</code> 元素到已经存在的 <code>.col-*</code> 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过 16。</p>
+
+<p>```html</p>
+
+<div class="row">
+  <div class="col-12">
+    .col-12
+    <div class="row">
+      <div class="col-8">
+        .col-8
+      </div>
+      <div class="col-4">
+        .col-4
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>```</p>
+
+<h3 id="22">2.2.5. SASS 变量</h3>
+
+<p>通过变量来定义列数、槽（gutter）宽，我们使用这些变量生成预定义的栅格类。</p>
+
+<p>```sass
+//breakpoints
+$wrap:      950px !default;
+$wrap-lg:   1190px !default;
+$wrap-md:   710px !default;
+$wrap-sm:   640px !default;
+$wrap-xs:   320px !default;</p>
+
+<p>//grid
+$grid-columns:    16 !default;
+$grid-gutter:     10px !default;
+$grid-gutter-lg:  10px !default;
+```</p>
+
+<h3 id="23">2.2.6. SASS 扩展</h3>
+
+<p>你可以用 SCSS 扩展这些预定义样式，以便生成更多复杂的布局，下面是一个例子：</p>
+
+<p><code>scss
+.wrapper {
+    @include grid-container($wrap);
+    @include clear(fix);
+}
+.sidebar {
+    @include float(left);
+    @include grid-column-width(null, 4, $grid-span, $grid-gutter);
+}
+.content-main {
+    @include grid-column($grid-gutter);
+    @include grid-column-width(null, 12, $grid-span, $grid-gutter);
+}
+</code>
+```html</p>
+
+<div class="wrapper">
+  <div class="sidebar">sidebar</div>
+  <div class="content-main">content main</div>
+</div>
+
+<p>```</p>
+
+<h2 id="24">2.3. 排版</h2>
+
+<h3 id="25">2.3.1. 标题</h3>
+
+<p>HTML 中的所有标题标签，<code>&lt;h1&gt;</code> 到 <code>&lt;h6&gt;</code> 均可使用。另外，还提供了 <code>.h1</code> 到 <code>.h6</code> 类，为的是给内联（inline）属性的文本赋予标题的样式。</p>
+
+<p>```html</p>
+
+<h1 id="26">3. h1. 一级标题</h1>
+
+<h2 id="27">3.1. h2. 二级标题</h2>
+
+<h3 id="28">3.1.1. h3. 三级标题</h3>
+
+<h4 id="29">3.1.1.1. h4. 四级标题</h4>
+
+<h5 id="30">3.1.1.1.1. h5. 五级标题</h5>
+
+<h6 id="31">3.1.1.1.1.1. h6. 六级标题</h6>
+
+<p>```</p>
+
+<h3 id="32">3.1.2. 页面主体</h3>
+
+<p>B2B2C 全局字体大小为 12px，行高设置为 1.5。这些属性直接赋予 <code>&lt;body&gt;</code> 元素和所有段落元素。另外，<code>&lt;p&gt;</code> 元素还被设置了 1/2 行高 (9px) 的底部外边距。</p>
+
+<p>```html</p>
+
+<p>对段落的定义：1/2行高 (默认为9px) 的底部外边距 (margin) 属性。</p>
+
+<p>```</p>
+
+<h3 id="33">3.1.3. 中心内容</h3>
+
+<p>通过添加 <code>.lead</code> 类可以让段落突出显示。</p>
+
+<p>```html</p>
+
+<p class="lead">段落的突出显示，比普通文字显示要大一些，间距也更大，这样会比较显眼。</p>
+
+<p>```</p>
+
+<h3 id="34">3.1.4. 内联文本元素</h3>
+
+<h4 id="35">3.1.4.1. 被标记的文本</h4>
+
+<p>一般使用 <code>&lt;mark&gt;</code> 标签来标记文本，显示高亮效果，但是考虑到 IE 的兼容性，可以使用 <code>.mark</code> 类做区分。</p>
+
+<p><code>html
+对于需要&lt;span class="mark"&gt;高亮&lt;/span&gt;的文本使用 mark 标签或 .mark 类。
+</code></p>
+
+<h4 id="36">3.1.4.2. 被删除的文本</h4>
+
+<p>对于被删除的文本使用 <code>&lt;del&gt;</code> 标签。</p>
+
+<p><code>html
+&lt;del&gt;使用 del 标签来标记此段文本是被删除的。&lt;/del&gt;
+</code></p>
+
+<h4 id="37">3.1.4.3. 无用文本</h4>
+
+<p>对于没用的文本使用 <code>&lt;s&gt;</code> 标签。</p>
+
+<p><code>html
+&lt;s&gt;这段文字用 s 标签表示为没用的文本。&lt;/s&gt;
+</code></p>
+
+<h4 id="38">3.1.4.4. 插入文本</h4>
+
+<p>额外插入的文本使用 <code>&lt;ins&gt;</code> 标签。</p>
+
+<p><code>html
+&lt;ins&gt;用 ins 标签表示这段为额外插入文档内的文本。&lt;/ins&gt;
+</code></p>
+
+<h4 id="39">3.1.4.5. 带下划线的文本</h4>
+
+<p>为文本添加下划线，使用 <code>&lt;u&gt;</code> 标签，一般表示专有名词或拼写错误的单词。</p>
+
+<p><code>html
+带下划线的文本表示此为&lt;u&gt;专用名词&lt;/u&gt;，在 HTML5 中这是合法的。
+</code></p>
+
+<h5 id="40">3.1.4.5.1. 小号文本</h5>
+
+<p>对于不需要强调的 inline 或 block 类型的文本，使用 <code>&lt;small&gt;</code> 标签包裹，其内的文本将被设置为父容器字体大小的 85%。</p>
+
+<p>你还可以为行内元素赋予 <code>.small</code> 类以代替任何 <code>&lt;small&gt;</code> 元素。</p>
+
+<p><code>html
+&lt;small&gt;小号文本可以包在 heading 标签中用来表示副标题。&lt;/small&gt;
+</code></p>
+
+<h5 id="41">3.1.4.5.2. 着重</h5>
+
+<p>通过 <code>&lt;strong&gt;</code> 标签增加 font-weight 值强调一段文本。</p>
+
+<p><code>html
+一般用 strong 标签来表示&lt;strong&gt;强调一段文本&lt;/strong&gt;。
+</code></p>
+
+<h5 id="42">3.1.4.5.3. 斜体</h5>
+
+<p>用 <code>&lt;em&gt;</code> 标签强调一段文本。</p>
+
+<p><code>html
+&lt;em&gt;此段文本也表示强调，但是语气没有 strong 那么重。&lt;/em&gt;
+</code></p>
+
+<blockquote>
+  <p>在 HTML5 中可以放心使用 <code>&lt;b&gt;</code> 和 <code>&lt;i&gt;</code> 标签。 <code>&lt;b&gt;</code> 用于高亮单词或短语，不带有任何着重的意味；而 <code>&lt;i&gt;</code> 标签主要用于发言、技术词汇等。</p>
+</blockquote>
+
+<h3 id="43">3.1.5. 对齐</h3>
+
+<p>通过文本对齐类，可以简单方便的将文字重新对齐。</p>
+
+<p>```html</p>
+
+<p class="text-left">左对齐文本。</p>
+
+<p class="text-center">居中对齐文本。</p>
+
+<p class="text-right">右对齐文本。</p>
+
+<p class="text-justify">两端对齐</p>
+
+<p class="text-nowrap">不折行文本</p>
+
+<p>```</p>
+
+<h3 id="44">3.1.6. 引用</h3>
+
+<p>在你的文档中引用其他来源的内容。</p>
+
+<h4 id="45">3.1.6.1. 默认样式的引用</h4>
+
+<p>将任何 HTML 元素包裹在 <code>&lt;blockquote&gt;</code> 中即可表现为块级引用样式。对于直接引用，我们建议用 <code>&lt;p&gt;</code> 标签。</p>
+
+<p>```html</p>
+
+<blockquote cite="http://www.wwfchina.org/">
+  <p>据测算，2014年的地球超载日就是8月19日。从2000年开始，由于人类对自然资源需求量的不断增加，地球超载日已经从2000年的10月1日提前到了今年的8月19日。</p>
+</blockquote>
+
+<p>```</p>
+
+<p>对于行内引用样式，我们还有一个 <code>&lt;q&gt;</code> 标签可用。</p>
+
+<p>```html</p>
+
+<p>据测算，<q>2014年的地球超载日就是8月19日。</q>从2000年开始，由于人类对自然资源需求量的不断增加，地球超载日已经从2000年的10月1日提前到了今年的8月19日。</p>
+
+<p>```</p>
+
+<h3 id="46">3.1.7. 列表</h3>
+
+<h4 id="47">3.1.7.1. 无序列表</h4>
+
+<p>排列顺序无关紧要的一列元素。</p>
+
+<p>```html</p>
+
+<ul>
+  <li>...</li>
+</ul>
+
+<p>```</p>
+
+<h4 id="48">3.1.7.2. 有序列表</h4>
+
+<p>顺序至关重要的一组元素。</p>
+
+<p>```html</p>
+
+<ol>
+  <li>...</li>
+</ol>
+
+<p>```</p>
+
+<h4 id="49">3.1.7.3. 内联列表</h4>
+
+<p>通过添加样式 <code>.list-inline</code>，将所有元素放置于同一行。</p>
+
+<p>```html</p>
+
+<ul class="list-inline">
+  <li>...</li>
+</ul>
+
+<p>```</p>
+
+<h4 id="50">3.1.7.4. 描述</h4>
+
+<p>带有描述的短语列表。</p>
+
+<p>```html</p>
+
+<dl>
+  <dt>...</dt>
+  <dd>...</dd>
+</dl>
+
+<p>```</p>
+
+<h4 id="51">3.1.7.5. 水平排列的描述</h4>
+
+<p><code>.dl-horizontal</code> 可以让 <code>&lt;dl&gt;</code> 内的短语及其描述排在一行。通过 <code>text-overflow</code> 属性，水平排列的描述列表将会截断左侧太长的短语。</p>
+
+<p>```html</p>
+
+<dl class="dl-horizontal">
+  <dt>...</dt>
+  <dd>...</dd>
+</dl>
+
+<p>```</p>
+
+<h3 id="52">3.1.8. 代码</h3>
+
+<h4 id="53">3.1.8.1. 内联代码</h4>
+
+<p>通过 <code>&lt;code&gt;</code> 标签包裹内联样式的代码片段。</p>
+
+<p><code>html
+例如： &lt;code&gt;&amp;lt;code&amp;gt;&lt;/code&gt; 应该包裹内联样式的代码片段。
+</code></p>
+
+<h4 id="54">3.1.8.2. 用户输入</h4>
+
+<p>通过 <code>&lt;kbd&gt;</code> 标签标记用户通过键盘输入的内容。</p>
+
+<p><code>html
+如果要切换目录，请键入 &lt;kbd&gt;cd&lt;/kbd&gt; 紧接着一个空格后面再加目录名。&lt;br&gt;
+如果要更改设置，请键入 &lt;kbd&gt;&lt;kbd&gt;ctrl&lt;/kbd&gt; + &lt;kbd&gt;,&lt;/kbd&gt;&lt;/kbd&gt;。
+</code></p>
+
+<h4 id="55">3.1.8.3. 代码块</h4>
+
+<p>多行代码可以使用 <code>&lt;pre&gt;</code> 标签。为了正确的展示代码，注意将尖括号做转义处理。</p>
+
+<p>```html</p>
+
+<pre class="prettyprint">&lt;p&gt;这里放多行代码块。&lt;/p&gt;</pre>
+
+<p>```</p>
+
+<h4 id="56">3.1.8.4. 变量</h4>
+
+<p>通过 <code>&lt;var&gt;</code> 标签标记变量。</p>
+
+<p><code>html
+&lt;var&gt;y&lt;/var&gt; = &lt;var&gt;m&lt;/var&gt;&lt;var&gt;x&lt;/var&gt; + &lt;var&gt;b&lt;/var&gt;
+</code></p>
+
+<h4 id="57">3.1.8.5. 程序输出</h4>
+
+<p>通过 <code>&lt;samp&gt;</code> 标签来标记程序输出的内容。</p>
+
+<p><code>html
+&lt;samp&gt;此段文本为程序输出的内容。&lt;/samp&gt;
+</code></p>
+
+<h2 id="58">3.2. 表格</h2>
+
+<h3 id="59">3.2.1. 基本实例</h3>
+
+<p>为任意 <code>&lt;table&gt;</code> 标签添加 <code>.table</code> 类可以为其赋予基本的样式 — 少量的内补（padding）和水平方向的分隔线。之所以没有设计为默认样式，是考虑到表格元素使用的广泛性，有可能会为某些应用场景造成困扰。</p>
+
+<p>```html</p>
+
+<table class="table">
+  <thead>
+    ...
+  </thead>
+  <tbody>
+    ...
+  </tbody>
+</table>
+
+<p>```</p>
+
+<h3 id="60">3.2.2. 条纹状表格</h3>
+
+<p>通过 <code>.table-striped</code> 类可以给 <code>&lt;tbody&gt;</code> 之内的每一行增加斑马条纹样式。</p>
+
+<blockquote>
+  <h5 id="61">1. 跨浏览器兼容性</h5>
+  
+  <p>条纹状表格是依赖 :nth-child CSS 选择器实现的，而这一功能不被 IE 8 支持。</p>
+</blockquote>
+
+<p>```html</p>
+
+<table class="table table-striped">
+  ...
+</table>
+
+<p>```</p>
+
+<h3 id="62">3.2.3. 带边框的表格</h3>
+
+<p>添加 <code>.table-bordered</code> 类为表格和其中的每个单元格增加边框。</p>
+
+<p>```html</p>
+
+<table class="table table-bordered">
+  ...
+</table>
+
+<p>```</p>
+
+<h3 id="63">3.2.4. 鼠标悬停</h3>
+
+<p>通过添加 <code>.table-hover</code> 类可以让 <code>&lt;tbody&gt;</code> 中的每一行对鼠标悬停状态作出响应。</p>
+
+<p>```html</p>
+
+<table class="table table-hover">
+  ...
+</table>
+
+<p>```</p>
+
+<h3 id="64">3.2.5. 状态类</h3>
+
+<p>通过这些状态类可以为行或单元格设置颜色。</p>
+
+<p>| Class | 描述 |
+|:------:|:------|
+|.selected | 当前被选中的行 |
+|.active | 鼠标悬停在行上时所设置的颜色 |
+|.success | 标识成功或积极的动作 |
+|.info | 标识普通的提示信息或动作 |
+|.warning | 标识警告或需要用户注意 |
+|.danger | 标识危险或潜在的带来负面影响的动作 |</p>
+
+<p><code>html
+&lt;tr class="active"&gt;...&lt;/tr&gt;
+&lt;tr class="success"&gt;...&lt;/tr&gt;
+&lt;tr class="warning"&gt;...&lt;/tr&gt;
+&lt;tr class="danger"&gt;...&lt;/tr&gt;
+&lt;tr class="info"&gt;...&lt;/tr&gt;
+</code></p>
+
+<h2 id="65">3.3. 表单</h2>
+
+<h3 id="66">3.3.1. 基本实例</h3>
+
+<ul>
+<li>单独的表单控件会被自动赋予一些全局样式。</li>
+<li>一个相关完整的表单项组以 <code>.form-row</code> 为类名，以获得整洁的排列。</li>
+<li>最后一项表单项组可以加 <code>.form-row-last</code> 类（可选），以去除底部的外边距。</li>
+<li>标题以 <code>label</code> 包裹，并设置 <code>.form-label</code> 类以使标题右对齐，为增大表单的焦点区域为 <code>label</code> 增加 <code>for</code> 属性，并以 <code>for_</code> 开头对应表单元素的 <code>id</code> 属性。</li>
+<li>紧接着 <code>.form-act</code> 元素，用以包裹表单元素。</li>
+<li>所有设置了 <code>.input-block</code> 类的 <code>&lt;input&gt;</code>、<code>&lt;textarea&gt;</code> 和 <code>&lt;select&gt;</code> 元素都将被默认设置宽度属性为 <code>width: 100%;</code>。</li>
+</ul>
+
+<p>根据以上原则，代码如下：</p>
+
+<p>```html</p>
+
+<form action="" method="post" role="form">
+  <div class="form-row">
+    <label for="for_input_email" class="form-label">电子邮件</label>
+    <span class="form-act">
+      <input type="email" class="input-xln" id="for_input_email" placeholder="请输入电子邮件">
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="for_input_password" class="form-label">密码</label>
+    <span class="form-act">
+      <input type="password" class="input-xln" id="for_input_password" placeholder="请输入密码">
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="for_input_file" class="form-label">上传文件</label>
+    <span class="form-act">
+      <input type="file" id="for_input_file" class="input-xln">
+      <span class="help-block">这里写帮助信息。</span>
+    </span>
+  </div>
+  <div class="form-row">
+    <label class="form-act">
+      <input type="checkbox"> 复选框
+    </label>
+  </div>
+  <div class="form-row">
+    <span class="form-act"><button type="submit" class="btn"><span><span>提交</span></span></button></span>
+  </div>
+</form>
+
+<p>```</p>
+
+<h3 id="67">3.3.2. 纵向表单</h3>
+
+<p>纵向表单是指标题和表单控件之间分行显示，此模式只需要在 <code>form</code> 标签加类名 <code>.form-vertical</code> 即可，其它结构与基本实例保持一致。</p>
+
+<blockquote>
+  <h5 id="68">2. 一定要添加 label 标签</h5>
+  
+  <p>不光是为了 seo 或者语义化的考虑，也是为了能让屏幕阅读器能够正确识别。对于不需要显示标题的表单项，你可以通过为 label 设置 <code>.hide</code> 类将其隐藏。</p>
+</blockquote>
+
+<p>```html</p>
+
+<form action="" method="post" role="form" class="form-vertical">
+  <div class="form-row">
+    <label for="for_input_email" class="form-label hide">电子邮件</label>
+    <span class="form-act">
+      <input type="email" class="input-xln" id="for_input_email" placeholder="请输入电子邮件">
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="for_input_password" class="form-label hide">密码</label>
+    <span class="form-act">
+      <input type="password" class="input-xln" id="for_input_password" placeholder="请输入密码">
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="for_input_file" class="form-label hide">上传文件</label>
+    <span class="form-act">
+      <input type="file" id="for_input_file" class="input-xln">
+      <span class="help-block">这里写帮助信息。</span>
+    </span>
+  </div>
+  <div class="form-row">
+    <span class="form-act checkbox">
+      <label><input type="checkbox"> 复选框</label>
+    </span>
+  </div>
+  <div class="form-row">
+    <span class="form-act">
+      <button type="submit" class="btn"><span><span>提交</span></span></button>
+    </span>
+  </div>
+</form>
+
+<p>```</p>
+
+<h3 id="69">3.3.3. 栅格化表单</h3>
+
+<p>把基本表单与栅格布局结合在一起，创建出符合栅格化标准的表单，需要对类名做一些改变：</p>
+
+<p>```html</p>
+
+<form action="" method="post" role="form">
+  <div class="form-row row">
+    <label for="for_input_email" class="col-2">电子邮件</label>
+    <span class="col-5">
+      <input type="email" class="input-block" id="for_input_email" placeholder="请输入电子邮件">
+    </span>
+  </div>
+  <div class="form-row row">
+    <label for="for_input_password" class="col-2">密码</label>
+    <span class="col-5">
+      <input type="password" class="input-block" id="for_input_password" placeholder="请输入密码">
+    </span>
+  </div>
+  <div class="form-row row">
+    <label for="for_input_file" class="col-2">上传文件</label>
+    <span class="col-5">
+      <input type="file" id="for_input_file" class="input-block">
+      <span class="help-block">这里写帮助信息。</span>
+    </span>
+  </div>
+  <div class="form-row row">
+    <div class="offset-2 checkbox">
+      <label><input type="checkbox"> 复选框</label>
+    </div>
+  </div>
+  <div class="form-row row">
+    <div class="offset-2">
+      <button type="submit" class="btn"><span><span>提交</span></span></button>
+    </div>
+  </div>
+</form>
+
+<p>```</p>
+
+<p>当然也可以只对输入框起效果，只需要改成：</p>
+
+<p>```html</p>
+
+<form action="" method="post" role="form">
+  <div class="form-row">
+    <label for="for_input_email" class="form-label">电子邮件</label>
+    <span class="form-act row input-row">
+      <input type="email" class="col-5" id="for_input_email" placeholder="请输入电子邮件">
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="for_input_password" class="form-label">密码</label>
+    <span class="form-act row input-row">
+      <input type="password" class="col-5" id="for_input_password" placeholder="请输入密码">
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="for_input_file" class="form-label">上传文件</label>
+    <span class="form-act row input-row">
+      <input type="file" id="for_input_file" class="col-5">
+    </span>
+  </div>
+  <div class="form-row">
+    <div class="form-act">
+      <button type="submit" class="btn"><span><span>提交</span></span></button>
+    </div>
+  </div>
+</form>
+
+<p>```</p>
+
+<h3 id="70">3.3.4. 被支持的控件</h3>
+
+<p>表单布局实例中展示了其所支持的标准表单控件。</p>
+
+<h4 id="71">3.3.4.1. 输入框</h4>
+
+<p>包括大部分表单控件、文本域控件，还支持所有 HTML5 类型的输入控件。</p>
+
+<blockquote>
+  <h5 id="72">3.3.4.1.1. 必须添加类型声明</h5>
+  
+  <p>只有正确设置了 type 属性的输入控件才能被赋予正确的样式。</p>
+</blockquote>
+
+<p><code>html
+&lt;input type="text" class="input-xln" placeholder="请输入文字"&gt;
+</code></p>
+
+<h4 id="73">3.3.4.2. 文本域</h4>
+
+<p>支持多行文本的表单控件。可根据需要改变 <code>rows</code> 属性。</p>
+
+<p><code>html
+&lt;textarea class="input-xln" rows="3"&gt;&lt;/textarea&gt;
+</code></p>
+
+<h4 id="74">3.3.4.3. 多选和单选框</h4>
+
+<p>设置了 <code>disabled</code> 属性的单选或多选框都能被赋予合适的样式。对于一组多选或单选框可以用 <code>.radio</code>、<code>.radio-inline</code>、<code>.checkbox</code>、<code>.checkbox-inline</code> 类包裹。</p>
+
+<p>```html</p>
+
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="option1">
+    选项1，请确认
+  </label>
+</div>
+
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="option2" disabled>
+    选择2，禁止选取
+  </label>
+</div>
+
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" value="option1" checked>
+    选项1，默认选择
+  </label>
+</div>
+
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" value="option2">
+    选项2，请确认
+  </label>
+</div>
+
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" value="option3" disabled>
+    选项3，禁止选取
+  </label>
+</div>
+
+<p><label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
+</label>
+<br>
+<label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+</label>
+<label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+</label>
+<label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+</label>
+```</p>
+
+<h4 id="75">3.3.4.4. 下拉列表（select）</h4>
+
+<p>使用默认选项或添加 <code>multiple</code> 属性可以同时显示多个选项。</p>
+
+<p>```html
+<select class="input-xln">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>5</option>
+</select></p>
+
+<p><select multiple class="input-xln">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>5</option>
+</select>
+```</p>
+
+<h4 id="76">3.3.4.5. 输入框焦点</h4>
+
+<p>我们将某些表单控件的默认 <code>outline</code> 样式移除，然后在 <code>:focus</code> 状态下改变 <code>border-color</code>。</p>
+
+<h4 id="77">3.3.4.6. 被禁用的输入框</h4>
+
+<p>为输入框设置 <code>disabled</code> 属性可以防止用户输入，并能对外观做一些修改，使其更直观。</p>
+
+<h4 id="78">3.3.4.7. 只读输入框</h4>
+
+<p>为输入框设置 <code>readonly</code> 属性可以禁止用户输入，并且输入框的样式也是禁用状态。</p>
+
+<h4 id="79">3.3.4.8. 校验状态</h4>
+
+<p>B2B2C 对表单控件的校验状态，如 error 和 success 状态，都定义了样式。使用时，添加 <code>.has-error</code> 或 <code>.has-success</code> 类到这些控件的父元素即可。任何包含在此元素之内的标题，输入框和信息提示都将接受这些校验状态的样式。</p>
+
+<p>```html</p>
+
+<div class="form-row has-success">
+  <label class="form-label" for="for_inputsuccess">输入正确</label>
+  <div class="form-act">
+    <input type="text" class="input-xln" id="for_inputsuccess">
+    <span class="icon-checkmark caution">通过</span>
+  </div>
+</div>
+
+<div class="form-row has-error">
+  <label class="form-label" for="for_inputerror">输入错误</label>
+  <div class="form-act">
+    <input type="text" class="input-xln caution-input" id="for_inputerror">
+    <span class="icon-alert caution">此项必填</span>
+  </div>
+</div>
+
+<div class="has-success">
+  <div class="checkbox-inline">
+    <label>
+      <input class="x-check" type="checkbox" id="for_checkboxsuccess" value="option1">
+      复选框验证通过
+    </label>
+  </div>
+  <span class="icon-checkmark caution">通过</span>
+</div>
+
+<div class="has-error">
+  <div class="checkbox-inline">
+    <label>
+      <input class="x-check" type="checkbox" id="for_checkboxerror" value="option1">
+      复选框验证失败
+    </label>
+  </div>
+  <span class="icon-alert caution">此项必填</span>
+</div>
+
+<p>```</p>
+
+<h4 id="80">3.3.4.9. 输入框图标</h4>
+
+<p>在需要为输入框内添加图标时，常规做法是为其父元素添加 <code>.has-figure</code> 类并给相应的图标添加 <code>.input-figure</code> 类。</p>
+
+<p>```html</p>
+
+<div class="form-row">
+  <label class="form-label" for="for_input_user">输入邮箱</label>
+  <span class="form-act has-figure col-5">
+    <input type="text" class="input-block" id="for_input_user">
+    <i class="icon-user input-figure"></i>
+  </span>
+</div>
+
+<div class="form-row">
+  <label class="form-label" for="for_input_pass">输入密码</label>
+  <span class="form-act has-figure col-5">
+    <input type="text" class="input-block" id="for_input_lock">
+    <i class="icon-lock input-figure"></i>
+  </span>
+</div>
+
+<p>```</p>
+
+<p>你还可以针对校验状态为输入框添加额外的图标。只需为其父元素添加 <code>.has-figure</code> 类并给相应的图标添加 <code>.input-figure</code> 类即可。</p>
+
+<p>```html</p>
+
+<div class="form-row has-error has-figure">
+  <label class="form-label" for="for_inputerror">输入错误</label>
+  <span class="form-act has-figure col-5">
+    <input type="text" class="input-block caution-input" id="for_inputerror">
+    <span class="icon-alert input-figure"></span>
+  </span>
+</div>
+
+<div class="form-row has-success has-figure">
+  <label class="form-label" for="for_inputsuccess">输入正确</label>
+  <span class="form-act has-figure col-5">
+    <input type="text" class="input-block" id="for_inputsuccess">
+    <span class="icon-checkmark-a input-figure"></span>
+  </span>
+</div>
+
+<p>```</p>
+
+<h4 id="81">3.3.4.10. 控件尺寸</h4>
+
+<p>通过 <code>.input-lg</code> 类似的类可以为控件设置高度，通过 <code>.col-*</code> 或 <code>.input-ln</code> 类似的类可以为控件设置宽度（长度）。</p>
+
+<h5 id="82">3.3.4.10.1. 高度尺寸</h5>
+
+<p>创建大一些或小一些的表单控件以匹配按钮尺寸。</p>
+
+<p>```html
+<input class="input-lg" type="text" placeholder=".input-lg">
+<input type="text" placeholder="默认高度input">
+<input class="input-sm" type="text" placeholder=".input-sm"></p>
+
+<p><select class="input-lg">...</select>
+<select>...</select>
+<select class="input-sm">...</select>
+```</p>
+
+<h5 id="83">3.3.4.10.2. 调整列（column）尺寸</h5>
+
+<p>用栅格系统中的列（column）包裹输入框或其任何父元素，都可很容易的为其设置宽度。</p>
+
+<p>```html</p>
+
+<div class="row input-row">
+  <input type="text" class="col-3" placeholder=".col-3">
+  <input type="text" class="col-4" placeholder=".col-4">
+  <input type="text" class="col-5" placeholder=".col-5">
+</div>
+
+<div class="wrap-lg row input-row">
+  <input type="text" class="col-lg-3" placeholder=".col-lg-3">
+  <div class="offset-8">
+    <input type="text" class="input-block" placeholder=".offset-8">
+  </div>
+</div>
+
+<p>```</p>
+
+<h5 id="84">3.3.4.10.3. 调整输入框的长度</h5>
+
+<p>为输入框加入 <code>.input-ln</code> 类似的类以调节输入框的长度。</p>
+
+<p><code>html
+&lt;input type="text" class="input-xxst"&gt;
+&lt;input type="text" class="input-xst"&gt;
+&lt;input type="text" class="input-st"&gt;
+&lt;input type="text" class="input-me"&gt;
+&lt;input type="text" class="input-ln"&gt;
+&lt;input type="text" class="input-xln"&gt;
+&lt;input type="text" class="input-xxln"&gt;
+</code></p>
+
+<h3 id="85">3.3.5. 辅助文本</h3>
+
+<p>针对表单控件的“块（block）”级辅助文本。</p>
+
+<p><code>html
+&lt;span class="help-block"&gt;表单项的帮助提示信息&lt;/span&gt;
+</code></p>
+
+<h3 id="86">3.3.6. 输入框组</h3>
+
+<p>针对一些特殊应用或组件，我们定义了输入框组合，以 <code>.input-comb</code> 包裹，加入 <code>.input-comb-addon</code> 额外元素然后放入内容。</p>
+
+<p>```html</p>
+
+<div class="input-comb">
+  <input type="text" class="input-ln">
+  <span class="input-comb-addon"><i class="icon-calendar"></i></span>
+</div>
+
+<div class="input-comb">
+  <span class="input-comb-addon">@</span>
+  <input type="text" class="input-ln">
+</div>
+
+<div class="input-comb">
+  <span class="input-comb-addon">￥</span>
+  <input type="text" class="input-ln">
+  <span class="input-comb-addon">.00</span>
+</div>
+
+<div class="input-comb input-comb-lg">
+  <span class="input-comb-addon">￥</span>
+  <input type="text" class="input-ln">
+  <span class="input-comb-addon">.00</span>
+</div>
+
+<p>```</p>
+
+<p>另外，还可以加入按钮，比如搜索框。</p>
+
+<p>```html</p>
+
+<div class="input-comb">
+  <input type="search" class="input-ln">
+  <button class="btn input-comb-btn"><span><span>搜索</span></span></button>
+</div>
+
+<p>```</p>
+
+<h2 id="87">3.4. 按钮</h2>
+
+<h3 id="88">3.4.1. 预定义样式</h3>
+
+<p>使用下面列出的类可以快速创建一个带有预定义样式的按钮。</p>
+
+<blockquote>
+  <h5 id="89">1. 跨浏览器展现</h5>
+  
+  <p>虽然 <code>a</code> 链接也可以伪装成按钮的样子，但是从功能、语义化及跨浏览器展现角度考虑，强烈建议尽可能使用 <code>&lt;button&gt;</code> 元素来获得在各个浏览器上获得相匹配的绘制效果。</p>
+</blockquote>
+
+<p><code>html
+&lt;!-- 默认按钮 --&gt;
+&lt;button type="button" class="btn"&gt;&lt;span&gt;&lt;span&gt;确定&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn"&gt;&lt;span&gt;&lt;span&gt;查看&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 标准扁平式按钮 --&gt;
+&lt;button type="button" class="btn btn-flat"&gt;&lt;span&gt;&lt;span&gt;确定&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-flat"&gt;&lt;span&gt;&lt;span&gt;查看&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 加入少许立体效果的按钮 --&gt;
+&lt;button type="button" class="btn btn-simple"&gt;&lt;span&gt;&lt;span&gt;确定&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-simple"&gt;&lt;span&gt;&lt;span&gt;查看&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 占主要性的交互按钮 --&gt;
+&lt;button type="button" class="btn btn-primary"&gt;&lt;span&gt;&lt;span&gt;提交&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-primary"&gt;&lt;span&gt;&lt;span&gt;提交&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 表示成功或积极行为 --&gt;
+&lt;button type="button" class="btn btn-success"&gt;&lt;span&gt;&lt;span&gt;成功&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-success"&gt;&lt;span&gt;&lt;span&gt;成功&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 表示一般信息 --&gt;
+&lt;button type="button" class="btn btn-info"&gt;&lt;span&gt;&lt;span&gt;信息&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-info"&gt;&lt;span&gt;&lt;span&gt;信息&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 表示应谨慎采取这一行为 --&gt;
+&lt;button type="button" class="btn btn-warning"&gt;&lt;span&gt;&lt;span&gt;警告&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-warning"&gt;&lt;span&gt;&lt;span&gt;警告&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 表示危险或潜在的危险性动作 --&gt;
+&lt;button type="button" class="btn btn-danger"&gt;&lt;span&gt;&lt;span&gt;危险&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-danger"&gt;&lt;span&gt;&lt;span&gt;危险&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 表示信息或警告消息 --&gt;
+&lt;button type="button" class="btn btn-caution"&gt;&lt;span&gt;&lt;span&gt;到货通知&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-caution"&gt;&lt;span&gt;&lt;span&gt;到货通知&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 看起来像个链接，同时又保持按钮的行为 --&gt;
+&lt;button type="button" class="btn btn-link"&gt;&lt;span&gt;&lt;span&gt;继续&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;!-- 表示重要性比较高或表情比较强烈 --&gt;
+&lt;button type="button" class="btn btn-import"&gt;&lt;span&gt;&lt;span&gt;去付款&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-import"&gt;&lt;span&gt;&lt;span&gt;去付款&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 主要的交互按钮，重要性次之 --&gt;
+&lt;button type="button" class="btn btn-major"&gt;&lt;span&gt;&lt;span&gt;加入购物车&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-major"&gt;&lt;span&gt;&lt;span&gt;加入购物车&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;!-- 表示信息或警告消息 --&gt;
+&lt;button type="button" class="btn btn-caution"&gt;&lt;span&gt;&lt;span&gt;到货通知&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-caution"&gt;&lt;span&gt;&lt;span&gt;到货通知&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+</code></p>
+
+<h3 id="90">3.4.2. 尺寸</h3>
+
+<p>需要让按钮具有不同尺寸吗？使用 <code>.btn-sm</code>、<code>.btn-lg</code> 或 <code>.btn-xl</code> 可以获得不同尺寸的按钮。</p>
+
+<p>```html
+<button type="button" class="btn btn-simple btn-sm"><span><span>清空购物车</span></span></button>
+<a href="" class="btn btn-simple btn-sm"><span><span>继续购物</span></span></a></p>
+
+<p><button type="button" class="btn btn-simple btn-lg"><span><span>清空购物车</span></span></button>
+<a href="" class="btn btn-simple btn-lg"><span><span>继续购物</span></span></a></p>
+
+<p><button type="button" class="btn btn-simple btn-xl"><span><span>清空购物车</span></span></button>
+<a href="" class="btn btn-simple btn-xl"><span><span>继续购物</span></span></a>
+```</p>
+
+<p>通过给按钮添加 .btn-block 类可以将其拉伸至父元素100%的宽度，而且按钮也变为了块级（block）元素。</p>
+
+<h2 id="91">3.5. 圆角按钮</h2>
+
+<p>如果觉得按钮的直角效果看起来不是那么舒服，可以添加 <code>.btn-rounded</code> 类来为按钮增加圆角效果。</p>
+
+<blockquote>
+  <p>注：IE8 及以下浏览器不支持 CSS3 的圆角效果。</p>
+</blockquote>
+
+<p><code>html
+&lt;button type="button" class="btn btn-simple btn-rounded"&gt;&lt;span&gt;&lt;span&gt;清空购物车&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-simple btn-rounded"&gt;&lt;span&gt;&lt;span&gt;继续购物&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+</code></p>
+
+<h3 id="92">3.5.1. 禁用状态</h3>
+
+<p>通过为按钮的背景设置 opacity 属性就可以呈现出无法点击的效果。</p>
+
+<blockquote>
+  <h5 id="93">2. 跨浏览器兼容性</h5>
+  
+  <p>如果为 <code>&lt;button&gt;</code> 元素添加 disabled 属性，Internet Explorer 9 及更低版本的浏览器将会把按钮中的文本绘制为灰色，并带有恶心的阴影，目前我们还没有解决办法。</p>
+  
+  <h5 id="94">3. 链接的原始功能不受影响</h5>
+  
+  <p>Chrome 等高级别浏览器可以通过设置 pointer-events: none 来禁止 <code>&lt;a&gt;</code> 元素作为链接的原始功能，但是，Opera 18 及更低版本的浏览器并没有完全支持这一属性，同样，IE 11 也不支持。因此，为了安全起见，建议通过 JavaScript 代码来禁止链接的原始功能。</p>
+</blockquote>
+
+<p><code>html
+&lt;button type="button" class="btn btn-simple" disabled&gt;&lt;span&gt;&lt;span&gt;清空购物车&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-simple disabled"&gt;&lt;span&gt;&lt;span&gt;继续购物&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;button type="button" class="btn btn-primary" disabled&gt;&lt;span&gt;&lt;span&gt;清空购物车&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;a href="" class="btn btn-primary disabled"&gt;&lt;span&gt;&lt;span&gt;继续购物&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+</code></p>
+
+<h2 id="95">3.6. 辅助类</h2>
+
+<h3 id="96">3.6.1. 文本颜色</h3>
+
+<p>通过各种不同颜色的文本来表达不同的语义，你可以添加 <code>.text-*</code> 类来达到此效果。</p>
+
+<p>```html</p>
+
+<p class="text-muted">...</p>
+
+<p class="text-success">...</p>
+
+<p class="text-info">...</p>
+
+<p class="text-warning">...</p>
+
+<p class="text-danger">...</p>
+
+<p>```</p>
+
+<h3 id="97">3.6.2. 背景颜色</h3>
+
+<p>类似于文本颜色类，你也可以通过添加不同的 <code>.bg-*</code> 类来表达不同的语义。</p>
+
+<p>```html</p>
+
+<p class="bg-yellow">...</p>
+
+<p class="bg-alert">...</p>
+
+<p class="bg-success">...</p>
+
+<p class="bg-info">...</p>
+
+<p class="bg-warning">...</p>
+
+<p class="bg-danger">...</p>
+
+<p class="bg-error">...</p>
+
+<p class="bg-selected">...</p>
+
+<p>```</p>
+
+<h3 id="98">3.6.3. 关闭按钮</h3>
+
+<p>通过使用一个象征关闭的图标，可以让模态框和警告框消失。</p>
+
+<p><code>html
+&lt;button type="button" class="close"&gt;&lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;&lt;span class="hide"&gt;关闭&lt;/span&gt;&lt;/button&gt;
+</code></p>
+
+<h3 id="99">3.6.4. 三角符号</h3>
+
+<p>通过使用三角符号可以指示某个元素具有下拉菜单的功能。注意，向上弹出式菜单中的三角符号是反方向的。</p>
+
+<p><code>html
+&lt;span class="caret"&gt;&lt;/span&gt;
+</code></p>
+
+<h3 id="100">3.6.5. 快速浮动</h3>
+
+<p>快速地向左或向右浮动，加入 <code>!important</code> 是为了避免一些特殊性问题。你也可以利用 SASS 扩展此类。</p>
+
+<p>```html</p>
+
+<div class="pull-left">...</div>
+<div class="pull-right">...</div>
+```
+```scss
+// 用于sass
+.element {
+    @extend .pull-left;
+}
+.another-element {
+    @extend .pull-right;
+}
+```
+
+###清除浮动
+
+在父元素加入 `.clearfix` 类来清除浮动样式，或在后方元素中加入 `.clear` 清除浮动。 也可以在 SASS 中引用带参数的 clear 达到此效果。
+
+```html
+<div class="clearfix">
+  <div class="pull-left">...</div>
+  <div class="pull-right">...</div>
+</div>
+
+<div class="clear"></div>
+```
+```scss
+.element {
+    @include clear(fix);
+}
+```
+
+###显示/隐藏内容
+
+对于元素的显示和隐藏分别使用 `.show` 和 `.hide` 类切换。同快速浮动，加入 !important 是为了避免一些特殊性问题。请注意它们只适合块级元素的切换。
+对于元素是否可见，还可以使用 `.visible` 和 `.hidden` 来实现，区别是它们会继续占用原来的位置和大小。
+
+```html
+<div class="show">...</div>
+<div class="hide">...</div>
+<div class="visible">...</div>
+<div class="hidden">...</div>
+```
+
+###图像占位文本
+
+利用 `.text-hide` 类隐藏文本内容，以便用图像替换。
+
+```html
+<h1 class="text-hide">自定义标题</h1>
+```
+
+##字体图标
+
+###所有可用的图标
+
+目前为止总共收录了140多个字体图标，可以很方便地被用在各种需要 icon 的场景。
+
+<!--<style>
+@font-face{
+  font-family:"iconfonts";
+  src:url(fonts/iconfonts.eot?v=1.5.2);
+  src:url(fonts/iconfonts.eot?v=1.5.2#iefix) format("embedded-opentype"),
+      url(fonts/iconfonts.ttf?v=1.5.2) format("truetype");
+      font-weight:400;
+      font-style:normal;
+}
+.icon,[class^=icon-]:before{
+  display:inline-block;
+  font-family:"iconfonts";
+  speak:none;
+  font-style:normal;
+  font-weight:400;
+  font-variant:normal;
+  text-transform:none;
+  text-rendering:auto;
+  line-height:1;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-size: 32px;
+}
+.icon-add:before{content:"⠁"}
+.icon-alarm:before{content:"⠂"}
+.icon-alert:before{content:"⠃"}
+.icon-archive:before{content:"⠄"}
+.icon-arrow-back:before{content:"⠅"}
+.icon-arrow-down:before{content:"⠆"}
+.icon-arrow-down-a:before{content:"⠇"}
+.icon-arrow-down-b:before{content:"⠈"}
+.icon-arrow-end-a:before{content:"⠉"}
+.icon-arrow-forward:before{content:"⠐"}
+.icon-arrow-left:before{content:"⠑"}
+.icon-arrow-left-a:before{content:"⠒"}
+.icon-arrow-left-b:before{content:"⠓"}
+.icon-arrow-right:before{content:"⠔"}
+.icon-arrow-right-a:before{content:"⠕"}
+.icon-arrow-right-b:before{content:"⠖"}
+.icon-arrow-start-a:before{content:"⠗"}
+.icon-arrow-up:before{content:"⠘"}
+.icon-arrow-up-a:before{content:"⠙"}
+.icon-arrow-up-b:before{content:"⠠"}
+.icon-bag:before{content:"⠡"}
+.icon-bell:before{content:"⠢"}
+.icon-bell-a:before{content:"⠣"}
+.icon-bolt:before{content:"⠤"}
+.icon-bookmark:before{content:"⠥"}
+.icon-calculator:before{content:"⠦"}
+.icon-calendar:before{content:"⠧"}
+.icon-card:before{content:"⠨"}
+.icon-cart:before{content:"⠩"}
+.icon-cart-a:before{content:"⠰"}
+.icon-chatbox:before{content:"⠱"}
+.icon-chatboxes:before{content:"⠲"}
+.icon-chatboxes-a:before{content:"⠳"}
+.icon-chatbubble:before{content:"⠴"}
+.icon-chatbubble-a:before{content:"⠵"}
+.icon-chatbubble-b:before{content:"⠶"}
+.icon-chatbubbles:before{content:"⠷"}
+.icon-checkmark:before{content:"⠸"}
+.icon-checkmark-a:before{content:"⠹"}
+.icon-checkmark-b:before{content:"⡀"}
+.icon-checkmark-c:before{content:"⡁"}
+.icon-checkmark-d:before{content:"⡂"}
+.icon-checkmark-e:before{content:"⡃"}
+.icon-chevron-down:before{content:"⡄"}
+.icon-chevron-left:before{content:"⡅"}
+.icon-chevron-right:before{content:"⡆"}
+.icon-chevron-up:before{content:"⡇"}
+.icon-circle:before{content:"⡈"}
+.icon-circle-filled:before{content:"⡉"}
+.icon-clock:before{content:"⡐"}
+.icon-close:before{content:"⡑"}
+.icon-close-a:before{content:"⡒"}
+.icon-close-b:before{content:"⡓"}
+.icon-close-c:before{content:"⡔"}
+.icon-close-d:before{content:"⡕"}
+.icon-cloud:before{content:"⡖"}
+.icon-cloud-a:before{content:"⡗"}
+.icon-compose:before{content:"⡘"}
+.icon-compose-a:before{content:"⡙"}
+.icon-connection:before{content:"⡠"}
+.icon-contact:before{content:"⡡"}
+.icon-contact-a:before{content:"⡢"}
+.icon-doc:before{content:"⡣"}
+.icon-doc-text:before{content:"⡤"}
+.icon-drag:before{content:"⡥"}
+.icon-drawer:before{content:"⡦"}
+.icon-dropdown:before{content:"⡧"}
+.icon-earth:before{content:"⡨"}
+.icon-email:before{content:"⡩"}
+.icon-email-a:before{content:"⡰"}
+.icon-eye:before{content:"⡱"}
+.icon-flag:before{content:"⡲"}
+.icon-flag-a:before{content:"⡳"}
+.icon-folder:before{content:"⡴"}
+.icon-folder-a:before{content:"⡵"}
+.icon-forward:before{content:"⡶"}
+.icon-gear:before{content:"⡷"}
+.icon-gear-a:before{content:"⡸"}
+.icon-grid:before{content:"⡹"}
+.icon-heart:before{content:"⢀"}
+.icon-heart-a:before{content:"⢁"}
+.icon-help:before{content:"⢂"}
+.icon-help-a:before{content:"⢃"}
+.icon-home:before{content:"⢄"}
+.icon-home-a:before{content:"⢅"}
+.icon-image:before{content:"⢆"}
+.icon-images:before{content:"⢇"}
+.icon-information:before{content:"⢈"}
+.icon-information-a:before{content:"⢉"}
+.icon-lightbulb:before{content:"⢐"}
+.icon-lightbulb-a:before{content:"⢑"}
+.icon-link:before{content:"⢒"}
+.icon-load-a:before{content:"⢓"}
+.icon-load-b:before{content:"⢔"}
+.icon-load-c:before{content:"⢕"}
+.icon-locate:before{content:"⢖"}
+.icon-location:before{content:"⢗"}
+.icon-lock:before{content:"⢘"}
+.icon-locked:before{content:"⢙"}
+.icon-login:before{content:"⤀"}
+.icon-logout:before{content:"⤁"}
+.icon-loop:before{content:"⤂"}
+.icon-loop-strong:before{content:"⤃"}
+.icon-mic:before{content:"⤄"}
+.icon-mic-a:before{content:"⤅"}
+.icon-minus:before{content:"⤆"}
+.icon-minus-a:before{content:"⤇"}
+.icon-minus-b:before{content:"⤈"}
+.icon-more:before{content:"⤉"}
+.icon-navicon:before{content:"⤐"}
+.icon-navigate-a:before{content:"⤑"}
+.icon-paperclip:before{content:"⤒"}
+.icon-person:before{content:"⤓"}
+.icon-person-add:before{content:"⤔"}
+.icon-persons:before{content:"⤕"}
+.icon-pin:before{content:"⤖"}
+.icon-plus:before{content:"⤗"}
+.icon-plus-a:before{content:"⤘"}
+.icon-plus-b:before{content:"⤙"}
+.icon-power:before{content:"⤠"}
+.icon-pricetag:before{content:"⤡"}
+.icon-pricetag-a:before{content:"⤢"}
+.icon-pricetags:before{content:"⤣"}
+.icon-pricetags-a:before{content:"⤤"}
+.icon-printer:before{content:"⤥"}
+.icon-pulse:before{content:"⤦"}
+.icon-record:before{content:"⤧"}
+.icon-refresh:before{content:"⤨"}
+.icon-remove:before{content:"⤩"}
+.icon-reply:before{content:"⤰"}
+.icon-reply-all:before{content:"⤱"}
+.icon-sad:before{content:"⤲"}
+.icon-search:before{content:"⤳"}
+.icon-search-a:before{content:"⤴"}
+.icon-share:before{content:"⤵"}
+.icon-star:before{content:"⤶"}
+.icon-star-a:before{content:"⤷"}
+.icon-star-half:before{content:"⤸"}
+.icon-stop:before{content:"⤹"}
+.icon-storage:before{content:"⥀"}
+.icon-telephone:before{content:"⥁"}
+.icon-telephone-a:before{content:"⥂"}
+.icon-tip:before{content:"⥃"}
+.icon-trash:before{content:"⥄"}
+.icon-trash-a:before{content:"⥅"}
+.icon-unlocked:before{content:"⥆"}
+.icon-user:before{content:"⥇"}
+.icon-volume-high:before{content:"⥈"}
+.icon-volume-low:before{content:"⥉"}
+.icon-wifi:before{content:"⥐"}
+#icons {overflow: hidden;list-style: none;}
+#icons li {float: left;width: 12.5%;min-width: 100px;}
+#icons li .in {border-right: 1px solid #fff; border-bottom: 1px solid #fff; text-align: center; background-color: #f0f0f0;padding: 10px 0;}
+#icons li i {display: block;margin-bottom: 10px;}
+</style>-->
+<ul id="icons">
+  <li><div class="in"><i class="icon-add"></i><span>icon-add</span></div></li>
+  <li><div class="in"><i class="icon-alarm"></i><span>icon-alarm</span></div></li>
+  <li><div class="in"><i class="icon-alert"></i><span>icon-alert</span></div></li>
+  <li><div class="in"><i class="icon-archive"></i><span>icon-archive</span></div></li>
+  <li><div class="in"><i class="icon-arrow-back"></i><span>icon-arrow-back</span></div></li>
+  <li><div class="in"><i class="icon-arrow-down"></i><span>icon-arrow-down</span></div></li>
+  <li><div class="in"><i class="icon-arrow-down-a"></i><span>icon-arrow-down-a</span></div></li>
+  <li><div class="in"><i class="icon-arrow-down-b"></i><span>icon-arrow-down-b</span></div></li>
+  <li><div class="in"><i class="icon-arrow-end-a"></i><span>icon-arrow-end-a</span></div></li>
+  <li><div class="in"><i class="icon-arrow-forward"></i><span>icon-arrow-forward</span></div></li>
+  <li><div class="in"><i class="icon-arrow-left"></i><span>icon-arrow-left</span></div></li>
+  <li><div class="in"><i class="icon-arrow-left-a"></i><span>icon-arrow-left-a</span></div></li>
+  <li><div class="in"><i class="icon-arrow-left-b"></i><span>icon-arrow-left-b</span></div></li>
+  <li><div class="in"><i class="icon-arrow-right"></i><span>icon-arrow-right</span></div></li>
+  <li><div class="in"><i class="icon-arrow-right-a"></i><span>icon-arrow-right-a</span></div></li>
+  <li><div class="in"><i class="icon-arrow-right-b"></i><span>icon-arrow-right-b</span></div></li>
+  <li><div class="in"><i class="icon-arrow-start-a"></i><span>icon-arrow-start-a</span></div></li>
+  <li><div class="in"><i class="icon-arrow-up"></i><span>icon-arrow-up</span></div></li>
+  <li><div class="in"><i class="icon-arrow-up-a"></i><span>icon-arrow-up-a</span></div></li>
+  <li><div class="in"><i class="icon-arrow-up-b"></i><span>icon-arrow-up-b</span></div></li>
+  <li><div class="in"><i class="icon-bag"></i><span>icon-bag</span></div></li>
+  <li><div class="in"><i class="icon-bell"></i><span>icon-bell</span></div></li>
+  <li><div class="in"><i class="icon-bell-a"></i><span>icon-bell-a</span></div></li>
+  <li><div class="in"><i class="icon-bolt"></i><span>icon-bolt</span></div></li>
+  <li><div class="in"><i class="icon-bookmark"></i><span>icon-bookmark</span></div></li>
+  <li><div class="in"><i class="icon-calculator"></i><span>icon-calculator</span></div></li>
+  <li><div class="in"><i class="icon-calendar"></i><span>icon-calendar</span></div></li>
+  <li><div class="in"><i class="icon-card"></i><span>icon-card</span></div></li>
+  <li><div class="in"><i class="icon-cart"></i><span>icon-cart</span></div></li>
+  <li><div class="in"><i class="icon-cart-a"></i><span>icon-cart-a</span></div></li>
+  <li><div class="in"><i class="icon-chatbox"></i><span>icon-chatbox</span></div></li>
+  <li><div class="in"><i class="icon-chatboxes"></i><span>icon-chatboxes</span></div></li>
+  <li><div class="in"><i class="icon-chatboxes-a"></i><span>icon-chatboxes-a</span></div></li>
+  <li><div class="in"><i class="icon-chatbubble"></i><span>icon-chatbubble</span></div></li>
+  <li><div class="in"><i class="icon-chatbubble-a"></i><span>icon-chatbubble-a</span></div></li>
+  <li><div class="in"><i class="icon-chatbubble-b"></i><span>icon-chatbubble-b</span></div></li>
+  <li><div class="in"><i class="icon-chatbubbles"></i><span>icon-chatbubbles</span></div></li>
+  <li><div class="in"><i class="icon-checkmark"></i><span>icon-checkmark</span></div></li>
+  <li><div class="in"><i class="icon-checkmark-a"></i><span>icon-checkmark-a</span></div></li>
+  <li><div class="in"><i class="icon-checkmark-b"></i><span>icon-checkmark-b</span></div></li>
+  <li><div class="in"><i class="icon-checkmark-c"></i><span>icon-checkmark-c</span></div></li>
+  <li><div class="in"><i class="icon-checkmark-d"></i><span>icon-checkmark-d</span></div></li>
+  <li><div class="in"><i class="icon-checkmark-e"></i><span>icon-checkmark-e</span></div></li>
+  <li><div class="in"><i class="icon-chevron-down"></i><span>icon-chevron-down</span></div></li>
+  <li><div class="in"><i class="icon-chevron-left"></i><span>icon-chevron-left</span></div></li>
+  <li><div class="in"><i class="icon-chevron-right"></i><span>icon-chevron-right</span></div></li>
+  <li><div class="in"><i class="icon-chevron-up"></i><span>icon-chevron-up</span></div></li>
+  <li><div class="in"><i class="icon-circle"></i><span>icon-circle</span></div></li>
+  <li><div class="in"><i class="icon-circle-filled"></i><span>icon-circle-filled</span></div></li>
+  <li><div class="in"><i class="icon-clock"></i><span>icon-clock</span></div></li>
+  <li><div class="in"><i class="icon-close"></i><span>icon-close</span></div></li>
+  <li><div class="in"><i class="icon-close-a"></i><span>icon-close-a</span></div></li>
+  <li><div class="in"><i class="icon-close-b"></i><span>icon-close-b</span></div></li>
+  <li><div class="in"><i class="icon-close-c"></i><span>icon-close-c</span></div></li>
+  <li><div class="in"><i class="icon-close-d"></i><span>icon-close-d</span></div></li>
+  <li><div class="in"><i class="icon-cloud"></i><span>icon-cloud</span></div></li>
+  <li><div class="in"><i class="icon-cloud-a"></i><span>icon-cloud-a</span></div></li>
+  <li><div class="in"><i class="icon-compose"></i><span>icon-compose</span></div></li>
+  <li><div class="in"><i class="icon-compose-a"></i><span>icon-compose-a</span></div></li>
+  <li><div class="in"><i class="icon-connection"></i><span>icon-connection</span></div></li>
+  <li><div class="in"><i class="icon-contact"></i><span>icon-contact</span></div></li>
+  <li><div class="in"><i class="icon-contact-a"></i><span>icon-contact-a</span></div></li>
+  <li><div class="in"><i class="icon-doc"></i><span>icon-doc</span></div></li>
+  <li><div class="in"><i class="icon-doc-text"></i><span>icon-doc-text</span></div></li>
+  <li><div class="in"><i class="icon-drag"></i><span>icon-drag</span></div></li>
+  <li><div class="in"><i class="icon-drawer"></i><span>icon-drawer</span></div></li>
+  <li><div class="in"><i class="icon-dropdown"></i><span>icon-dropdown</span></div></li>
+  <li><div class="in"><i class="icon-earth"></i><span>icon-earth</span></div></li>
+  <li><div class="in"><i class="icon-email"></i><span>icon-email</span></div></li>
+  <li><div class="in"><i class="icon-email-a"></i><span>icon-email-a</span></div></li>
+  <li><div class="in"><i class="icon-eye"></i><span>icon-eye</span></div></li>
+  <li><div class="in"><i class="icon-flag"></i><span>icon-flag</span></div></li>
+  <li><div class="in"><i class="icon-flag-a"></i><span>icon-flag-a</span></div></li>
+  <li><div class="in"><i class="icon-folder"></i><span>icon-folder</span></div></li>
+  <li><div class="in"><i class="icon-folder-a"></i><span>icon-folder-a</span></div></li>
+  <li><div class="in"><i class="icon-forward"></i><span>icon-forward</span></div></li>
+  <li><div class="in"><i class="icon-gear"></i><span>icon-gear</span></div></li>
+  <li><div class="in"><i class="icon-gear-a"></i><span>icon-gear-a</span></div></li>
+  <li><div class="in"><i class="icon-grid"></i><span>icon-grid</span></div></li>
+  <li><div class="in"><i class="icon-heart"></i><span>icon-heart</span></div></li>
+  <li><div class="in"><i class="icon-heart-a"></i><span>icon-heart-a</span></div></li>
+  <li><div class="in"><i class="icon-help"></i><span>icon-help</span></div></li>
+  <li><div class="in"><i class="icon-help-a"></i><span>icon-help-a</span></div></li>
+  <li><div class="in"><i class="icon-home"></i><span>icon-home</span></div></li>
+  <li><div class="in"><i class="icon-home-a"></i><span>icon-home-a</span></div></li>
+  <li><div class="in"><i class="icon-image"></i><span>icon-image</span></div></li>
+  <li><div class="in"><i class="icon-images"></i><span>icon-images</span></div></li>
+  <li><div class="in"><i class="icon-information"></i><span>icon-information</span></div></li>
+  <li><div class="in"><i class="icon-information-a"></i><span>icon-information-a</span></div></li>
+  <li><div class="in"><i class="icon-lightbulb"></i><span>icon-lightbulb</span></div></li>
+  <li><div class="in"><i class="icon-lightbulb-a"></i><span>icon-lightbulb-a</span></div></li>
+  <li><div class="in"><i class="icon-link"></i><span>icon-link</span></div></li>
+  <li><div class="in"><i class="icon-load-a"></i><span>icon-load-a</span></div></li>
+  <li><div class="in"><i class="icon-load-b"></i><span>icon-load-b</span></div></li>
+  <li><div class="in"><i class="icon-load-c"></i><span>icon-load-c</span></div></li>
+  <li><div class="in"><i class="icon-locate"></i><span>icon-locate</span></div></li>
+  <li><div class="in"><i class="icon-location"></i><span>icon-location</span></div></li>
+  <li><div class="in"><i class="icon-lock"></i><span>icon-lock</span></div></li>
+  <li><div class="in"><i class="icon-locked"></i><span>icon-locked</span></div></li>
+  <li><div class="in"><i class="icon-login"></i><span>icon-login</span></div></li>
+  <li><div class="in"><i class="icon-logout"></i><span>icon-logout</span></div></li>
+  <li><div class="in"><i class="icon-loop"></i><span>icon-loop</span></div></li>
+  <li><div class="in"><i class="icon-loop-strong"></i><span>icon-loop-strong</span></div></li>
+  <li><div class="in"><i class="icon-mic"></i><span>icon-mic</span></div></li>
+  <li><div class="in"><i class="icon-mic-a"></i><span>icon-mic-a</span></div></li>
+  <li><div class="in"><i class="icon-minus"></i><span>icon-minus</span></div></li>
+  <li><div class="in"><i class="icon-minus-a"></i><span>icon-minus-a</span></div></li>
+  <li><div class="in"><i class="icon-minus-b"></i><span>icon-minus-b</span></div></li>
+  <li><div class="in"><i class="icon-more"></i><span>icon-more</span></div></li>
+  <li><div class="in"><i class="icon-navicon"></i><span>icon-navicon</span></div></li>
+  <li><div class="in"><i class="icon-navigate-a"></i><span>icon-navigate-a</span></div></li>
+  <li><div class="in"><i class="icon-paperclip"></i><span>icon-paperclip</span></div></li>
+  <li><div class="in"><i class="icon-person"></i><span>icon-person</span></div></li>
+  <li><div class="in"><i class="icon-person-add"></i><span>icon-person-add</span></div></li>
+  <li><div class="in"><i class="icon-persons"></i><span>icon-persons</span></div></li>
+  <li><div class="in"><i class="icon-pin"></i><span>icon-pin</span></div></li>
+  <li><div class="in"><i class="icon-plus"></i><span>icon-plus</span></div></li>
+  <li><div class="in"><i class="icon-plus-a"></i><span>icon-plus-a</span></div></li>
+  <li><div class="in"><i class="icon-plus-b"></i><span>icon-plus-b</span></div></li>
+  <li><div class="in"><i class="icon-power"></i><span>icon-power</span></div></li>
+  <li><div class="in"><i class="icon-pricetag"></i><span>icon-pricetag</span></div></li>
+  <li><div class="in"><i class="icon-pricetag-a"></i><span>icon-pricetag-a</span></div></li>
+  <li><div class="in"><i class="icon-pricetags"></i><span>icon-pricetags</span></div></li>
+  <li><div class="in"><i class="icon-pricetags-a"></i><span>icon-pricetags-a</span></div></li>
+  <li><div class="in"><i class="icon-printer"></i><span>icon-printer</span></div></li>
+  <li><div class="in"><i class="icon-pulse"></i><span>icon-pulse</span></div></li>
+  <li><div class="in"><i class="icon-record"></i><span>icon-record</span></div></li>
+  <li><div class="in"><i class="icon-refresh"></i><span>icon-refresh</span></div></li>
+  <li><div class="in"><i class="icon-remove"></i><span>icon-remove</span></div></li>
+  <li><div class="in"><i class="icon-reply"></i><span>icon-reply</span></div></li>
+  <li><div class="in"><i class="icon-reply-all"></i><span>icon-reply-all</span></div></li>
+  <li><div class="in"><i class="icon-sad"></i><span>icon-sad</span></div></li>
+  <li><div class="in"><i class="icon-search"></i><span>icon-search</span></div></li>
+  <li><div class="in"><i class="icon-search-a"></i><span>icon-search-a</span></div></li>
+  <li><div class="in"><i class="icon-share"></i><span>icon-share</span></div></li>
+  <li><div class="in"><i class="icon-star"></i><span>icon-star</span></div></li>
+  <li><div class="in"><i class="icon-star-a"></i><span>icon-star-a</span></div></li>
+  <li><div class="in"><i class="icon-star-half"></i><span>icon-star-half</span></div></li>
+  <li><div class="in"><i class="icon-stop"></i><span>icon-stop</span></div></li>
+  <li><div class="in"><i class="icon-storage"></i><span>icon-storage</span></div></li>
+  <li><div class="in"><i class="icon-telephone"></i><span>icon-telephone</span></div></li>
+  <li><div class="in"><i class="icon-telephone-a"></i><span>icon-telephone-a</span></div></li>
+  <li><div class="in"><i class="icon-tip"></i><span>icon-tip</span></div></li>
+  <li><div class="in"><i class="icon-trash"></i><span>icon-trash</span></div></li>
+  <li><div class="in"><i class="icon-trash-a"></i><span>icon-trash-a</span></div></li>
+  <li><div class="in"><i class="icon-unlocked"></i><span>icon-unlocked</span></div></li>
+  <li><div class="in"><i class="icon-user"></i><span>icon-user</span></div></li>
+  <li><div class="in"><i class="icon-volume-high"></i><span>icon-volume-high</span></div></li>
+  <li><div class="in"><i class="icon-volume-low"></i><span>icon-volume-low</span></div></li>
+  <li><div class="in"><i class="icon-wifi"></i><span>icon-wifi</span></div></li>
+</ul>
+
+###实例
+
+可以把它们应用到按钮、导航或输入框等地方。
+
+```html
+<button type="button" class="btn btn-flat">
+  <span><span><i class="icon-star"></i></span></span>
+</button>
+<button type="button" class="btn btn-simple btn-lg">
+  <span><span><i class="icon-star"></i> Stars</span></span>
+</button>
+```
+
+也可以在输入验证等信息提示框中使用，表明这是一个错误信息。
+
+```html
+<div class="danger">
+  <i class="icon-alert"></i>
+  输入不正确，请重新填写。
+</div>
+
+<p>```</p>
+
+<h2 id="101">3.7. 路径导航</h2>
+
+<p>在一个带有层次的导航结构中标明当前页面的位置。各路径间的分隔符通过 CSS 的 <code>:before</code> 生成，无需再次添加。</p>
+
+<p>```html</p>
+
+<ol class="breadcrumb">
+  <li><a href="#">首页</a></li>
+  <li><a href="#">商品列表</a></li>
+  <li class="active">商品品牌</li>
+</ol>
+
+<p>```</p>
+
+<h2 id="102">3.8. 分页</h2>
+
+<p>为 B2B2C 提供带有展示页码的分页组件，或者可以使用简单的翻页组件。</p>
+
+<h3 id="103">3.8.1. 默认分页</h3>
+
+<p>标准分页代码如下：</p>
+
+<p>```html</p>
+
+<div class="pager">
+  <span class="flip prev disabled">&lsaquo;</span>
+  <a href="#" class="flip">1</a>
+  <a href="#" class="flip">2</a>
+  <a href="#" class="flip active">3</a>
+  <span class="ellipsis">...</span>
+  <a href="#" class="flip">4</a>
+  <a href="#" class="flip">5</a>
+  <a href="#" class="flip next">&rsaquo;</a>
+</div>
+
+<p>```</p>
+
+<h3 id="104">3.8.2. 更小的分页</h3>
+
+<p>加入 <code>.page-sm</code> 就会得到更小尺寸的分页。</p>
+
+<p>```html</p>
+
+<div class="pager pager-sm">
+  <span class="flip prev disabled">&lsaquo;</span>
+  <a href="#" class="flip">1</a>
+  <a href="#" class="flip">2</a>
+  <a href="#" class="flip active">3</a>
+  <span class="ellipsis">...</span>
+  <a href="#" class="flip">4</a>
+  <a href="#" class="flip">5</a>
+  <a href="#" class="flip next">&rsaquo;</a>
+</div>
+
+<p>```</p>
+
+<h2 id="105">3.9. 标签</h2>
+
+<p>请看实例</p>
+
+<p><code>html
+&lt;span class="label"&gt;新&lt;/span&gt;
+&lt;span class="label label-disabled"&gt;新&lt;/span&gt;
+&lt;span class="label label-primary"&gt;新&lt;/span&gt;
+&lt;span class="label label-success"&gt;新&lt;/span&gt;
+&lt;span class="label label-info"&gt;新&lt;/span&gt;
+&lt;span class="label label-warning"&gt;新&lt;/span&gt;
+&lt;span class="label label-danger"&gt;新&lt;/span&gt;
+</code></p>
+
+<h2 id="106">3.10. 指示</h2>
+
+<p>给链接、导航等元素嵌套 <code>.point</code> 元素，可以很醒目的展示新的或未读的信息条目。</p>
+
+<p><code>html
+&lt;span class="point"&gt;5&lt;/span&gt;
+&lt;span class="point"&gt;10&lt;/span&gt;
+&lt;span class="point"&gt;245&lt;/span&gt;
+&lt;span class="point point-disabled"&gt;0&lt;/span&gt;
+&lt;span class="point point-sm"&gt;5&lt;/span&gt;
+&lt;span class="point point-sm"&gt;10&lt;/span&gt;
+&lt;span class="point point-sm"&gt;245&lt;/span&gt;
+</code></p>
+
+<h2 id="107">3.11. 警告框</h2>
+
+<p>警告框组件通过提供一些灵活的预定义消息，为常见的用户动作提供反馈消息。</p>
+
+<h3 id="108">3.11.1. 实例</h3>
+
+<p>将任意文本包裹在以下类中就能组成一个警告框，每个类分别代表不同的警告信息。</p>
+
+<p>```html</p>
+
+<div class="alert">alert提示提醒注意！</div>
+
+<div class="info">info提示提醒注意！</div>
+
+<div class="warning">warning提示提醒注意！</div>
+
+<div class="danger">danger提示提醒注意！</div>
+
+<div class="success">success提示提醒注意！</div>
+
+<div class="error">error提示提醒注意！</div>
+
+<p>```</p>
+
+<p>也可以与字体图标组合，表达更丰富的意义。</p>
+
+<p>```html</p>
+
+<div class="alert"><span class="icon-alert"></span> alert提示提醒注意！</div>
+
+<div class="info"><span class="icon-info"></span> info提示提醒注意！</div>
+
+<div class="warning"><span class="icon-tip"></span> warning提示提醒注意！</div>
+
+<div class="danger"><span class="icon-close-b"></span> danger提示提醒注意！</div>
+
+<div class="success"><span class="icon-checkmark-c"></span> success提示提醒注意！</div>
+
+<p>```</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 路由</a></li><li><a href="#2">1.1. 基本路由</a></li><li><a href="#3">1.2. 路由参数</a></li><li><a href="#4">1.3. 命名路由</a></li><li><a href="#5">1.4. 路由组</a></li><li><a href="#6">1.5. 子域名路由</a></li><li><a href="#7">1.6. 路由前缀</a></li><li><a href="#8">1.7. 视图中URL生成</a></li></ul></div><div class="span9"><h1 id="1">1. 路由</h1>
+
+<ul>
+<li><a href="#basic-routing">基本路由</a></li>
+<li><a href="#route-parameters">路由参数</a></li>
+<li><a href="#named-routes">命名路由</a></li>
+<li><a href="#route-groups">路由组</a></li>
+<li><a href="#sub-domain-routing">子域名路由</a></li>
+<li><a href="#route-prefixing">路由前缀</a></li>
+<li><a href="#view-url">视图url生成</a></li>
+</ul>
+
+<p><a name="basic-routing"></a></p>
+
+<h2 id="2">1.1. 基本路由</h2>
+
+<p>应用中的大多数路都会定义在 <code>bootstrap/routes.php</code> 文件中。最简单的Laravel路由由URI和闭包回调函数组成。</p>
+
+<p><strong>基本 GET 路由</strong></p>
+
+<pre class="prettyprint"><code>route::get('/', function()
+{
+    return 'Hello World';
+});
+</code></pre>
+
+<p><strong>基本 POST 路由</strong></p>
+
+<pre class="prettyprint"><code>route::post('foo/bar', function()
+{
+    return 'Hello World';
+});
+</code></pre>
+
+<p><strong>注册一个可以响应任何HTTP动作的路由</strong></p>
+
+<pre class="prettyprint"><code>route::any('foo', function()
+{
+    return 'Hello World';
+});
+</code></pre>
+
+<p><strong>仅支持HTTPS的路由</strong></p>
+
+<pre class="prettyprint"><code>route::get('foo', array('https', function()
+{
+    return 'Must be over HTTPS';
+}));
+</code></pre>
+
+<p>实际开发中经常需要根据路由生成 URL，<code>URL::to</code>方法就可以满足此需求：</p>
+
+<pre class="prettyprint"><code>$url = url::to('foo');
+</code></pre>
+
+<p><a name="route-parameters"></a></p>
+
+<h2 id="3">1.2. 路由参数</h2>
+
+<pre class="prettyprint"><code>route::get('user/{id}', function($id)
+{
+    return 'User '.$id;
+});
+</code></pre>
+
+<p><strong>可选路由参数</strong></p>
+
+<pre class="prettyprint"><code>route::get('user/{name?}', function($name = null)
+{
+    return $name;
+});
+</code></pre>
+
+<p><strong>带有默认值的可选路由参数</strong></p>
+
+<pre class="prettyprint"><code>route::get('user/{name?}', function($name = 'John')
+{
+    return $name;
+});
+</code></pre>
+
+<p><strong>用正则表达式限定的路由参数</strong></p>
+
+<pre class="prettyprint"><code>route::get('user/{name}', function($name)
+{
+    //
+})
+-&gt;where('name', '[A-Za-z]+');
+
+route::get('user/{id}', function($id)
+{
+    //
+})
+-&gt;where('id', '[0-9]+');
+</code></pre>
+
+<p><strong>传递参数限定的数组</strong></p>
+
+<p>当然，必要的时候你还可以传递一个包含参数限定的数组作为参数：</p>
+
+<pre class="prettyprint"><code>route::get('user/{id}/{name}', function($id, $name)
+{
+    //
+})
+-&gt;where(array('id' =&gt; '[0-9]+', 'name' =&gt; '[a-z]+'))
+</code></pre>
+
+<p><strong>定义全局模式</strong></p>
+
+<p>如果希望在全局范围用指定正则表达式限定路由参数，可以使用 <code>pattern</code> 方法：</p>
+
+<pre class="prettyprint"><code>route::pattern('id', '[0-9]+');
+
+route::get('user/{id}', function($id)
+{
+    // Only called if {id} is numeric.
+});
+</code></pre>
+
+<p><a name="named-routes"></a></p>
+
+<h2 id="4">1.3. 命名路由</h2>
+
+<p>重定向和生成URL时，使用命名路由会更方便。你可以为路由指定一个名字，如下所示：</p>
+
+<pre class="prettyprint"><code>route::get('user/profile', array('as' =&gt; 'profile', function()
+{
+    //
+}));
+</code></pre>
+
+<p>还可以为 controller action指定路由名称：</p>
+
+<pre class="prettyprint"><code>route::get('user/profile', array('as' =&gt; 'profile', 'uses' =&gt; 'UserController@showProfile'));
+</code></pre>
+
+<p>现在，你可以使用路由名称来创建URL和重定向：</p>
+
+<pre class="prettyprint"><code>$url = url::route('profile');
+
+$redirect = redirect::route('profile');
+</code></pre>
+
+<p>可以使用<code>currentRouteName</code>方法来获取当前运行的路由名称:</p>
+
+<pre class="prettyprint"><code>$name = route::currentRouteName();
+</code></pre>
+
+<p>同样可以使用路由器的controller action来创建URL和重定向:</p>
+
+<pre class="prettyprint"><code>$url = url::action('UserController@showProfile');
+
+$redirect = redirect::action('UserController@showProfile');
+</code></pre>
+
+<p>可以使用<code>route::current()-&gt;getActionName()</code>方法来获取当前运行的路由名称:</p>
+
+<pre class="prettyprint"><code>route::current()-&gt;getActionName();    
+</code></pre>
+
+<p><a name="route-groups"></a></p>
+
+<h2 id="5">1.4. 路由组</h2>
+
+<p>有时你可能需要为一组路由应用过滤器。使用路由组就可以避免单独为每个路由指定过滤器了：</p>
+
+<pre class="prettyprint"><code>route::group(array('before' =&gt; 'auth'), function()
+{
+    route::get('/', function()
+    {
+        // Has Auth Filter
+    });
+
+    route::get('user/profile', function()
+    {
+        // Has Auth Filter
+    });
+});
+</code></pre>
+
+<p><a name="sub-domain-routing"></a></p>
+
+<h2 id="6">1.5. 子域名路由</h2>
+
+<p>Laravel中的路由功能还支持通配符子域名，你可以在域名中指定通配符参数:</p>
+
+<p><strong>注册子域名路由</strong></p>
+
+<pre class="prettyprint"><code>route::group(array('domain' =&gt; '{account}.myapp.com'), function()
+{
+
+    route::get('user/{id}', function($account, $id)
+    {
+        //
+    });
+
+});
+</code></pre>
+
+<p><a name="route-prefixing"></a></p>
+
+<h2 id="7">1.6. 路由前缀</h2>
+
+<p>可以通过<code>prefix</code>属性为组路由设置前缀：</p>
+
+<p><strong>为路由组设置前缀</strong></p>
+
+<pre class="prettyprint"><code>route::group(array('prefix' =&gt; 'admin'), function()
+{
+
+    route::get('user', function()
+    {
+        //
+    });
+
+});
+</code></pre>
+
+<p><a name="view-url"></a>    </p>
+
+<h2 id="8">1.7. 视图中URL生成</h2>
+
+<p>我们将用个例子进行说明:</p>
+
+<pre class="prettyprint"><code>route::get('user/profile', array('as' =&gt; 'profile', 'uses' =&gt; 'UserController@showProfile'));
+</code></pre>
+
+<p><strong>根据action创建URL</strong>
+    &lt;{url action=UserController@showProfile}></p>
+
+<p><strong>根据路由创建URL</strong>
+    &lt;{url to=user/profile}></p>
+
+<p><strong>根据路由名称来创建URL</strong>
+    &lt;{url route=profile}>    </p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

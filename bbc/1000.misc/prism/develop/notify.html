@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. prism消息队列(Notify)</a></li><li><a href="#2">1.1. publish 队列加入</a></li><li><a href="#3">1.2. consume 队列消费</a></li></ul></div><div class="span9"><h1 id="1">1. prism消息队列(Notify)</h1>
+
+<ul>
+<li><a href="#notify-publish">publish</a></li>
+<li><a href="#notify-consume">consume</a></li>
+</ul>
+
+<p><a name="notify-publish"></a></p>
+
+<h2 id="2">1.1. publish 队列加入</h2>
+
+<p><code>
+$client = new Prism($url = 'http://prism_host/api', $key = 'pufy2a7d', $secret = 'skqovukpk2nmdrljphgj');
+//第一个参数，'q1'为队列的routing_key，需要在prism端绑定相应的routing_key和访问prism的身份key
+//第二个参数为数据，仅支持字符串
+$r = $client-&gt;publish('q1', 'this is some message:' . $count);
+</code></p>
+
+<p><a name="notify-consume"></a></p>
+
+<h2 id="3">1.2. consume 队列消费</h2>
+
+<p>注意：队列执行完成后，调用ack方法，否则不会从队列中清除该任务。
+```
+$client = new PrismClient($url = 'http://prism_host/api', $key = 'pufy2a7d', $secret = 'skqovukpk2nmdrljphgj');
+//访问队列，获取数据
+$r = $client->consume();
+$r = json_decode($r);</p>
+
+<p>//这里对获取到的数据进行处理
+//body为上面publish传入的字符串数据
+echo "$r->body\n";
+//处理完成后执行ack，表示处理成功，队列中的数据会删除
+$client->ack($r->tag);
+```</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. prism初始化</a></li><li><a href="#2">1.1. oauth通用方法</a></li><li><a href="#3">1.2. Oauth登陆页面跳转</a></li><li><a href="#4">1.3. code码换取token</a></li><li><a href="#5">1.4. 验证session</a></li><li><a href="#6">1.5. 退出登陆</a></li></ul></div><div class="span9"><h1 id="1">1. prism初始化</h1>
+
+<ul>
+<li><a href="#oauth-common">oauth通用方法</a></li>
+<li><a href="#oauth-login">Oauth登陆页面跳转</a></li>
+<li><a href="#oauth-code-token">code码换取token</a></li>
+<li><a href="#oauth-check-session">验证session</a></li>
+<li><a href="#oauth-logout">退出登陆</a></li>
+</ul>
+
+<p><a name="oauth-common"></a></p>
+
+<h2 id="2">1.1. oauth通用方法</h2>
+
+<p>该方法可以当做Oauth登陆页面跳转方法和code换取token方法使用，同时实现这两个方法的功能.
+<code>
+$client = new Prism($url = 'http://127.0.0.1:8080/api', $key = 'pufy2a7d', $secret = 'skqovukpk2nmdrljphgj');
+//该方法可以直接跳转到登陆页面，也可以作为接受code转化token用
+//$token为一个对象，里面包括用户的详细信息和token
+$token = $client-&gt;oauth($redirect_url);
+</code></p>
+
+<p><a name="oauth-login"></a></p>
+
+<h2 id="3">1.2. Oauth登陆页面跳转</h2>
+
+<p><code>
+$client = new Prism($url = 'http://127.0.0.1:8080/api', $key = 'pufy2a7d', $secret = 'skqovukpk2nmdrljphgj');
+//跳转到登陆页，$redirect_url为登陆后跳转的页面。
+$client-&gt;goToAuthPage($redirect_url);
+//登陆完成后，追自动跳转到$redirect_url?code=fewafewafewafewa地址
+</code></p>
+
+<p><a name="oauth-code-token"></a></p>
+
+<h2 id="4">1.3. code码换取token</h2>
+
+<p><code>
+$client = new Prism($url = 'http://127.0.0.1:8080/api', $key = 'pufy2a7d', $secret = 'skqovukpk2nmdrljphgj');
+$code = $_GET['code'];
+//返回token对象
+$token = $client-&gt;getToken($code);
+</code>
+返回信息：
+<code>
+{
+  "access_token": "72jte6shi2q7da22bo2al2jn",
+    "data": {
+      "@id": "0001001",
+      "login": "admin",
+      "email": "admin@example.com",
+      "firstname": "barack",
+      "lastname": "obama"
+    },
+    "expires_in": 1409217380,
+    "refresh_expires": 1411805780,
+    "refresh_token": "fxfbe64zvw52pkintbitnwkxoqjusfz2",
+    "session_id": "kv6sdomumjxnme5so2ckbw"
+}
+</code></p>
+
+<p><a name="oauth-check-session"></a></p>
+
+<h2 id="5">1.4. 验证session</h2>
+
+<p><code>
+$client = new Prism($url = 'http://127.0.0.1:8080/api', $key = 'pufy2a7d', $secret = 'skqovukpk2nmdrljphgj');
+$result = $client-&gt;checkSession($token);
+</code></p>
+
+<p><a name="oauth-loguot"></a></p>
+
+<h2 id="6">1.5. 退出登陆</h2>
+
+<p><code>
+$client = new Prism($url = 'http://127.0.0.1:8080/api', $key = 'pufy2a7d', $secret = 'skqovukpk2nmdrljphgj');
+$client-&gt;logout($redirect_url);
+</code></p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

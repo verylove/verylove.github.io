@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. PHP编码规范</a></li><li><a href="#2">1.1. 命名</a></li><li><a href="#3">1.1.1. 文件命名</a></li><li><a href="#4">1.1.2. 类命名</a></li><li><a href="#5">1.1.3. 类的成员变量声明</a></li><li><a href="#6">1.1.4. 类的构造函数命名</a></li><li><a href="#7">1.1.5. 函数(方法,接口)命名</a></li><li><a href="#8">1.1.6. 变量命名</a></li><li><a href="#9">1.1.7. 常量命名</a></li><li><a href="#10">1.2. PHP约定</a></li><li><a href="#11">1.2.1. 文件编码</a></li><li><a href="#12">1.2.2. 缩进</a></li><li><a href="#13">1.2.3. UNIX编码规范</a></li><li><a href="#14">1.2.4. UNIX风格换行</a></li><li><a href="#15">1.2.5. php标签</a></li><li><a href="#16">1.2.6. 行的最大长度</a></li><li><a href="#17">1.2.7. 行尾空格</a></li><li><a href="#18">1.2.8. 大括号放置</a></li><li><a href="#19">1.2.9. 空格使用</a></li><li><a href="#20">1.2.10. 逗号放置</a></li><li><a href="#21">1.2.11. 字符串文字</a></li><li><a href="#22">1.2.12. 包含单引号（'）的字符串文字</a></li><li><a href="#23">1.2.13. 变量替换</a></li><li><a href="#24">1.2.14. 字符串连接</a></li><li><a href="#25">1.2.15. 函数和方法的传址引用</a></li><li><a href="#26">1.2.16. if/else/elseif语句</a></li><li><a href="#27">1.2.17. switch 语句</a></li><li><a href="#28">1.3. 注释</a></li><li><a href="#29">1.3.1. 头部注释</a></li><li><a href="#30">1.3.2. 引用文件和定义常量注释</a></li><li><a href="#31">1.3.3. 类(接口)注释</a></li><li><a href="#32">1.3.4. 函数(方法,接口)注释</a></li><li><a href="#33">1.3.5. 程序行间注释</a></li><li><a href="#34">1.4. 代码布局</a></li><li><a href="#35">1.4.1. 类布局</a></li><li><a href="#36">1.4.2. 空行使用</a></li></ul></div><div class="span9"><h1 id="1">1. PHP编码规范</h1>
+
+<p>如果您是ecstore开发人员，请详细阅读以下规范，并严格遵守。这样在保证您代码可读性的同时还可以大大减少我们的工作量。</p>
+
+<ul>
+<li><a href="#named-agreement">命名</a></li>
+<li><a href="#php-agreement">PHP约定</a></li>
+<li><a href="#comment-agreement">注释</a></li>
+<li><a href="#code-topology-agreement">代码布局</a></li>
+</ul>
+
+<p><a name="named-agreement"></a></p>
+
+<h2 id="2">1.1. 命名</h2>
+
+<h3 id="3">1.1.1. 文件命名</h3>
+
+<blockquote>
+  <p><strong>Note:</strong> 包含任何 PHP 代码的任何文件应扩展名应当为 ".php" 脚本除外。
+  ecos的文件命名的准则是，class名称与文件名关联。关联的方法是以包所在的目录为根目录，到类所在的文件，将目录分隔符改为下划线即为此类的名称。
+  ecos的app目录下存放的是我们的主要代码，类命名时app则不需要加上</p>
+</blockquote>
+
+<ul>
+<li>文件名要小写</li>
+<li>控制器文件放在app下的controller文件夹下,类的命名时用'''ctl'''代替'''controller'''，如 ''app/b2c/controller/site/order.php'' 对应类名称 b2c_ctl_site_order</li>
+<li>模型层文件放在app下的model文件夹下,类的命名时用'''mdl'''代替'''model'''，如 ''app/b2c/model/orders.php'' 对应类名称 b2c_mdl_orders</li>
+<li>类库层文件放在app下的lib文件夹下,类的命名时用不用写'''lib'''，如 ''app/b2c/lib/order/delivery.php'' 对应类名称 b2c_order_delivery</li>
+<li>数据库定义文件 放在app下的dbschema文件夹下,命名时内部数组索引的值与文件名同名，如 ''app/b2c/dbschema/cart.php'' 对应文件内数组名称为 $db['cart']=array (</li>
+</ul>
+
+<h3 id="4">1.1.2. 类命名</h3>
+
+<p>使用下划线法则，首字母小写。</p>
+
+<pre class="prettyprint"><code>class b2c_ctl_site_order {
+}
+</code></pre>
+
+<h3 id="5">1.1.3. 类的成员变量声明</h3>
+
+<p>变量的声明必须在类的顶部，在方法的上方声明。
+不允许使用 var 声明，要用 private、 protected 或 public。 直接访问 public 变量是允许的但不鼓励。</p>
+
+<h3 id="6">1.1.4. 类的构造函数命名</h3>
+
+<p>不推荐使用与类名相同的名称写构造函数
+<strong>推荐示范</strong></p>
+
+<pre class="prettyprint"><code>class desktop_email_smtp {
+      public function __construct($app)
+      {
+      }
+}
+</code></pre>
+
+<p><strong>不推荐示范</strong>
+    class desktop_email_smtp {
+          public function desktop_email_smtp($app)
+          {
+          }
+    }</p>
+
+<h3 id="7">1.1.5. 函数(方法,接口)命名</h3>
+
+<p><strong>使用骆驼法则，首字母小写</strong></p>
+
+<pre class="prettyprint"><code>public function getList($cols='*', $filter=array(), $offset=0, $limit=-1, $orderby=null)
+{
+}
+</code></pre>
+
+<p>private 和 protected 的规则与变量一样（改）</p>
+
+<h3 id="8">1.1.6. 变量命名</h3>
+
+<p><strong>使用骆驼法则，首字母小写</strong></p>
+
+<pre class="prettyprint"><code>$callbackFunctions['brand_name'];
+</code></pre>
+
+<p><strong>如为受保护变量，请在变量名前方加上下划线</strong></p>
+
+<pre class="prettyprint"><code>protected $_render = null;
+</code></pre>
+
+<p><strong>如为私有变量，请在变量名前方加上双下划线</strong></p>
+
+<pre class="prettyprint"><code>private $__adapter;
+</code></pre>
+
+<h3 id="9">1.1.7. 常量命名</h3>
+
+<p>所有字母大写。</p>
+
+<pre class="prettyprint"><code>define('DEBUG_JS',false)
+</code></pre>
+
+<p><a name="php-agreement"></a></p>
+
+<h2 id="10">1.2. PHP约定</h2>
+
+<h3 id="11">1.2.1. 文件编码</h3>
+
+<p>请调整您的编辑器文件编码为UTF-8，并关闭UTF-8 BOM的功能。</p>
+
+<p>请不要使用windows自带的记事本编辑项目文件。</p>
+
+<h3 id="12">1.2.2. 缩进</h3>
+
+<p>详细的代码缩进会在后面提到，这里需要注意的是，ecstore中的代码缩进使用的是4个空格(space)，而不是制表符(tab)，请务必调整。</p>
+
+<h3 id="13">1.2.3. UNIX编码规范</h3>
+
+<p><strong>php文件必须留出最后一个空行</strong></p>
+
+<pre class="prettyprint"><code>&lt;?php
+//this is a test file
+echo 'hello';
+//&lt;---这行留空
+</code></pre>
+
+<p>而且，如果此文件为纯php文件(没有嵌套HTML)，请不要用?>符号结尾，保持最后一行留空即可。</p>
+
+<h3 id="14">1.2.4. UNIX风格换行</h3>
+
+<p>我们在这里使用UNIX风格的换行符，即只有换行(LF或"\n")没有回车(CR或"\r")，请在你的编辑器内调整</p>
+
+<h3 id="15">1.2.5. php标签</h3>
+
+<p>不允许使用php短标签，必须使用标准标签
+<strong>正确示范</strong></p>
+
+<pre class="prettyprint"><code>&lt;?php
+//...
+?&gt;
+</code></pre>
+
+<p><strong>错误示范</strong></p>
+
+<pre class="prettyprint"><code>&lt;?
+//...
+?&gt;
+</code></pre>
+
+<h3 id="16">1.2.6. 行的最大长度</h3>
+
+<p>一行 80 字符以内是比较合适，应当努力在可能的情况下保持每行代码少于 80 个字符，在有些情况下，长点也可以, 但最多为 120 个字符。</p>
+
+<h3 id="17">1.2.7. 行尾空格</h3>
+
+<p>请保持您的行尾已经去除空格</p>
+
+<h3 id="18">1.2.8. 大括号放置</h3>
+
+<p>函数的起始大括号放在下行开头，其他的起始大括号请放在行的结尾</p>
+
+<p>结束大括号一般独自占据一行</p>
+
+<pre class="prettyprint"><code>class TypechoDb {
+   public function __construct($adapter = __TYPECHO_DB_ADAPTER__)
+   {
+       if (!defined($const = '__TYPECHO_DB_HOST__') || 
+       !defined($const = '__TYPECHO_DB_PORT__') || 
+       !defined($const = '__TYPECHO_DB_NAME__') || 
+       !defined($const = '__TYPECHO_DB_USER__') || 
+       !defined($const = '__TYPECHO_DB_PASS__') ||
+       !defined($const = '__TYPECHO_DB_CHAR__'))
+       {
+       }
+       else
+       {
+       }
+   }
+}   
+</code></pre>
+
+<h3 id="19">1.2.9. 空格使用</h3>
+
+<p><strong>除了参数之间要使用空格外，所有操作符之间都要使用空格，包括字符连接符(.)</strong></p>
+
+<pre class="prettyprint"><code>$host . ':' . $port
+</code></pre>
+
+<p><strong>函数名和括参数的圆括号中间没有空格</strong></p>
+
+<pre class="prettyprint"><code>function save(&amp;$sdf, $mustUpdate = null)
+{
+}
+</code></pre>
+
+<p>function和函数名之间只能有一个空格。</p>
+
+<p>使用 if 和 elseif 的控制语句在条件语句的圆括号前后都必须有一个空格。</p>
+
+<pre class="prettyprint"><code>if ($a != 2)
+{
+    $a = 2;
+} 
+elseif ($a == 3) 
+{
+    $a = 4;
+} 
+else
+{
+    $a = 7;
+}
+</code></pre>
+
+<h3 id="20">1.2.10. 逗号放置</h3>
+
+<p><strong>函数中用逗号来分隔参数，所有的参数与前面的逗号之间要空格(第一个参数除外)</strong></p>
+
+<pre class="prettyprint"><code>public function getList($cols='*', $filter=array(), $offset=0, $limit=-1, $orderby=null)
+</code></pre>
+
+<h3 id="21">1.2.11. 字符串文字</h3>
+
+<p><strong>当字符串是文字(不包含变量)，应当用单引号（ apostrophe ）来括起来</strong></p>
+
+<pre class="prettyprint"><code>$a = 'Example String';
+</code></pre>
+
+<h3 id="22">1.2.12. 包含单引号（'）的字符串文字</h3>
+
+<p><strong>当文字字符串包含单引号（apostrophe ）就用双引号括起来，特别在 SQL 语句中有用</strong></p>
+
+<pre class="prettyprint"><code>$sql = "SELECT `id`, `name` from `people` WHERE `name`='Fred' OR `name`='Susan'";
+</code></pre>
+
+<blockquote>
+  <p><strong>Note:</strong> 在转义单引号时，上述语法是首选的，因为很容易阅读。</p>
+</blockquote>
+
+<h3 id="23">1.2.13. 变量替换</h3>
+
+<p><strong>变量替换有下面这些形式</strong></p>
+
+<pre class="prettyprint"><code>$greeting = "Hello $name, welcome back!";
+
+$greeting = "Hello {$name}, welcome back!";
+</code></pre>
+
+<p><strong>为保持一致，这个形式不允许</strong></p>
+
+<pre class="prettyprint"><code>$greeting = "Hello ${name}, welcome back!";
+</code></pre>
+
+<h3 id="24">1.2.14. 字符串连接</h3>
+
+<p><strong>字符串必需用 "." 操作符连接，在它的前后加上空格以提高可读性</strong></p>
+
+<pre class="prettyprint"><code>$company = 'EC' . ' ' . 'Store';
+</code></pre>
+
+<h3 id="25">1.2.15. 函数和方法的传址引用</h3>
+
+<p>传址在调用时是严格禁止的。
+<strong>示例</strong></p>
+
+<pre class="prettyprint"><code>class Foo {
+    public function bar(&amp;$baz)
+    {
+    }
+}
+</code></pre>
+
+<p><strong>正确示范</strong></p>
+
+<pre class="prettyprint"><code>$this-&gt;bar($baz);
+</code></pre>
+
+<p><strong>错误示范</strong></p>
+
+<pre class="prettyprint"><code>$this-&gt;bar(&amp;$baz);
+</code></pre>
+
+<h3 id="26">1.2.16. if/else/elseif语句</h3>
+
+<p>如果是单条if语句，后面大括号请不要省略,以增强可读性(改)</p>
+
+<p><strong>推荐示范</strong></p>
+
+<pre class="prettyprint"><code>if ($a != 2) $a = 2;
+</code></pre>
+
+<p><strong>如果是有else则把大括号放下来</strong></p>
+
+<pre class="prettyprint"><code>if ($a != 2) 
+{
+    $a = 2;
+    if ($b) 
+    {
+        $c = 3;
+    } 
+}
+else
+{
+    $a = 1;
+}
+</code></pre>
+
+<h3 id="27">1.2.17. switch 语句</h3>
+
+<p>在 "switch" 结构里的控制语句在条件语句的圆括号前后必须都有一个单个的空格。</p>
+
+<p>"switch" 里的代码必须有四个空格缩进，在"case"里的代码再缩进四个空格:</p>
+
+<pre class="prettyprint"><code>switch ($numPeople) {
+    case 1:
+        break;
+
+    case 2:
+        break;
+
+    default:
+        break;
+}
+</code></pre>
+
+<p>switch 语句应当有 default。</p>
+
+<p><a name="ecstore-agreement"></a></p>
+
+<h2 id="28">1.3. 注释</h2>
+
+<p>注释原则上参考<a href="http://www.phpdoc.org/docs/latest/index.html">phpdoc规范</a></p>
+
+<h3 id="29">1.3.1. 头部注释</h3>
+
+<p>头部注释主要用来阐述此文件的版权，协议，作者，版本。对于ecos核心开发组，请按照下列形式书写(你可以把它设置为代码模板)。</p>
+
+<pre class="prettyprint"><code>&lt;?php
+/**
+ * Ecos Platform
+ *
+ * @author     bryant
+ * @copyright  Copyright (c) 2005-2014 ShopEx Technologies Inc. (http://www.shopex.cn)
+ * @license    http://ecos.shopex.cn/ ShopEx License
+ */
+</code></pre>
+
+<p>其中author为作者的名称，请自己命名。</p>
+
+<h3 id="30">1.3.2. 引用文件和定义常量注释</h3>
+
+<p>文件的引用和常量的定义一般都放置在文件的开头部分:</p>
+
+<pre class="prettyprint"><code>/** 数据库用户名 **/
+define('DB_USER', 'root');
+
+/** 是否开启xhprof **/
+require_once(ROOT_DIR."/app/serveradm/xhprof.php")
+</code></pre>
+
+<p>多行注释，使用如下形式:</p>
+
+<pre class="prettyprint"><code>/**
+ * 是否开启javascript或者css的无压缩模式
+ * true表示开启
+ * false表示关闭
+ *
+ */
+define('DEBUG_JS',true);
+define('DEBUG_CSS',false);
+</code></pre>
+
+<h3 id="31">1.3.3. 类(接口)注释</h3>
+
+<p>一个类(接口)在声明的时候必须声明其作用，如果是类库文件，则必须声明其包所属。此注释参考phpdoc规范。</p>
+
+<pre class="prettyprint"><code>/**
+ * setting-系统配置类 
+ *
+ * @copyright  Copyright (c) 2005-2014 ShopEx Technologies Inc. (http://www.shopex.cn)
+ * @license  http://ecos.shopex.cn/ ShopEx License
+ * @package base
+ * @author bryant@shopex.cn
+ * @license
+ */
+
+ class base_setting {
+ }
+</code></pre>
+
+<h3 id="32">1.3.4. 函数(方法,接口)注释</h3>
+
+<p>函数(方法,接口)的声明注释参考phpdoc规范。</p>
+
+<blockquote>
+  <p><strong>Note:</strong> 如果是无返回函数，必须指明@return void，请尽量在函数参数表中使用已知类型。
+  如果函数中抛出异常则必须指明@throws &lt;异常类型>。</p>
+</blockquote>
+
+<pre class="prettyprint"><code>/**
+ * 自增
+ * @var string $key
+ * @var int $offset
+ * @access public
+ * @return int
+ */
+public function increment($key, $offset=1) 
+{
+
+    /**
+     * 优惠方案应用
+     * @param array $object 引用的一个商品信息
+     * @param array $aConfig 优惠的设置
+     * @param array $cart_object 购物车信息(预过滤的时候这个为null)
+     * @return void 引用处理了,没有返回值
+     */
+    public function apply(&amp;$object,$aConfig,&amp;$cart_object = null)
+    {
+    }
+}
+</code></pre>
+
+<h3 id="33">1.3.5. 程序行间注释</h3>
+
+<p>行间注释采用双斜线注释法</p>
+
+<pre class="prettyprint"><code>//实例化适配器对象
+$this-&gt;_adapter = new $adapter();
+</code></pre>
+
+<p><a name="code-topology-agreement"></a></p>
+
+<h2 id="34">1.4. 代码布局</h2>
+
+<h3 id="35">1.4.1. 类布局</h3>
+
+<p>类的内部方法排序为:
+- _construct
+- private
+- protected
+- public
+- __destruct</p>
+
+<p>属性的排序为:
+- const
+- private
+- protected
+- public</p>
+
+<h3 id="36">1.4.2. 空行使用</h3>
+
+<p>使用空行可以分割代码的不同区块，做建议，具体请各位自己把握。</p>
+
+<p>请不要使用每行一个空行编码风格。</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

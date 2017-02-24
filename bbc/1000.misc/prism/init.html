@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. prism 初始化相关设置</a></li><li><a href="#2">1.1. 设置路径</a></li><li><a href="#3">1.2. 设置参数</a></li><li><a href="#4">1.3. prism初始化操作步骤</a></li></ul></div><div class="span9"><h1 id="1">1. prism 初始化相关设置</h1>
+
+<ul>
+<li><a href="#setup-url">设置路径</a></li>
+</ul>
+
+<p><a name="setup-url"></a></p>
+
+<h2 id="2">1.1. 设置路径</h2>
+
+<blockquote>
+  <p>b2b2c/config/prism.php</p>
+</blockquote>
+
+<p><a name="setup-params"></a></p>
+
+<h2 id="3">1.2. 设置参数</h2>
+
+<ul>
+<li><p>是否启用prism
+若开启，则api访问通过prism中转；若不开启，则在系统中直接调用</p>
+
+<p>开启、关闭</p></li>
+<li><p>Prism地址(prismUrl)</p>
+
+<p>prism服务器的地址</p>
+
+<p><code>
+http://localhost:8080
+</code></p></li>
+<li><p>管理员Key(prismAdminKey)</p>
+
+<p>管理员的数据连接key，在prism第一次启动的时候可以看到，或者到prism后台管理员用户中心查看
+<code>
+2015/04/27 14:26:06 [info] creating domain
+2015/04/27 14:26:06 [info] created user=admin, password="admin"
+2015/04/27 14:26:06 [info] created user[admin], Key="tkhhgpfo", Secret="47zwsqjtcj6d5svgpknq"
+</code></p></li>
+<li><p>管理员Secret(prismAdminSecret)</p>
+
+<p>同上</p></li>
+<li><p>用户E-mail(prismUserEmail)</p>
+
+<p>自定义值，api将由哪个用户创建
+这个用户要求在prism上面不存在，将会由bbc创建，初始化完成后，可以用该用户在prism前台登录</p></li>
+<li><p>APP用户密码(prismUserPassword)</p>
+
+<p>自定义值，以后登录prism前台可以用该密码</p></li>
+<li><p>bbc在prism上面映射的名称（prismAppName）</p>
+
+<p>在prism上面，这个app就代表bbc</p></li>
+<li><p>其它设置项在配置文件中有注释</p></li>
+</ul>
+
+<p><a name="setup-steps"></a></p>
+
+<h2 id="4">1.3. prism初始化操作步骤</h2>
+
+<p>填写好配置文件中的设置以后，命令行提供以下3条命令
+<code>
+system:prism init                     //初始化api信息到prism
+system:prism forceinit               // 强制初始化api信息到prism（慎用）。如果系统因为之前同步过一次数据，prism上数据清空导致无法初始化，请执行此命令
+system:prism update                  // 更新prism上的API数据
+</code></p>
+
+<p>执行system:prism init即可自动初始化</p>
+
+<p>当api更新以后，执行system:prism update，prism也会更新</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

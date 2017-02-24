@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 表单验证</a></li><li><a href="#2">1.1. 基本用法</a></li><li><a href="#3">1. 基本验证例子</a></li><li><a href="#4">2. 使用数组来定义规则</a></li><li><a href="#5">3. 验证多个字段</a></li><li><a href="#6">4. 密码验证实例</a></li><li><a href="#7">1.1.1. 验证一个值小于另一个值</a></li><li><a href="#8">1.2. 使用错误信息</a></li><li><a href="#9">1. 查看一个字段的第一个错误信息</a></li><li><a href="#10">2. 查看一个字段的所有错误信息</a></li><li><a href="#11">3. 查看所有字段的所有错误信息</a></li><li><a href="#12">4. 判断一个字段是否有错误信息</a></li><li><a href="#13">1.3. 可用的验证规则</a></li><li><a href="#14">5. ####  accepted</a></li><li><a href="#15">6. ####  active_url</a></li><li><a href="#16">7. ####  after:<em>date</em></a></li><li><a href="#17">8. ####  alpha</a></li><li><a href="#18">9. ####  alpha_dash</a></li><li><a href="#19">10. ####  alpha_num</a></li><li><a href="#20">11. ####  before:<em>date</em></a></li><li><a href="#21">12. ####  between:<em>min</em>,_max_</a></li><li><a href="#22">13. ####  confirmed</a></li><li><a href="#23">14. ####  date</a></li><li><a href="#24">15. date_format:<em>format</em></a></li><li><a href="#25">16. different:<em>field</em></a></li><li><a href="#26">17. digits:<em>value</em></a></li><li><a href="#27">18. digitsbetween:<em>min</em>,_max_</a></li><li><a href="#28">19. email</a></li><li><a href="#29">20. exists:<em>table</em>,_column_</a></li><li><a href="#30">21. image</a></li><li><a href="#31">22. in:<em>foo</em>,_bar_,...</a></li><li><a href="#32">23. integer</a></li><li><a href="#33">24. ip</a></li><li><a href="#34">25. max:<em>value</em></a></li><li><a href="#35">26. mimes:<em>foo</em>,_bar_,...</a></li><li><a href="#36">27. min:<em>value</em></a></li><li><a href="#37">28. not_in:<em>foo</em>,_bar_,...</a></li><li><a href="#38">29. numeric</a></li><li><a href="#39">30. regex:<em>pattern</em></a></li><li><a href="#40">31. required</a></li><li><a href="#41">32. required_if:<em>field</em>,_value_</a></li><li><a href="#42">33. required_with:<em>foo</em>,_bar_,...</a></li><li><a href="#43">34. required_without:<em>foo</em>,_bar_,...</a></li><li><a href="#44">35. required_without_all:<em>foo</em>,_bar_,...</a></li><li><a href="#45">36. same:<em>field</em></a></li><li><a href="#46">37. size:<em>value</em></a></li><li><a href="#47">38. url</a></li><li><a href="#48">1.4. 有条件的添加规则</a></li></ul></div><div class="span9"><h1 id="1">1. 表单验证</h1>
+
+<ul>
+<li><a href="#basic-usage">基本方法</a></li>
+<li><a href="#working-with-error-messages">使用错误信息</a></li>
+<li><a href="#conditionally-adding-rules">添加条件验证规则</a></li>
+</ul>
+
+<p><a name="basic-usage"></a></p>
+
+<h2 id="2">1.1. 基本用法</h2>
+
+<h4 id="3">1. 基本验证例子</h4>
+
+<p>B2B2C通过<code>validator</code>类让您可以简单、方便的验证数据正确性及查看相应的验证错误信息。</p>
+
+<p><code>
+$validator = validator::make(
+    array('name' =&gt; 'Dayle'),
+    array('name' =&gt; 'required|min:5'),
+    array('name' =&gt; '自定义错误')
+);
+</code>
+上文中通过 make 这个方法来的第一个参数来设定所需要被验证的数据名称，第二个参数设定该数据可被接受的规则。</p>
+
+<h4 id="4">2. 使用数组来定义规则</h4>
+
+<p>多个验证规则可以使用"|"符号分隔，或是单一数组作为单独的元素分隔。
+多个自定义错误使用"|"符号分隔，或是单一数组作为单独的元素分隔。
+<code>
+$validator = validator::make(
+    array('name' =&gt; 'Dayle'),
+    array('name' =&gt; array('required', 'min:5')),
+    array('name' =&gt; '自定义错误')
+);
+</code></p>
+
+<h4 id="5">3. 验证多个字段</h4>
+
+<p><code>
+$validator = validator::make(
+    array(
+        'name' =&gt; 'Dayle',
+        'password' =&gt; 'lamepassword',
+        'email' =&gt; 'email@example.com'
+    ),
+    array(
+        'name' =&gt; 'required',
+        'password' =&gt; 'required|min:8',
+        'email' =&gt; 'required|email'
+    )
+    array(
+        'name' =&gt; '自定义错误',
+        'password' =&gt; '密码不能为空|密码最短长度为8位',
+        'email' =&gt; '邮箱必填|邮箱格式不正确'
+    )
+);
+</code></p>
+
+<h4 id="6">4. 密码验证实例</h4>
+
+<p>```
+$validator = validator::make(
+    ['password' => '12354744' ,'password_confirmation'=>'12354744'],
+    ['password' => 'min:6|max:10|confirmed'],
+    ['password' => '密码长度不能小于6位!|密码长度不能大于20位|密码必须一致！']
+);</p>
+
+<p>if ($validator->fails())
+{
+    $messages = $validator->messagesInfo();
+    foreach( $messages as $error )
+    {
+        throw new LogicException( $error[0] );
+    }
+}</p>
+
+<p>```</p>
+
+<h3 id="7">1.1.1. 验证一个值小于另一个值</h3>
+
+<p>```
+$validator = validator::make(
+    [$data['buy_limit'] ,$data['discount_max']],
+    ['min:1','max:'.$data['discount_min']],
+    ['用户限购数量要大于0!','折扣范围必须由小到大！']
+);</p>
+
+<p>if ($validator->fails())
+{
+    $messages = $validator->messagesInfo();
+    foreach( $messages as $error )
+    {
+        throw new LogicException( $error[0] );
+    }
+}
+```</p>
+
+<p>当一个 Validator 实例被建立，fails（或 passes） 这两个方法就可以在验证时使用，如下：
+<code>
+if ($validator-&gt;fails())
+{
+    // The given data did not pass validation
+}
+</code>
+假如验证失败，您可以从验证器中接收错误信息。（1）
+```
+$messages = $validator->messagesInfo(); </p>
+
+<p>(返回详错误信息，格式为数组如：array('email'=>array(0=>'邮箱格式不对')))</p>
+
+<p>```</p>
+
+<p>假如验证失败，您可以从验证器中接收错误信息。（2）
+<code>
+$messages = $validator-&gt;messages();
+</code></p>
+
+<p><a name="working-with-error-messages"></a></p>
+
+<h2 id="8">1.2. 使用错误信息</h2>
+
+<p>当您调用一个 validator 实例的 messages 方法后，您会得到一个命名为 messageBag的变量，该变量里有许多方便的方法能让您取得相关的错误信息。</p>
+
+<h4 id="9">1. 查看一个字段的第一个错误信息</h4>
+
+<p><code>
+echo $messages-&gt;first('email');
+</code></p>
+
+<h4 id="10">2. 查看一个字段的所有错误信息</h4>
+
+<p><code>
+foreach ($messages-&gt;get('email') as $message)
+{
+    //
+}
+</code></p>
+
+<h4 id="11">3. 查看所有字段的所有错误信息</h4>
+
+<p><code>
+foreach ($messages-&gt;all() as $message)
+{
+    //
+}
+</code></p>
+
+<h4 id="12">4. 判断一个字段是否有错误信息</h4>
+
+<p><code>
+if ($messages-&gt;has('email'))
+{
+    //
+}
+</code></p>
+
+<h2 id="13">1.3. 可用的验证规则</h2>
+
+<p>下面是一个所有可用的验证规则的列表以及它们的功能：</p>
+
+<ul>
+<li><a href="#rule-accepted">Accepted</a></li>
+<li><a href="#rule-active-url">Active URL</a></li>
+<li><a href="#rule-after">After (Date)</a></li>
+<li><a href="#rule-alpha">Alpha</a></li>
+<li><a href="#rule-alpha-dash">Alpha Dash</a></li>
+<li><a href="#rule-alpha-num">Alpha Numeric</a></li>
+<li><a href="#rule-before">Before (Date)</a></li>
+<li><a href="#rule-between">Between</a></li>
+<li><a href="#rule-confirmed">Confirmed</a></li>
+<li><a href="#rule-date">Date</a></li>
+<li><a href="#rule-date-format">Date Format</a></li>
+<li><a href="#rule-different">Different</a></li>
+<li><a href="#rule-digits">Digits</a></li>
+<li><a href="#rule-digitsbetween">Digits Between</a></li>
+<li><a href="#rule-email">E-Mail</a></li>
+<li><a href="#rule-exists">Exists (Database)</a></li>
+<li><a href="#rule-image">Image (File)</a></li>
+<li><a href="#rule-in">In</a></li>
+<li><a href="#rule-integer">Integer</a></li>
+<li><a href="#rule-ip">IP Address</a></li>
+<li><a href="#rule-max">Max</a></li>
+<li><a href="#rule-mimes">MIME Types</a></li>
+<li><a href="#rule-min">Min</a></li>
+<li><a href="#rule-not-in">Not In</a></li>
+<li><a href="#rule-numeric">Numeric</a></li>
+<li><a href="#rule-regex">Regular Expression</a></li>
+<li><a href="#rule-required">Required</a></li>
+<li><a href="#rule-required-if">Required If</a></li>
+<li><a href="#rule-required-with">Required With</a></li>
+<li><a href="#rule-required-without">Required Without</a></li>
+<li><a href="#rule-required-without-all">Required Without All</a></li>
+<li><a href="#rule-same">Same</a></li>
+<li><a href="#rule-size">Size</a></li>
+<li><a href="#rule-url">URL</a></li>
+</ul>
+
+<p><a name="rule-accepted"></a></p>
+
+<h4 id="14">5. ####  accepted</h4>
+
+<p>验证此规则的值必须是 <em>yes</em>、 <em>on</em> 或者是 <em>1</em>。这在验证是否同意"服务条款"的时候非常有用。</p>
+
+<p><a name="rule-active-url"></a></p>
+
+<h4 id="15">6. ####  active_url</h4>
+
+<p>验证此规则的值必须是一个合法的 URL，根据 PHP 函数 <code>checkdnsrr</code>。</p>
+
+<p><a name="rule-after"></a></p>
+
+<h4 id="16">7. ####  after:<em>date</em></h4>
+
+<p>验证此规则的值必须在给定日期之后，该日期将被传递到 PHP 的 <code>strtotime</code> 函数。</p>
+
+<p><a name="rule-alpha"></a></p>
+
+<h4 id="17">8. ####  alpha</h4>
+
+<p>验证此规则的值必须全部由字母字符构成。</p>
+
+<p><a name="rule-alpha-dash"></a></p>
+
+<h4 id="18">9. ####  alpha_dash</h4>
+
+<p>验证此规则的值必须全部由字母、数字、中划线或下划线字符构成。</p>
+
+<p><a name="rule-alpha-num"></a></p>
+
+<h4 id="19">10. ####  alpha_num</h4>
+
+<p>验证此规则的值必须全部由字母和数字构成。</p>
+
+<p><a name="rule-before"></a></p>
+
+<h4 id="20">11. ####  before:<em>date</em></h4>
+
+<p>验证此规则的值必须在给定日期之前，该日期将被传递到 PHP 的 <code>strtotime</code> 函数。</p>
+
+<p><a name="rule-between"></a></p>
+
+<h4 id="21">12. ####  between:<em>min</em>,_max_</h4>
+
+<p>验证此规则的值必须在给定的 <em>min</em> 和 <em>max</em> 之间。字符串、数字以及文件都将使用大小规则进行比较。</p>
+
+<p><a name="rule-confirmed"></a></p>
+
+<h4 id="22">13. ####  confirmed</h4>
+
+<p>验证此规则的值必须和 <code>foo_confirmation</code> 的值相同。比如，需要验证此规则的字段是 <code>password</code>，那么在输入中必须有一个与之相同的 <code>password_confirmation</code> 字段。</p>
+
+<p><a name="rule-date"></a></p>
+
+<h4 id="23">14. ####  date</h4>
+
+<p>验证此规则的值必须是一个合法的日期，根据 PHP 函数 <code>strtotime</code>。</p>
+
+<p><a name="rule-date-format"></a></p>
+
+<h4 id="24">15. date_format:<em>format</em></h4>
+
+<p>验证此规则的值必须符合给定的 <em>format</em> 的格式，根据 PHP 函数 <code>date_parse_from_format</code>。</p>
+
+<p><a name="rule-different"></a></p>
+
+<h4 id="25">16. different:<em>field</em></h4>
+
+<p>验证此规则的值必须与指定的 <em>field</em> 字段的值不同。</p>
+
+<p><a name="rule-digits"></a></p>
+
+<h4 id="26">17. digits:<em>value</em></h4>
+
+<p>验证此规则的值必须是一个 <em>数字</em> 并且必须满足 <em>value</em> 设定的精确长度。</p>
+
+<p><a name="rule-digitsbetween"></a></p>
+
+<h4 id="27">18. digitsbetween:<em>min</em>,_max_</h4>
+
+<p>验证此规则的值，它的长度必须介于 <em>min</em> 和 <em>max</em> 之间。</p>
+
+<p><a name="rule-email"></a></p>
+
+<h4 id="28">19. email</h4>
+
+<p>验证此规则的值必须是一个合法的电子邮件地址。</p>
+
+<p><a name="rule-exists"></a></p>
+
+<h4 id="29">20. exists:<em>table</em>,_column_</h4>
+
+<p>验证此规则的值必须在指定的数据库的表中存在。</p>
+
+<p><strong>Exists 规则的基础使用</strong></p>
+
+<pre class="prettyprint"><code>'state' =&gt; 'exists:states'
+</code></pre>
+
+<p><strong>指定列名</strong></p>
+
+<pre class="prettyprint"><code>'state' =&gt; 'exists:states,abbreviation'
+</code></pre>
+
+<p>你也可以指定更多的条件，将以 "where" 的形式添加到查询。</p>
+
+<pre class="prettyprint"><code>'email' =&gt; 'exists:staff,email,account_id,1'
+</code></pre>
+
+<p>传递 <code>NULL</code> 到 "where" 子句中，将会直接在数据库中查找 <code>NULL</code> 值：</p>
+
+<pre class="prettyprint"><code>'email' =&gt; 'exists:staff,email,deleted_at,NULL'
+</code></pre>
+
+<p><a name="rule-image"></a></p>
+
+<h4 id="30">21. image</h4>
+
+<p>验证此规则的值必须是一个图片 (jpeg, png, bmp 或者 gif)。</p>
+
+<p><a name="rule-in"></a></p>
+
+<h4 id="31">22. in:<em>foo</em>,_bar_,...</h4>
+
+<p>验证此规则的值必须在给定的列表中存在。</p>
+
+<p><a name="rule-integer"></a></p>
+
+<h4 id="32">23. integer</h4>
+
+<p>验证此规则的值必须是一个整数。</p>
+
+<p><a name="rule-ip"></a></p>
+
+<h4 id="33">24. ip</h4>
+
+<p>验证此规则的值必须是一个合法的 IP 地址。</p>
+
+<p><a name="rule-max"></a></p>
+
+<h4 id="34">25. max:<em>value</em></h4>
+
+<p>验证此规则的值必须小于最大值 <em>value</em>。字符串、数字以及文件都将使用大小规则进行比较。</p>
+
+<p><a name="rule-mimes"></a></p>
+
+<h4 id="35">26. mimes:<em>foo</em>,_bar_,...</h4>
+
+<p>验证此规则的文件的 MIME 类型必须在给定的列表中。</p>
+
+<p><strong>MIME 规则的基础使用</strong></p>
+
+<pre class="prettyprint"><code>'photo' =&gt; 'mimes:jpeg,bmp,png'
+</code></pre>
+
+<p><a name="rule-min"></a></p>
+
+<h4 id="36">27. min:<em>value</em></h4>
+
+<p>验证此规则的值必须大于最小值 <em>value</em>。字符串、数字以及文件都将使用大小规则进行比较。</p>
+
+<p><a name="rule-not-in"></a></p>
+
+<h4 id="37">28. not_in:<em>foo</em>,_bar_,...</h4>
+
+<p>验证此规则的值必须在给定的列表中不存在。</p>
+
+<p><a name="rule-numeric"></a></p>
+
+<h4 id="38">29. numeric</h4>
+
+<p>验证此规则的值必须是一个数字。</p>
+
+<p><a name="rule-regex"></a></p>
+
+<h4 id="39">30. regex:<em>pattern</em></h4>
+
+<p>验证此规则的值必须符合给定的正则表达式。</p>
+
+<p><strong>注意：</strong> 当使用 <code>regex</code> 模式的时候，可能需要在一个数组中指定规则，而不是使用 "|" 分隔符，特别是正则表达式中包含一个 "|" 字符的时候。</p>
+
+<p><a name="rule-required"></a></p>
+
+<h4 id="40">31. required</h4>
+
+<p>验证此规则的值必须在输入数据中存在。</p>
+
+<p><a name="rule-required-if"></a></p>
+
+<h4 id="41">32. required_if:<em>field</em>,_value_</h4>
+
+<p>如果指定的 <em>field</em> 字段等于指定的 <em>value</em> ，那么验证此规则的值必须存在。</p>
+
+<p><a name="rule-required-with"></a></p>
+
+<h4 id="42">33. required_with:<em>foo</em>,_bar_,...</h4>
+
+<p><em>仅当</em> 其它指定的字段存在的时候，验证此规则的值必须存在。</p>
+
+<p><a name="rule-required-without"></a></p>
+
+<h4 id="43">34. required_without:<em>foo</em>,_bar_,...</h4>
+
+<p><em>仅当</em> 其它指定的字段有一个不存在的时候，验证此规则的值必须存在。</p>
+
+<p><a name="rule-required-without-all"></a></p>
+
+<h4 id="44">35. required_without_all:<em>foo</em>,_bar_,...</h4>
+
+<p><em>仅当</em> 其它指定的字段都不存在的时候，验证此规则的值必须存在。</p>
+
+<p><a name="rule-same"></a></p>
+
+<h4 id="45">36. same:<em>field</em></h4>
+
+<p>验证此规则的值必须与给定的 <em>field</em> 字段的值相同。</p>
+
+<p><a name="rule-size"></a></p>
+
+<h4 id="46">37. size:<em>value</em></h4>
+
+<p>验证此规则的值的大小必须与给定的 <em>value</em> 相同。对于字符串，<em>value</em> 代表字符的个数；对于数字，<em>value</em> 代表它的整数值，对于文件，<em>value</em> 代表文件以KB为单位的大小。</p>
+
+<p><a name="rule-url"></a></p>
+
+<h4 id="47">38. url</h4>
+
+<p>验证此规则的值必须是一个合法的 URL。</p>
+
+<p><a name="conditionally-adding-rules"></a></p>
+
+<h2 id="48">1.4. 有条件的添加规则</h2>
+
+<p>有时你可能希望给定的字段仅当另一个字段的值大于100的时候必须存在。或者你可能需要两个字段均含有一个给定的值，仅当另一个字段存在的时候。添加这些验证规则并没有那么麻烦。首先，创建一个使用你永远不会改变的 <em>static rules</em> 的 <code>Validator</code> 实例：</p>
+
+<pre class="prettyprint"><code>$v = validator::make($data, array(
+    'email' =&gt; 'required|email',
+    'games' =&gt; 'required|numeric',
+));
+</code></pre>
+
+<p>假设我们的WEB应用程序是服务于游戏收藏爱好者们。如果一个游戏收藏爱好者注册了我们的应用程序，并且他们拥有100多款游戏，我们想让他们说明为什么他们会拥有如此多的游戏。例如，或许他们要开一个游戏转售店，或者也许他们只是喜欢收集。为了有条件的添加这个需求，我们可以使用 <code>Validator</code> 实例的 <code>sometimes</code> 函数。</p>
+
+<pre class="prettyprint"><code>$v-&gt;sometimes('reason', 'required|max:500', function($input)
+{
+    return $input-&gt;games &gt;= 100;
+});
+</code></pre>
+
+<p><code>sometimes</code> 函数的第一个参数是我们有条件的验证的字段名。第二个参数是我们要添加的规则。如果 <code>Closure</code> 作为第三个参数且返回了 <code>true</code>，规则将被添加。这种方法可以很容易构建复杂的条件验证。你甚至可以一次性为多个字段添加条件验证：</p>
+
+<pre class="prettyprint"><code>$v-&gt;sometimes(array('reason', 'cost'), 'required', function($input)
+{
+    return $input-&gt;games &gt;= 100;
+});
+</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. prism rpc</a></li><li><a href="#2">1.1. prism概念</a></li><li><a href="#3">1.2. clint端调用方式</a></li><li><a href="#4">1.3. server端API配置</a></li><li><a href="#5">2. server端API开发方式</a></li></ul></div><div class="span9"><h1 id="1">1. prism rpc</h1>
+
+<ul>
+<li><a href="#concept">prism概念</a></li>
+<li><a href="#call-method">client端调用方式</a></li>
+<li><a href="#api-configuration">server端API配置</a></li>
+<li><a href="#server-api">server端API开发方式</a></li>
+</ul>
+
+<p><a name="basic-input"></a></p>
+
+<h2 id="2">1.1. prism概念</h2>
+
+<p>在luckymall系统中, 使用prism作为api管理中心. 以实现类soa的架构, 将服务和应用剥离开.</p>
+
+<blockquote>
+  <p><strong>什么是prism</strong> 便快捷的搭建自己的API管理中心，导入式的发布API流程，通过建立应用颁发Key和Secret管理API的分组和授权，
+  完善的流控机制，提供多纬度的统计和监控数据便于精准运营和管理自己的API，通过MQ实现完善的消息机制，支持第三方oauth登录，
+  提供全面的二次开发支持。</p>
+</blockquote>
+
+<p>luckymall同时支持prism和非prism的方式. 当不使用prism的情况下, 会直接调用对应的api处理类.</p>
+
+<p><a name="call-method"></a></p>
+
+<h2 id="3">1.2. clint端调用方式</h2>
+
+<p>调用远程的方式
+ou may need to read this to get an overview of the json structures that are used, although the heavy lifting is abstracted away by this implementation. For example, calling a method on a remote server is as simple as:</p>
+
+<p>如果遇到错误会throw Exception.</p>
+
+<p><code>php
+&lt;?php
+try
+{
+    $result = rpc::call('method', array('param1', 'param2'));
+    var_dump($result);
+}
+catch (\LogicException $e)
+{
+    // 逻辑处理 
+}
+catch (\RunException $e)
+{
+    // 运行时错误处理
+}
+</code></p>
+
+<p><a name="api-configuration"></a></p>
+
+<h2 id="4">1.3. server端API配置</h2>
+
+<p>luckymall所有预定义的api接口定义在<code>config/apis.php</code>, 如下例所示</p>
+
+<p><code>php
+return array(
+    # ...
+    'routes' =&gt; array(
+        # ...
+        # syscategory
+        'test.test' =&gt; ['uses' =&gt; 'syscategory_api_default@test', 'version'=&gt;['v1', 'v2']],
+        # ...
+    ),
+    # ...
+);
+</code></p>
+
+<p><a name="server-api"></a></p>
+
+<h1 id="5">2. server端API开发方式</h1>
+
+<p>API写到<code>app/[app name]/api</code>目录下.</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 缓存配置文档和使用方法(以memcached为例)</a></li><li><a href="#2">1. 简介</a></li><li><a href="#3">2. 安装</a></li><li><a href="#4">3. php memcached扩展的安装</a></li><li><a href="#5">4. bbc中配置memcached</a></li></ul></div><div class="span9"><h1 id="1">1. 缓存配置文档和使用方法(以memcached为例)</h1>
+
+<h3 id="2">1. 简介</h3>
+
+<p><code>
+Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。
+它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的
+速度。Memcached基于一个存储键/值对的hashmap。其守护进程（daemon）是用C写的，但
+是客户端可以用任何语言来编写，并通过memcached协议与守护进程通信
+</code></p>
+
+<h3 id="3">2. 安装</h3>
+
+<p>memcached安装依赖libevent，请先安装libevent
+```
+tar zxvf libevent-2.0.21-stable.tar.gz
+ cd libevent-2.0.21-stable
+ ./configure --prefix=/usr/local/webserver/libevent
+ make
+ make install</p>
+
+<p>wget <a href="http://memcached.org/latest">http://memcached.org/latest</a>
+tar -zxvf memcached-1.4.24.tar.gz
+ cd memcached-1.4.24
+ ./configure --prefix=/usr/local/webserver/memcached --with-libevent=/usr/local/webserver/libevent/
+ make
+ make install
+```</p>
+
+<h3 id="4">3. php memcached扩展的安装</h3>
+
+<p><code>
+wget http://launchpad.net/libmemcached/1.0/1.0.2/+download/libmemcached-1.0.2.tar.gz
+</code></p>
+
+<p>在 <a href="https://pecl.php.net/package/memcached">https://pecl.php.net/package/memcached</a> 下载最新的版本2.2.0</p>
+
+<p>得到两个文件libmemcached-1.0.2.tar.gz和memcached-2.2.0.tgz</p>
+
+<p>安装libmemcached-1.0.2.tar.gz，解压后进入解压的文件夹，执行
+<code>
+./configure --prefix=/usr/local/libmemcached --with-memcached
+make
+make install
+</code></p>
+
+<p>安装memcached-2.2.0.tgz，解压后进入解压的文件夹，执行
+<code>
+/usr/local/webserver/php/bin/phpize <br>
+./configure --with-php-config=/usr/local/webserver/php/bin/php-config  --with-libmemcached-dir=/usr/local/webserver/libmemcached/
+make
+make install
+</code></p>
+
+<p>修改php.inp，增加如下信息：
+<code>
+extension=memcached.so
+</code></p>
+
+<h3 id="5">4. bbc中配置memcached</h3>
+
+<p>bbc中使用cache的配置放在config/cache.php中
+将config/cache.php复制到config/production/cache.php</p>
+
+<p>```php
+<?php
+/**
+ * ShopEx licence
+ *
+ * @copyright  Copyright (c) 2005-2012 ShopEx Technologies Inc. (http://www.shopex.cn)
+ * @license  <a href="http://ecos.shopex.cn/">http://ecos.shopex.cn/</a> ShopEx License
+ */</p>
+
+<p>return array(</p>
+
+<pre class="prettyprint"><code>'enabled' =&gt; true,//默认是false，启用改为true
+/*
+|--------------------------------------------------------------------------
+| 默认缓存处理
+|--------------------------------------------------------------------------
+|
+| 默认缓存处理类
+| 目前支持 base_cache_secache | base_cache_nocache | base_cache_memcached
+| 对应原系统: WITHOUT_CACHE CACHE_STORAGE
+|
+*/
+'default' =&gt; 'base_cache_memcached',//默认是base_cache_secache 现在修改为：base_cache_memcached
+
+/*
+|--------------------------------------------------------------------------
+| memcached配置
+|--------------------------------------------------------------------------
+|
+| 支持 socket  'unix:///tmp/memcached.sock' 和 '127.0.0.1:11211'两种写法
+|
+*/
+'base_cache_memcached' =&gt; array(
+    'hosts' =&gt; array(
+        '127.0.0.1:11211',
+        //'127.0.0.1:11212',//多个用数组表示
+    )
+),
+</code></pre>
+
+<p>```</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

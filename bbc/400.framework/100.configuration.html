@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 配置</a></li><li><a href="#2">1.1. 咋玩</a></li><li><a href="#3">1. 获取一个配置项的值</a></li><li><a href="#4">2. 为配置项赋值</a></li><li><a href="#5">1.2. 增加新的配置项</a></li><li><a href="#6">3. 采用setting还是config机制</a></li><li><a href="#7">4. 增加新的配置文件</a></li><li><a href="#8">5. 增加新的配置项</a></li></ul></div><div class="span9"><h1 id="1">1. 配置</h1>
+
+<ul>
+<li><a href="#introduction">简介</a></li>
+<li><a href="#new-configuration-item">增加新的配置项</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+
+<h2 id="2">1.1. 咋玩</h2>
+
+<p>所有关于LuckyMall的配置文件都放在<code>app/config</code>目录里, 在安装后会挪到<code>config/production</code>目录里. 所有文件里的配置选项都有说明文档, 因此你可以轻松的查看这些文件, 并熟悉写配置项.</p>
+
+<blockquote>
+  <p><strong>兼容</strong> 系统前身ecstore中的<code>config/config.php</code>被取消掉. 不再采用常量定义的方式. 有部分常量定义被挪到<code>compatible.php</code>中, 会陆续搬出.</p>
+</blockquote>
+
+<p>当你需要在运行访问配置项时, 可以使用<code>config</code>类：</p>
+
+<h4 id="3">1. 获取一个配置项的值</h4>
+
+<pre class="prettyprint"><code> config::get('app.timezone');
+</code></pre>
+
+<p>如果配置项不存在，你还可以指定返回的默认值:</p>
+
+<pre class="prettyprint"><code>$timezone = config::get('app.timezone', 8);
+</code></pre>
+
+<p>配置项获取支持任何节点, 因此可以这样做, 获取一个数组:</p>
+
+<pre class="prettyprint"><code>config::get('app);
+</code></pre>
+
+<h4 id="4">2. 为配置项赋值</h4>
+
+<p>注意"点"式语法可以用来访问不同文件里的配置项的值。你还可以在运行时为配置项赋值:</p>
+
+<pre class="prettyprint"><code>config::set('database.host, '127.0.0.1');
+</code></pre>
+
+<p>在程序运行时设置的配置值只在本次请求中有效，不会对以后的请求造成影响。</p>
+
+<p><a name="new-configuration-item"></a></p>
+
+<h2 id="5">1.2. 增加新的配置项</h2>
+
+<h4 id="6">3. 采用setting还是config机制</h4>
+
+<p>需要考虑几方面的考量:</p>
+
+<ol>
+<li>配置项是否是应该存在框架中的?</li>
+<li>配置是否需要由运营人员在, 在系统运行时修改? 如果是肯定的, 需要考量是否会对系统造成影响尤其是在集群部署环境下?
+<ol><li>是否可以采用动态修改config值的方式?</li></ol></li>
+</ol>
+
+<p>如果都没问题, 那么可以采用config方式</p>
+
+<h4 id="7">4. 增加新的配置文件</h4>
+
+<p>查看<code>app/config</code>目录下是否存在相关配置文件, 如果不存在, 首先要建立新的配置文件</p>
+
+<p>在系统安装时会将变更的文件copy到<code>config/production</code>目录下, 如果使用默认设置将不会做额外动作</p>
+
+<p>为了避免<code>config</code>目录被污染, 需要将添加的文件放入<code>config/production/.gitignore</code>.</p>
+
+<blockquote>
+  <p><strong>注意</strong> config目录是用来放置本地的配置, 属于个性化数据, 因此不能提交到git中. </p>
+</blockquote>
+
+<h4 id="8">5. 增加新的配置项</h4>
+
+<p>在<code>app/config/production</code>找到对应的配置文件进行修改</p>
+
+<p>如果目录下没有, 需要从<code>app/config</code>下找到对应文件copy过来</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

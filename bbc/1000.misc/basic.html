@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 基本介绍</a></li><li><a href="#2">1.1. 配置</a></li><li><a href="#3">1.2. 商家管理中心router介绍</a></li><li><a href="#4">1.3. 商家管理中心controller介绍</a></li><li><a href="#5">1.4. object组件使用说明</a></li><li><a href="#6">1.5. 邮件短信发送调用说明</a></li><li><a href="#7">1.6. pagers组件使用说明</a></li><li><a href="#8">1.7. 会员中心左侧标签嵌套右侧页面方法</a></li></ul></div><div class="span9"><h1 id="1">1. 基本介绍</h1>
+
+<h2 id="2">1.1. 配置</h2>
+
+<p>在LuckyMall的配置文件的<code>shop.php</code>文件中配置商家管理管理中心的菜单
+在商家管理中心的所有控制器都需要在此定义，可以自定义配置是否需要显示在前台</p>
+
+<pre class="prettyprint"><code>'trade' =&gt; array(
+    'lable' =&gt; '交易管理', //导航栏显示标题名称
+    'display' =&gt; true, //是否显示
+    'menu' =&gt; array(
+      array(
+        'lable'=&gt;'订单管理', //左边栏显示标题
+        'diaplay'=&gt;true, //是否显示
+        'app'=&gt;'topshop',
+        'ctl'=&gt;'order',
+        'act'=&gt;'index'
+        ),
+      array('lable'=&gt;'退款管理','diaplay'=&gt;true,'app'=&gt;'topshop','ctl'=&gt;'refund','act'=&gt;'index'),
+      ),
+),
+</code></pre>
+
+<h2 id="3">1.2. 商家管理中心router介绍</h2>
+
+<p>router和ECStore后台一致</p>
+
+<h2 id="4">1.3. 商家管理中心controller介绍</h2>
+
+<pre class="prettyprint"><code>/**
+ * @brief 商家中心页面加载，默认包含商家中心头、尾、导航、和左边栏
+ *
+ * @param string $view  html路径
+ * @param bool   $small 是否需要包含导航和左边栏,false只包含头和尾
+ * @param stirng $app   html路径所在app
+ *
+ * @return html
+ */
+public function page($view, $small=false, $app='topshop')
+{
+}
+</code></pre>
+
+<h2 id="5">1.4. object组件使用说明</h2>
+
+<pre class="prettyprint"><code>object 参数列表
+    return_url                            //选填 此参数和callback配合使用返回值处理链接（控制器 ）
+    callback                              //选填 此参数和return_url配合使用返回值处理  js函数
+    breakpoint                            //选填 当数据少于此值时 显示下拉框
+    limitmax                              //选填 选择数据的最大数量
+    view                                  //选填 扩展内容的页面
+    extendvalue                           //当有扩展页面并且有输入值时，必填 当编辑时，扩展里面需要赋值时通过此参数传值
+    data['init']                          //选填 js函数
+    textcol                               //选填 当select为checkbox时必填  选择那些字段显示
+    name                                  //必填 名称
+    value                                 //选填 当编辑是必填 选中的值
+    emptytext                             //选填  为空时显示的内容
+  * type="object"                         //必填
+  * object="表名"                         //必填 格式为 mdl名或者mdl@appname
+  * select="radio or checkbox"            //选填  默认为radio
+    multiple="true"                       //当select为checkbox时，必填
+    filter=array() or string              //表的查询条件 选填
+    app="appname"                         //选填  不填时  object的写法有变，如：goods@b2c
+
+&lt;{input type="Object" name="testobject" object="specification" multiple="true" select="checkbox" value=$value}&gt;
+</code></pre>
+
+<h2 id="6">1.5. 邮件短信发送调用说明</h2>
+
+<pre class="prettyprint"><code>发送邮件短信分为直接发送和队列发送
+
+直接发送调用方式
+    messenger::sendEmail($sendTo,$tmpl,$content); //直接发送邮件
+    messenger::sendSms($to,$tmpl,$content); //直接发送短信
+
+队列发送调用方式
+    messenger::send($sendTo,$tmpl,$content)  //通过队列发送邮件短信
+
+传送的参数说明
+    $sendTo: 邮件或短信的收信方，邮件短信一起发送时，此参数是数组，如：
+       array(
+        'sms' =&gt; ""; 电话号码用逗号隔开的字符集或数组
+        'email' =&gt; "";邮箱地址用逗号隔开的字符集或数组
+       );
+    $tmpl: 需要发送的短信邮件的模板名称，如：account-signup(手机注册短信验证)
+    $content:类型-array、发送的内容、对象等等，如：
+    $content = array('name','goods_name','user_name','password',...),  //邮件或短信中需要包含的信息(变量的值)
+
+    邮件短信发送已经写了初始的测试用例，具体用法可参照使用
+
+    扩展发送项 以及 模板方法
+    在config/messenger.php文件中，在messenger的数组中增加需要的项，如：
+        msg=array(
+        'label' =&gt; '站内信',
+          'display' =&gt; true,
+          'iconclass' =&gt; 'sysiconBtn msg',
+          'name_show' =&gt; '发站内信',
+         'version' =&gt; '$ver$',
+          'updateUrl' =&gt; '',
+          'isHtml' =&gt; true,
+          'hasTitle' =&gt; true,
+          'maxtime' =&gt; 300,
+          'maxbodylength' =&gt; 300,
+          'allowMultiTarget' =&gt; false,
+          'targetSplit' =&gt; ',',
+          'dataname' =&gt; 'msg',
+          'debug' =&gt; false,
+          'class' =&gt; 'system_messenger_msg',  //发送的具体函数类
+        ),
+    在config/messenger.php文件中，在actions的数组中增加需要的模板，如：
+        create-order=array(
+         'label' =&gt; '创建订单',
+          'email' =&gt; 'true',
+          'sms' =&gt; 'true',
+          'sendType' =&gt; 'notice',
+          'varmap' =&gt; '订单号&lt;{$order_id}&gt; 收货地址&lt;{$receiver_address}&gt;',
+          'view' =&gt;'',  //模板html文件地址
+        ),
+</code></pre>
+
+<h2 id="7">1.6. pagers组件使用说明</h2>
+
+<pre class="prettyprint"><code>pagers 参数
+    data=array(
+        'link'=&gt;url::action('topc_ctl_list@index',$filter),    //翻页链接
+        'current'=&gt;$current,      //起始页码  number
+        'total'=&gt;$total,          //总页码   number
+        'token'=&gt;$filter['pages'],  //随机数  赋值为time()
+    );必填
+    type='mini'; 选填
+
+html页面调用方式
+&lt;{pagers data=$pages}&gt;
+
+注意：具体使用请仔细查看 topc_ctl_list@index
+</code></pre>
+
+<h2 id="8">1.7. 会员中心左侧标签嵌套右侧页面方法</h2>
+
+<pre class="prettyprint"><code>$this-&gt;action_view  //此参数的作用是html页面文件名
+最终输出页面情调用 $this-&gt;output();
+新增左侧菜单标签方法：
+    config/usermenu.php
+
+    array(
+      'label' =&gt; '新的标签名称',
+      'items' =&gt; array(
+          array('label' =&gt; '新的子标签名称','action'=&gt;'topc_ctl_member@tradeList'),
+    ),
+</code></pre>
+
+<p>17     ),</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

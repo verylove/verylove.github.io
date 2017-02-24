@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. prism server</a></li><li><a href="#2">1.1. Api写法</a></li><li><a href="#3">1.2. Server用法(不带router)</a></li><li><a href="#4">1.3. Server用法（带router）</a></li><li><a href="#5">1.4. Server加载过滤器</a></li></ul></div><div class="span9"><h1 id="1">1. prism server</h1>
+
+<h2 id="2">1.1. Api写法</h2>
+
+<p>需要实现自己的类，方法为如下格式：
+```
+class classname
+{
+  public function funname($request, $response)
+  {
+      // 获取请求中的Params
+      $request->getParams();
+      // 获取请求中的Request ID
+      $request->getRequestID();
+      // 获取用户登录的信息
+      $request->getOauth();
+      // 获取应用的信息
+      $request->getAppInfo();
+      //获取请求者IP
+      $request->getCallerIP();
+      // 获取自定义头信息
+      $request->getHeaders();
+      // 获取请求的类型GET/POST/PUT/DELETE
+      $request->getMethod();
+      // 获取请求的地址 (path)
+      $request->getPath();</p>
+
+<pre class="prettyprint"><code>  // 添加自定义头 比如'Content-Type： text/json;charset=utf8'
+  $response-&gt;setHeader($key, $value);
+  // 设置返回内容, $result可以是字符串数组对象等
+  $response-&gt;setResult($result);
+  // 设置错误内容,会自动添加错误码 $message：错误类型, $data: 错误信息
+  $response-&gt;setError($message, $data);
+  // 获取$headers 包括自定义的Header
+  $response-&gt;getHeaders();
+  // 获取$request_id
+  $response-&gt;getRequestID();
+  // 获取JSON格式的响应内容(JSONRPC2.0)
+  $response-&gt;getJSON();
+  // 发送响应 会执行exit()
+  $response-&gt;send();
+</code></pre>
+
+<p>}
+}
+```</p>
+
+<h2 id="3">1.2. Server用法(不带router)</h2>
+
+<p><code>
+$server = new PrismServer(); // 创建服务端实例
+/**
+* $handler:         类名@方法名
+* $require_oauth:   是否需要oauth验证(默认为false)
+*/
+$server-&gt;dispatch('AppleStore@getList', false);
+</code></p>
+
+<h2 id="4">1.3. Server用法（带router）</h2>
+
+<p><code>
+$server = new PrismServer(); // 创建服务端实例
+$server-&gt;get('/ping', 'AppleStore@pong');
+//第一个参数表示routing_key，第二个参数是类名@方法名，第三个为是否需要oauth验证
+$server-&gt;get('/get_list', 'AppleStore@getList', false);
+</code></p>
+
+<h2 id="5">1.4. Server加载过滤器</h2>
+
+<p><code>
+$server = new PrismServer(); // 创建服务端实例
+//public function validate($request,$response)
+$server-&gt;uses('EcosValidator@validate'); // 使用Ecos的验签middleware来验证
+$server-&gt;dispatch('AppleStore@getList', false);
+</code></p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

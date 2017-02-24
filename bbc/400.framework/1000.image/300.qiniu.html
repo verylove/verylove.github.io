@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 使用七牛存储，图片分离方案</a></li><li><a href="#2">1. 系统依赖说明</a></li><li><a href="#3">2. 七牛网站配置</a></li><li><a href="#4">3. B2B2C配置</a></li><li><a href="#5">4. 旧图片URL替换</a></li></ul></div><div class="span9"><h1 id="1">1. 使用七牛存储，图片分离方案</h1>
+
+<ul>
+<li><a href="#system">系统依赖说明</a></li>
+<li><a href="#qiniu-init">七牛网站配置</a></li>
+<li><a href="#bbc-conf">B2B2C配置</a></li>
+<li><a href="#uphost">旧图片URL替换</a></li>
+</ul>
+
+<p><a name="system"></a></p>
+
+<h3 id="2">1. 系统依赖说明</h3>
+
+<blockquote>
+  <p>七牛的php-sdk包需要 php的 php_curl扩展进行支持，因此需要保证php有php_curl扩展</p>
+</blockquote>
+
+<p><a name="qiniu-init"></a></p>
+
+<h3 id="3">2. 七牛网站配置</h3>
+
+<p>七牛网站地址：http://www.qiniu.com
+- 注册后新建一个空间
+- 进入数据处理</p>
+
+<pre class="prettyprint"><code>```
+1. 设置分隔符为下划线
+</code></pre>
+
+<p>2. 新建图片样式(新建三种图片样式，分别为 L M S 三个规格的小写字母加上jpg的样式名称)
+    样式名称为 l.jpg m.jpg s.jpg
+    样式大小应该和运营平台的 商品相册图 商品页详细图 列表页缩略图的大小一致
+    ```</p>
+
+<p><a name="bbc-conf"></a></p>
+
+<h3 id="4">3. B2B2C配置</h3>
+
+<p>打开config/storager.php
+```php
+<?php
+/**
+ * ShopEx licence
+ *
+ * @copyright  Copyright (c) 2005-2012 ShopEx Technologies Inc. (http://www.shopex.cn)
+ * @license  <a href="http://ecos.shopex.cn/">http://ecos.shopex.cn/</a> ShopEx License
+ */</p>
+
+<p>return array(
+    /*
+    |--------------------------------------------------------------------------
+    | 默认storage处理类
+    |--------------------------------------------------------------------------
+    |
+    | 默认storage处理方式
+    | 目前支持 ttprosystem | base_storage_filesystem
+    | 对应原系统:  KVSTORE_STORAGE
+    |
+    */
+    'default' => 'qiniu',</p>
+
+<pre class="prettyprint"><code>//配置七牛的调用权限
+'qiniu' =&gt; array(
+    'auth' =&gt; [
+        //账号中的密匙中的AK
+        'accessKey'=&gt;'kejAhJms5tFC7foJqqoML3RKYueYNHQKUjRakbKK',
+        //账号中的密匙中的SK
+        'secretKey'=&gt;'6BGwR95rnSsq5XDK5csknfhNBFX_ons2ff4K4Y_c'
+    ],
+    //刚才新建的图片空间名称
+    'bucket' =&gt; 'test',
+),
+
+/*
+|--------------------------------------------------------------------------
+| 图片映象站地址
+|--------------------------------------------------------------------------
+|
+| 图片资源映像站地址
+|
+*/
+'host_mirrors_img' =&gt; array(
+    //选择一个空间 空间设置-域名设置 里面会有七牛提供的域名 也可以替换为自己的域名
+    'http://7xk29g.com1.z0.glb.clouddn.com'
+)
+</code></pre>
+
+<p>);
+?>
+```</p>
+
+<p><a name="uphost"></a></p>
+
+<h3 id="5">4. 旧图片URL替换</h3>
+
+<ul>
+<li>替换就图片域名</li>
+<li>选择图片空间－》空间设置－》设置镜像存储</li>
+</ul>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

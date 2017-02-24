@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. bbc-vagrant方式开发环境部署</a></li><li><a href="#2">1.1. 下载地址</a></li><li><a href="#3">1.2. 原理</a></li><li><a href="#4">1.3. 安装文档</a></li><li><a href="#5">1.4. 注意事项</a></li><li><a href="#6">1.5. Vagrant 操作命令</a></li><li><a href="#7">1.6. BOX相关参数</a></li></ul></div><div class="span9"><h1 id="1">1. bbc-vagrant方式开发环境部署</h1>
+
+<ul>
+<li><a href="#down-load">下载地址</a></li>
+<li><a href="#descript">基本原理</a></li>
+<li><a href="#setup-doc">安装文档</a></li>
+<li><a href="#notice">注意事项</a></li>
+<li><a href="#vagrant-command">vagrant 操作命令</a></li>
+<li><a href="#box-params">vagrant box相关参数</a></li>
+</ul>
+
+<p><a name='download'></a></p>
+
+<h2 id="2">1.1. 下载地址</h2>
+
+<p>VirtualBox <a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a></p>
+
+<p>Vagrant <a href="https://www.vagrantup.com/downloads.html">https://www.vagrantup.com/downloads.html</a></p>
+
+<p>BOX包 <a href="http://122.144.135.218/commerce_b2b2c-lnmp-with-prism-0.0.2.box">http://122.144.135.218/commerce_b2b2c-lnmp-with-prism-0.0.2.box</a></p>
+
+<p><a name='descript'></a></p>
+
+<h2 id="3">1.2. 原理</h2>
+
+<p>VirtualBox 是一款开源虚拟机软件。</p>
+
+<p>Vagrant是一个基于Ruby的工具，用于创建和部署虚拟化开发环境。它使用Oracle的开源VirtualBox虚拟化系统，使用Chef创建自动化虚拟环境。</p>
+
+<p>BBC Vagrant 是基于VirtualBox创建的虚拟机，并通过Vagrant进行打包而得到的VM环境。在虚拟机中部署好开发环境并建立虚拟机和实体机的文件共享，在开发时，可以通过实体机进行文件修改，并经过虚拟机中的环境执行，从而实现不同操作系统的工作环境的轻松部署。</p>
+
+<p><a name='setup-doc'></a></p>
+
+<h2 id="4">1.3. 安装文档</h2>
+
+<ul>
+<li><p>下载并安装VirtualBox（ <a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a> ）。</p></li>
+<li><p>VirtualBox 4.3.12下载地址(windows请用此链接)：http://dlc-cdn.sun.com/virtualbox/4.3.12/index.html</p></li>
+<li><p>下载并安装Vagrant（ <a href="http://www.vagrantup.com/downloads.html">http://www.vagrantup.com/downloads.html</a> ）。</p></li>
+<li><p>下载box文件。</p></li>
+<li><p>执行vagrant box add bbc/centos65 $name.box。</p>
+
+<p>vagrant box add bbc/centos65 /data/vm/commerce_b2b2c-lnmp-with-prism-0.0.2.box</p></li>
+<li><p>进入工作目录（workspace）(cd workspacedir)(比如:cd ~/code/)。</p>
+
+<p>cd ~/code/</p></li>
+<li><p>执行vagrant init bbc/centos65。</p>
+
+<p>vagrant init bbc/centos65</p></li>
+<li><p>执行vagrant up。</p>
+
+<p>vagrant up</p></li>
+<li><p>在工作目录(workspace)解压bbc开发包，用浏览器打开127.0.0.1:8000即可。</p></li>
+</ul>
+
+<p><a name='notice'></a></p>
+
+<h2 id="5">1.4. 注意事项</h2>
+
+<ul>
+<li><p>所有操作需要在workspace目录下执行</p></li>
+<li><p>浏览页面是127.0.0.1:8000。对应workspace/ecstore/</p></li>
+<li><p>mysql网页配置端口是3306，如果需要从母机连接，需要访问33060端口。</p></li>
+<li><p>如果需要连接ssh，为：vagrant ssh 即可。</p></li>
+<li><p>windows下，因为virtualbox本身一个bug，所以不能使用4.3.18版本，4.3.12版本可以用。</p></li>
+<li><p>win8可能需要改bios（开启intel的虚拟技术intel Virtualization Technology）</p></li>
+<li><p>box中的系统是64位的，建议在64位操作系统中使用</p></li>
+</ul>
+
+<p><a name='vagrant-command'></a></p>
+
+<h2 id="6">1.5. Vagrant 操作命令</h2>
+
+<ul>
+<li><p>导入box</p>
+
+<p>vagrant box add [BOX NAME] [BOX URL]</p></li>
+<li><p>显示box列表</p>
+
+<p>vagrant box list</p></li>
+<li><p>移除box列表</p>
+
+<p>vagrant box remove [BOX NAME]</p></li>
+<li><p>初始化Vagrant（给当前目录创建vagrant环境）</p>
+
+<p>vagrant init [BOX NAME]</p></li>
+<li><p>启动Vagrant</p>
+
+<p>vagrant up</p></li>
+<li><p>关闭Vagrant</p>
+
+<p>vagrant halt</p></li>
+<li><p>暂停Vagrant</p>
+
+<p>vagrant suspend</p></li>
+<li><p>删除当前目录的Vagrant环境</p>
+
+<p>vagrant destroy</p></li>
+<li><p>实际环境中如果需要进行其它操作，可以使用-h参数来获取帮助例如：</p>
+
+<p>vagrant -h</p></li>
+</ul>
+
+<p><a name='box-params'></a></p>
+
+<h2 id="7">1.6. BOX相关参数</h2>
+
+<ul>
+<li>ecstore-lnmp-0.0.2.box 应用参数</li>
+</ul>
+
+<table>
+<tbody><tr>
+<th>项目</th>
+
+<th>内容</th>
+</tr>
+
+<tr>
+<td>centos</td>
+
+<td>6.5</td>
+</tr>
+
+<tr>
+<td>libmcrypt</td>
+
+<td>2.5.7</td>
+</tr>
+
+<tr>
+<td>libxml</td>
+
+<td>2.9.0</td>
+</tr>
+
+<tr>
+<td>freetype</td>
+
+<td>62.3.5</td>
+</tr>
+
+<tr>
+<td>gd</td>
+
+<td>2.0.35</td>
+</tr>
+
+<tr>
+<td>mysql</td>
+
+<td>5.6.16</td>
+</tr>
+
+<tr>
+<td>nginx</td>
+
+<td>1.5.10</td>
+</tr>
+
+<tr>
+<td>php</td>
+
+<td>5.3.28</td>
+</tr>
+
+<tr>
+<td>zend guard loader</td>
+
+<td>php-5.3-linux-glibc23-x86_64</td>
+</tr>
+
+<tr>
+<td>mysql用户名密码</td>
+
+<td>用户名：root，密码无</td>
+</tr>
+
+<tr>
+<td>linux用户名密码</td>
+
+<td>root用户和vagrant用户，密码均为vagrant</td>
+</tr>
+
+<tr>
+<td>安装目录</td>
+
+<td>/usr/local/webserver（php/mysql/nginx/freetype/gd）</td>
+</tr>
+
+<tr>
+<td>启动脚本</td>
+
+<td>/etc/init.d/(php-fpm|nginx|mysql)</td>
+</tr>
+
+<tr>
+<td>php配置文件</td>
+
+<td>/usr/local/webserver/php/php.ini</td>
+</tr>
+
+<tr>
+<td>php-fpm配置文件</td>
+
+<td>/usr/local/webserver/php/etc/php-fpm.conf</td>
+</tr>
+
+<tr>
+<td>nginx配置文件</td>
+
+<td>/usr/local/webserver/nginx/conf/nginx.conf</td>
+</tr>
+
+<tr>
+<td>mysql配置文件</td>
+
+<td>/etc/my.cnf</td>
+</tr>
+
+<tr>
+<td>共享目录</td>
+
+<td>/vagrant/</td>
+</tr>
+
+<tr>
+<td>www目录</td>
+
+<td>/vagrant/ecstore/</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>ecstore-lnmp-0.0.2.box 端口映射</li>
+</ul>
+
+<table>
+<tbody><tr>
+<th>应用</th>
+
+<th>端口号</th>
+
+<th>映射端口号</th>
+</tr>
+
+<tr>
+<td>ssh</td>
+
+<td>22</td>
+
+<td>2222</td>
+</tr>
+
+<tr>
+<td>nginx</td>
+
+<td>80</td>
+
+<td>8000</td>
+</tr>
+
+<tr>
+<td>prism</td>
+
+<td>8080</td>
+
+<td>8001</td>
+</tr>
+
+<tr>
+<td>mongodb</td>
+
+<td>27017</td>
+
+<td>-</td>
+</tr>
+
+<tr>
+<td>rabbitmq-server(web)(预占用)</td>
+
+<td>15672</td>
+
+<td>8002</td>
+</tr>
+
+<tr>
+<td>mysql</td>
+
+<td>3306</td>
+
+<td>33060</td>
+</tr>
+
+<tr>
+<td>php-fpm</td>
+
+<td>9000</td>
+
+<td>-</td>
+</tr>
+</tbody></table>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 目录结构</a></li></ul></div><div class="span9"><h1 id="1">1. 目录结构</h1>
+
+<p>下表中, 左侧列黑体字代表目录 普通字代表文件</p>
+
+<p>| <em>文件/目录名</em>  | <em>作用</em>         |
+| ------------- |:-------------:|
+| <strong>public</strong> | 公用文件目录 |
+| <strong>public/index.php* | web访问入口文件 |
+| **public/app/{$app_name}/lang</strong> | {$app_name}的多语言包 |
+| <strong>public/app/{$app_name}/statics</strong> | {$app_name}的多语言包 |
+| <strong>public/files</strong> | {$app_name}的多语言包 |
+| <strong>public/images</strong> | {$app_name}的多语言包 |
+| <strong>licence.txt</strong> | ShopEx的软件授权协议 |
+| <strong>app</strong> | 系统里的所有app都在放置在这个目录下, 每个app单独目录存放 |
+| <strong>app/{$app_name}</strong> | {$app_name}代表一个具体的app, 例如:base |
+| <strong>app/{$app_name}/api</strong> | {$app_name}的api文件存放目录 |
+| <strong>app/{$app_name}/dbschema</strong> | {$app_name}的数据库表定义文件 |
+| <strong>app/{$app_name}/docs</strong> | {$app_name}的帮助文件, 格式为t2t. 如果安装了desktop app和dev app则会在后台桌面上看到所有系统里app所提供的帮助文件 |
+| <strong>app/{$app_name}/lib</strong> | {$app_name}的library库 |
+| <strong>app/{$app_name}/model</strong> | {$app_name}的model文件 |
+| <strong>app/{$app_name}/controller</strong> | {$app_name}的控制器文件 |
+| <strong>app/{$app_name}/testcase</strong> | {$app_name}的测试用例 |
+| <strong>app/{$app_name}/xmlschema</strong> | {$app_name}所支持的xml的定义文件, 文件格式为xsd |
+| app/{$app_name}/app.xml | {$app_name}的app定义文件, 文件定义:app/base/xmlschema/app.xsd |
+| app/{$app_name}/services.xml | {$app_name}的service定义文件, 文件定义:app/base/xmlschema/services.xsd |
+| app/{$app_name}/icon.png | {$app_name}的图标, 当系统应用setup app进行安装时, 可以在安装过程中看到 | 
+| app/{$app_name}/desktop.xml | {$app_name}的后台配置文件, 文件定义:app/desktop/xmlschema/desktop.xsd |
+| app/{$app_name}/services.xml | {$app_name}的service box及service配置文件, 文件定义:app/base/xmlschema/services.xsd |
+| app/{$app_name}/task.php | {$app_name}本app的应用维护程序, 所包含的全部是回调函数. 包含pre_install/post_install/pre_update/post_update等  |
+| app/{$app_name}/setting.php | {$app_name}所提供的初始化setting数据 |
+| <strong>bootstrap</strong> | - |
+| <strong>config</strong> | 存放系统的配置文件 |
+| <strong>config/production</strong> | 生产环境的数据库,app配置文件 |
+| config/apis.php | 系统api配置文件 | 
+| config/app.php | - | 
+| config/cache.php | 缓存配置文件 | 
+| config/compatible.php | - | 
+| config/database.php | 数据库配置文件 | 
+| config/deploy.xml | 系统部署配置文件, 如果系统想通过setup app进行安装, 需要配置此文件. 文件定义:app/base/xmlschema/deploy.xsd |
+| config/desktop.php | - | 
+| config/install.lock.php | 安装锁定文件. 如果系统开始安装任何app则生成此文件. 如果系统依赖于setup app进行安装, 当发现有install.lock.php则拒绝安装, 除非手动删除此文件. 例如:Ecstore |
+| config/kvstore.php | kv配置文件 | 
+| config/link.php | - | 
+| config/log.php | 日志配置文件 | 
+| config/messenger.php | 邮件短信配置文件 | 
+| config/queue.php | 队列配置文件 | 
+| config/search.php | 搜索配置文件 | 
+| config/session.php | session配置文件 | 
+| config/shop.php | 商家管理平台的菜单，链接配置 | 
+| config/sitemenu.php | 商城前台菜单配置 | 
+| config/storager.php | - | 
+| config/swoolequeue.php | - | 
+| config/sysconf.php | - | 
+| config/theme.php | 模板配置文件 | 
+| config/tradeCancelReason.php | 订单取消原因文件 | 
+| config/usermenu.php | 会员中心菜单文件 | 
+| config/certi.php | ShopEx证书 |
+| <strong>custom</strong> | 二次开发目录 |
+| <strong>data</strong> | 数据目录 |
+| <strong>demo</strong> | 演示数据 |
+| <strong>misc</strong> | - |
+| <strong>script</strong> | 系统的队列脚本存放目录 |
+| <strong>themes</strong> | 模板目录 |
+| <strong>vendor</strong> | composer插件库 |</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

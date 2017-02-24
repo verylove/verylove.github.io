@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. TODO</a></li><li><a href="#2">1.1. 第一期</a></li><li><a href="#3">1.2. 第二期</a></li><li><a href="#4">1.3. 第三期(已完成)</a></li><li><a href="#5">1.4. 第四期</a></li><li><a href="#6">1.5. 未排期</a></li></ul></div><div class="span9"><h1 id="1">1. TODO</h1>
+
+<h2 id="2">1.1. 第一期</h2>
+
+<p>** todo
+<strong>* 流程整体走一遍
+<em></strong> 初始化方案
+<strong></em>* 开发者初始化
+<em>*</em></strong> prisum 基本安装
+- 后台  <a href="https://github.com/shopex/prism-doc/blob/master/4.technical/3.operation/1.install.html">https://github.com/shopex/prism-doc/blob/master/4.technical/3.operation/1.install.md</a>
+- 配置队列
+<strong><em></strong> prisum 前台申请 账号
+<strong></em></strong> 后台审批
+<strong><em></strong> prisum 前台申请开发者
+<strong></em></strong> 后台审批
+<strong><em></strong> prisum 前台申请api提供者
+<strong></em></strong> 后台审批
+<strong><em></strong> 获得开发者的key和secret
+<strong></em></strong> (开发者) 导入api接口       (<em>需要对时间</em>) 补接口
+<strong><em></strong> (开发者) 新建 app 接口 <a href="https://openapi.shopex.cn/my/profile/">https://openapi.shopex.cn/my/profile/</a>
+  <strong></em></strong> (admin) 获取api接口 (唯一key) 补逻辑 机制 文档 (<em>需要对时间</em>)
+<strong><em></strong> (admin) 绑定app 和 API接口(流量)     补逻辑 机制 文档 (</em>需要对时间*)</p>
+
+<p><strong>** 开发者 创建应用 key
+  *<em></strong> 开发者 队列初始化
+  - 文档
+  <a href="https://openapi.shopex.cn/apis/db/prism-notify">https://openapi.shopex.cn/apis/db/prism-notify</a>
+  <strong></em> 更新方案
+*<em></strong> TODO 开发者  api更新 (</em>需要对时间<em>)
+  <strong></em>* admin  重新绑定app和api对应关系 refresh (<em>需要对时间</em>)  ?
+  *<em></strong> 开发者 queue 更新
+  <strong></em> sdk
+  **</strong> TODO 错误处理机制</p>
+
+<p><strong>** TODO notify/queue
+  **</strong> request_id
+  <strong>*  server
+  ** 时间表
+  <em></strong> TODO sdk 时间 3-12 订 后续时间...
+  *</em>* TODO prism 流程改进 3-20 碰头</p>
+
+<h2 id="3">1.2. 第二期</h2>
+
+<p>3.26------3.31</p>
+
+<ul>
+<li>prism创建初始化脚本</li>
+<li><ul><li>生成admin的key和secret</li></ul></li>
+<li><ul><li>用admin的key和secret创建用户和app
+*</li></ul></li>
+<li><ul><li>prism admin的相关接口（未确认）</li></ul></li>
+<li><ul><li>创建待审批用户</li></ul></li>
+<li><ul><li>将用户成为开发者账号</li></ul></li>
+<li><ul><li>将用户成为api提供者</li></ul></li>
+<li><ul><li>将用户成为待审批用户
+*</li></ul></li>
+<li><ul><li>上线api</li></ul></li>
+<li><ul><li>下线api</li></ul></li>
+<li><ul><li>获取api_list
+*</li></ul></li>
+<li><ul><li>获取app列表</li></ul></li>
+<li><ul><li>app绑定api
+*</li></ul></li>
+<li><ul><li>prism key相关接口</li></ul></li>
+<li><ul><li>/api/platform/key/create 创建key接口</li></ul></li>
+<li><ul><li>/api/platform/key/delete 删除key接口</li></ul></li>
+<li><ul><li>/api/platform/key/info/{key} 查询key信息</li></ul></li>
+<li><ul><li>/api/platform/key/list 获取app的key列表
+*</li></ul></li>
+<li><ul><li>prism导入api</li></ul></li>
+<li><ul><li>/api/platform/service/import   导入api的接口</li></ul></li>
+<li><ul><li>/api/platform/service/refresh 更新api接口
+*</li></ul></li>
+<li><ul><li>prism 应用接口</li></ul></li>
+<li><ul><li>api/platform/app/create 应用创建</li></ul></li>
+<li><ul><li>/api/platform/app/delete 应用删除</li></ul></li>
+<li><ul><li>/api/platform/app/info/{app_id} 应用查询</li></ul></li>
+<li><ul><li>/api/platform/app/list 应用列表
+*
+*</li></ul></li>
+<li>=================================================
+*</li>
+<li><ul><li>prism消息队列接口</li></ul></li>
+<li><ul><li>显示某个key的routing_key的绑定</li></ul></li>
+<li><ul><li>key和routing_key的绑定</li></ul></li>
+</ul>
+
+<h2 id="4">1.3. 第三期(已完成)</h2>
+
+<p>在prism接口测试中，发现以下问题：
+1、在实际操作中，api的上线需要由用户发起申请，管理员才能上线，但是没有api申请上线接口（已解决：定为管理员提供的上线接口可以直接上线api，而不需要用户申请）；
+2、在api的接口中提到的“Id”字段对应的api的哪个参数（测试过api名称和api的json文件名，均不是）？
+3、/api/platform/service/config/set接口中只传Id字段，应该还有对应的一个设置内容。
+4、应用创建接口，app_id由客户端生成，会导致客户端不知道生成的id是否会与prism系统中其它的id重复。
+5、应用创建接口，name为可空，会创建名称为空的的app。</p>
+
+<h2 id="5">1.4. 第四期</h2>
+
+<ul>
+<li>继续完善流程文档</li>
+<li>准备BBC
+<ul><li>切一条新线出来</li>
+<li>composer引入prism_server和client</li>
+<li>了解原有API</li>
+<li>异常处理要同步掉</li>
+<li>API对接的adapter</li></ul></li>
+</ul>
+
+<h2 id="6">1.5. 未排期</h2>
+
+<ul>
+<li>prism在新版mongodb上的bug</li>
+<li>prism的Oauth对接接口的部分</li>
+</ul>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

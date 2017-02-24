@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. bbc mysql数据库主从简单配置</a></li></ul></div><div class="span9"><h1 id="1">1. bbc mysql数据库主从简单配置</h1>
+
+<p>1.主从服务器分别作以下操作：
+    1.1、版本一致
+    1.2、初始化表，并在后台启动mysql
+    1.3、修改root的密码</p>
+
+<p>2.修改主服务器master:</p>
+
+<pre class="prettyprint"><code>#vi /etc/my.cnf
+[mysqld]
+log-bin=mysql-bin   //[必须]启用二进制日志
+server-id=1      //[必须]服务器唯一ID，默认是1，一般取IP最后一段
+</code></pre>
+
+<p>3.修改从服务器slave:</p>
+
+<pre class="prettyprint"><code>#vi /etc/my.cnf
+[mysqld]
+log-bin=mysql-bin   //[不是必须]启用二进制日志
+server-id=2      //[必须]服务器唯一ID，默认是1，一般取IP最后一段
+</code></pre>
+
+<p>4.重启两台服务器的mysql</p>
+
+<pre class="prettyprint"><code>/etc/init.d/mysql restart
+</code></pre>
+
+<p>5.在主服务器上建立帐户并授权slave:</p>
+
+<pre class="prettyprint"><code>grant replication slave  on *.*  to '帐号' @ '从服务器IP' identified by '密码';  
+//一般不用root帐号，"%"表示所有客户端都可能连，只要帐号，密码正确，此处可用具体客户端IP代替，如192.168.145.1，加强安全。
+</code></pre>
+
+<p>6.登录主服务器的mysql，查询master的状态</p>
+
+<pre class="prettyprint"><code>mysql&gt;show master status;
+</code></pre>
+
+<p>+------------------+----------+--------------+------------------+
+   | File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |
+   +------------------+----------+--------------+------------------+
+   | mysql-bin.000004 |      308 |              |                  |
+   +------------------+----------+--------------+------------------+
+   1 row in set (0.00 sec)
+   注：执行完此步骤后不要再操作主服务器MYSQL，防止主服务器状态值变化</p>
+
+<p>7.配置从服务器Slave：</p>
+
+<pre class="prettyprint"><code>mysql&gt;change master to master_host='192.168.145.1',master_user='主服务器用户名',master_password='主服务器密码',
+     master_log_file='mysql-bin.000004',master_log_pos=308;   //注意不要断开，308数字前后无单引号。
+
+Mysql&gt;start slave;    //启动从服务器复制功能
+</code></pre>
+
+<p>8.检查从服务器复制功能状态：</p>
+
+<pre class="prettyprint"><code>mysql&gt; show slave status\G
+
+*************************** 1. row ***************************
+
+          Slave_IO_State: Waiting for master to send event
+          Master_Host: 192.168.2.1  //主服务器地址
+          Master_User: 主服务器用户名   //授权帐户名，尽量避免使用root
+          Master_Port: 3306    //数据库端口，部分版本没有此行
+          Connect_Retry: 60
+          Master_Log_File: mysql-bin.000004
+          Read_Master_Log_Pos: 600     //#同步读取二进制日志的位置，大于等于Exec_Master_Log_Pos
+          Relay_Log_File: ddte-relay-bin.000003
+          Relay_Log_Pos: 251
+          Relay_Master_Log_File: mysql-bin.000004
+          Slave_IO_Running: Yes    //此状态必须YES
+          Slave_SQL_Running: Yes     //此状态必须YES
+                ......
+
+注：Slave_IO及Slave_SQL进程必须正常运行，即YES状态，否则都是错误的状态(如：其中一个NO均属错误)。
+
+以上操作过程，主从服务器配置完成。
+</code></pre>
+
+<p>9.主从服务器测试：</p>
+
+<pre class="prettyprint"><code>主服务器Mysql，建立数据库，并在这个库中建表插入一条数据：
+mysql&gt; create database test_db;
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; use test_db;
+Database changed
+
+mysql&gt;  create table test_tb(id int(3),name char(10));
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; insert into test_tb values(001,'test');
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| test_db                |
+| mysql                |
+| test                 |
++--------------------+
+4 rows in set (0.00 sec)
+
+
+从服务器Mysql查询：
+</code></pre>
+
+<p>mysql> show databases;</p>
+
+<p>+--------------------+
+   | Database               |
+   +--------------------+
+   | information_schema |
+   | test_db                 | //看到了吧
+   | mysql                 |
+   | test          |</p>
+
+<p>+--------------------+
+   4 rows in set (0.00 sec)</p>
+
+<p>mysql> use test_db
+   Database changed
+   mysql> select * from test_tb;           //查看主服务器上新增的具体数据
+   +------+------+
+   | id   | name |
+   +------+------+
+   |    1 | test |
+   +------+------+
+   1 row in set (0.00 sec)</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

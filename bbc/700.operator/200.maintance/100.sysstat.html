@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. 商家统计说明</a></li><li><a href="#2">1.1. 通过运营商后台界面操作统计：</a></li><li><a href="#3">1.2. linux通过命令行统计</a></li><li><a href="#4">1.3. window通过命令行统计</a></li></ul></div><div class="span9"><h1 id="1">1. 商家统计说明</h1>
+
+<p><code>
+统计永远统计的是前一天的数据，不会统计当天的数据
+</code></p>
+
+<h2 id="2">1.1. 通过运营商后台界面操作统计：</h2>
+
+<p>运营商后台-系统-定时任务-分析统计更新商家每天数据（倒数第三个队列）,执行队列。就可以统计商家前一天的数据。</p>
+
+<h2 id="3">1.2. linux通过命令行统计</h2>
+
+<p>```
+  进入app/base下面
+  执行./cmd sysstat:sysstatexec exec 2015-05-01 2015-05-14 （意思是重新统计2015-05-01 到 2015-05-14 这段时间商家的交易数据）</p>
+
+<p>执行./cmd sysstat:sysstatexec exec 2015-05-01（意思是重新统计2015-05-01这一天商家的交易数据）</p>
+
+<p>执行./cmd sysstat:sysstatexec execall （意思是重新统计2015-01-01到当前时间的前一天这段时间商家的交易数据）
+```</p>
+
+<h2 id="4">1.3. window通过命令行统计</h2>
+
+<p>```
+  进入app/base下面
+  执行cmd sysstat:sysstatexec exec 2015-05-01 2015-05-14 （意思是重新统计2015-05-01 到 2015-05-14 这段时间商家的交易数据）</p>
+
+<p>执行cmd sysstat:sysstatexec exec 2015-05-01（意思是重新统计2015-05-01这一天商家的交易数据）</p>
+
+<p>执行cmd sysstat:sysstatexec execall （意思是重新统计2015-01-01到当前时间的前一天这段时间商家的交易数据）
+```</p>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>

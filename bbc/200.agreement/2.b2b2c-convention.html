@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title></title>
+
+    <!-- Le styles -->
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/css/docs.css" rel="stylesheet">
+    <link href="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+  
+
+  <div class="container">
+
+  <div class="row">
+
+<div class="span3 bs-docs-sidebar"><ul class="nav nav-list bs-docs-sidenav" data-spy="affix"><li><a href="#1">1. B2B2C编码规范</a></li><li><a href="#2">1.1. 表结构规范</a></li><li><a href="#3">1.2. app命名规则及开发规范</a></li><li><a href="#4">1.2.1. 系统级服务APP</a></li><li><a href="#5">1.2.2. 业务系统APP</a></li><li><a href="#6">1.3. 基础业务服务APP</a></li><li><a href="#7">1.4. 异常处理规范</a></li><li><a href="#8">1.4.1. 抛出错误规范</a></li><li><a href="#9">1.5. dump方法的使用</a></li><li><a href="#10">1.6. 数据库操作</a></li><li><a href="#11">1.7. POST、GET请求</a></li><li><a href="#12">1.8. model和lib代码</a></li><li><a href="#13">1.9. lib/data下类的方法命名和规范</a></li></ul></div><div class="span9"><h1 id="1">1. B2B2C编码规范</h1>
+
+<ul>
+<li><a href="#table-agreement">表结构规范</a></li>
+<li><a href="#app-name-agreement">app命名规则及开发规范</a></li>
+<li><a href="#exception-agreement">异常处理规范</a></li>
+<li><a href="#dump-agreement">dump方法的使用</a></li>
+<li><a href="#request-agreement">POST、GET请求</a></li>
+<li><a href="#model-lib-agreement">model和lib代码</a></li>
+</ul>
+
+<p><a name="table-agreement"></a></p>
+
+<h2 id="2">1.1. 表结构规范</h2>
+
+<p><strong>建表时如果表内需要定义一下字段, 需要遵照此命名规范:</strong>
+- 最后修改时间 modified_time
+- 创建时间    created_time
+- 排序       order_sort
+- 假删除     disabled</p>
+
+<p><a name="app-name-agreement"></a></p>
+
+<h2 id="3">1.2. app命名规则及开发规范</h2>
+
+<h3 id="4">1.2.1. 系统级服务APP</h3>
+
+<blockquote>
+  <p><strong>定义</strong> <code>系统级服务APP</code>, 系统框架及基础服务. 供给其他各类型APP进行调用(library). 例如: routing/队列服务/RPC等</p>
+</blockquote>
+
+<p><strong>调用规范</strong></p>
+
+<table width="100%">
+    <tr>
+        <td></td>
+        <td>本app(是否有)</td>
+        <td>系统级服务APP</td>
+        <td>业务系统APP</td>
+        <td>基础业务服务APP</td>
+    </tr>
+    <tr>
+        <td>lib</td>
+        <td>√</td>
+        <td>√</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>model</td>
+        <td>√</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>controller&view</td>
+        <td>√(后端)</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>API</td>
+        <td>×</td>
+        <td>√</td>
+        <td>√</td>
+        <td>√</td>
+    </tr>
+</table>
+
+<h3 id="5">1.2.2. 业务系统APP</h3>
+
+<blockquote>
+  <p><strong>定义</strong> <code>业务系统APP</code>为前端业务应用. 简单说, 每一个<code>业务系统APP</code>都是可以独立部署的站点. 通过<code>业务系统APP</code>获取数据. 本身不存放任何数据</p>
+</blockquote>
+
+<p><strong>调用规范</strong></p>
+
+<table width="100%">
+    <tr>
+        <td></td>
+        <td>本app(是否有)</td>
+        <td>系统级服务APP</td>
+        <td>业务系统APP</td>
+        <td>基础业务服务APP</td>
+    </tr>
+    <tr>
+        <td>lib</td>
+        <td>√</td>
+        <td>√</td>
+        <td>×</td>
+        <td>√</td>
+    </tr>
+    <tr>
+        <td>model</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>controller&view</td>
+        <td>√(前端)</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+     <tr>
+        <td>api</td>
+        <td>×</td>
+        <td>√</td>
+        <td>√</td>
+        <td>√</td>
+    </tr>
+</table>
+
+<h2 id="6">1.3. 基础业务服务APP</h2>
+
+<blockquote>
+  <p><strong>名词定义:基础业务服务APP</strong> 提供服务供给<code>业务系统APP</code>调用. 每一个<code>基础业务服务APP</code>其实都可以包装成一组服务API组件.</p>
+</blockquote>
+
+<p><strong>调用规范</strong></p>
+
+<table width="100%">
+    <tr>
+        <td></td>
+        <td>本app(是否有)</td>
+        <td>系统级服务APP</td>
+        <td>业务系统APP</td>
+        <td>基础业务服务APP</td>
+    </tr>
+    <tr>
+        <td>lib</td>
+        <td>√</td>
+        <td>√</td>
+        <td>×</td>
+        <td>√(尽可能少)</td>
+    </tr>
+    <tr>
+        <td>model</td>
+        <td>√</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>controller&view</td>
+        <td>√(后端)</td>
+        <td>×</td>
+        <td>×</td>
+        <td>×</td>
+    </tr>
+    <tr>
+        <td>API</td>
+        <td>×</td>
+        <td>√</td>
+        <td>√</td>
+        <td>√</td>
+    </tr>
+</table>
+
+<p><a name="exception-agreement"></a></p>
+
+<h2 id="7">1.4. 异常处理规范</h2>
+
+<p><strong>php SPL提供的异常处理类</strong></p>
+
+<blockquote>
+  <ul>
+  <li>Exception
+  <ul><li>LogicException
+  <ul><li>BadFunctionCallException </li>
+  <li>BadMethodCallException</li></ul></li>
+  <li>DomainException</li>
+  <li>InvalidArgumentException</li>
+  <li>LengthException</li>
+  <li>RuntimeException</li>
+  <li>OutOfBoundsException</li>
+  <li>OutOfRangeException</li>
+  <li>OverflowException</li>
+  <li>RangeException</li>
+  <li>UnderflowException</li>
+  <li>UnexpectedValueException</li>
+  <li>ErrorException</li></ul></li>
+  </ul>
+</blockquote>
+
+<h3 id="8">1.4.1. 抛出错误规范</h3>
+
+<ul>
+<li>底层错误抛出RuntimeException或继承RuntimeException的exception</li>
+<li>业务或逻辑代码代码需需要抛出LogicException或继承RuntimeException的exception</li>
+<li>禁止使用trigger_error抛出错误, 进行处理</li>
+<li>尽可能进准抛出SPL提供的具体错误处理类</li>
+</ul>
+
+<blockquote>
+  <p><strong>注意</strong> 系统中错误(error_reporting定义之错误)抛出会被base_exception_handler接管, 并抛出ErrorException </p>
+</blockquote>
+
+<p><a name="dump-agreement"></a></p>
+
+<h2 id="9">1.5. dump方法的使用</h2>
+
+<p>开发中尽量避免使用dump获取数据(性能考虑)</p>
+
+<p>(待)save</p>
+
+<h2 id="10">1.6. 数据库操作</h2>
+
+<p>避免直接写sql语句，尽量利用系统的dbeav(避免出错和安全考虑)</p>
+
+<p><a name="request-agreement"></a></p>
+
+<h2 id="11">1.7. POST、GET请求</h2>
+
+<p>禁止不检查过滤POST或者GET就直接插入数据库</p>
+
+<p>过滤掉非ecstore功能的非法尝试字段，不允许将传过来的值直接save方法保存</p>
+
+<p><a name="model-lib-agreement"></a></p>
+
+<h2 id="12">1.8. model和lib代码</h2>
+
+<p>业务逻辑代码避免放在model，做轻model层</p>
+
+<p>代码功能应当单一，避免过多业务逻辑判断，导致代码不能通用和后续升级代码困难</p>
+
+<p><a name="lib-data-agreement"></a></p>
+
+<h2 id="13">1.9. lib/data下类的方法命名和规范</h2>
+
+<ul>
+<li>获取单条记录详细信息方法命名 get***Info($filter);</li>
+<li>获取多条记录信息方法命名 get***List($filter);</li>
+<li>@param $filter array 包含fields:要获取的字段名，start:从什么位置开始，limit:每次取几条记录,order_by:根据什么排序,其他为其他fliter过滤字段 </li>
+<li>所以此类方法获取信息，要根据传入的$filter组织数据，例如默认fields字段,默认排序字段，过滤非系统字段筛选</li>
+</ul>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://www.75271.com/tools/bootstrap/js/jquery.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/google-code-prettify/prettify.js"></script>
+    <script src="http://www.75271.com/tools/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">prettyPrint();</script><div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5148271'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D5148271' type='text/javascript'%3E%3C/script%3E"));</script>    </div>  </body>
+</html>
